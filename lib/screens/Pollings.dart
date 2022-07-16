@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ArtistsScreen extends StatefulWidget {
-  const ArtistsScreen({Key? key}) : super(key: key);
+class Pollings extends StatefulWidget {
+  const Pollings({Key? key}) : super(key: key);
 
   @override
-  State<ArtistsScreen> createState() => _ArtistsScreenState();
+  State<Pollings> createState() => _Pollings();
 }
 
-class _ArtistsScreenState extends State<ArtistsScreen> {
+class _Pollings extends State<Pollings> {
   @override
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
@@ -38,10 +38,11 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                   child: Image.asset('assets/slicing/notfication.png')),
             )
           ],
-          centerTitle: true,
-          title: Text(
-            'Artists',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          title: Center(
+            child: Text(
+              'Pollings',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         body: Container(
@@ -128,13 +129,39 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                     height: res_height * 0.00075,
                   ),
                   Container(
-                      width: res_width * 0.6,
-                      child: Text(description,
-                          style: TextStyle(
+                    width: res_width * 0.6,
+                    child: Text(
+                      description,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xff929292),
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Start: 2/2/2022',
+                        style: TextStyle(
                             fontSize: 13,
                             color: Color(0xff929292),
-                            height: 1.5,
-                          )))
+                            height: 1.5),
+                      ),
+                      SizedBox(
+                        width: res_width * 0.019,
+                      ),
+                      // Spacer(),
+                      Text(
+                        'End: 12/2/2022',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Color(0xff929292),
+                            height: 1.5),
+                      ),
+                    ],
+                  ),
                 ],
               )
             ],

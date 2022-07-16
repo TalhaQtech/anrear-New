@@ -1,5 +1,6 @@
 import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/screens/Pollings.dart';
 import 'package:anrear/screens/home/artists_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -107,7 +108,9 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
       body: GetBuilder<BottomController>(
           builder: (_) => bottomctrl.navigationBarIndexValue == 1
               ? ArtistsScreen()
-              : Container()),
+              : bottomctrl.navigationBarIndexValue == 3
+                  ? Pollings()
+                  : Container()),
     );
   }
 }
