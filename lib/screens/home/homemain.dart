@@ -29,12 +29,14 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
         width: 80.0,
         height: 80.0,
         child: FloatingActionButton(
+            shape:
+                StadiumBorder(side: BorderSide(color: Colors.white, width: 3)),
             backgroundColor: bottomFabColor,
             child: IconButton(
               icon: Image.asset(
                 'assets/slicing/home.png',
-                width: 30,
-                height: 30,
+                width: 26,
+                height: 26,
               ),
               onPressed: () {},
             ),
@@ -62,8 +64,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                 IconButton(
                   icon: Image.asset(
                     'assets/slicing/search.png',
-                    width: 28,
-                    height: 28,
+                    width: 22,
+                    height: 22,
                   ),
                   onPressed: () {
                     _onItemTapped(0);
@@ -72,8 +74,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                 IconButton(
                   icon: Image.asset(
                     'assets/slicing/singer.png',
-                    width: 28,
-                    height: 28,
+                    width: 22,
+                    height: 22,
                   ),
                   onPressed: () {
                     _onItemTapped(1);
@@ -83,8 +85,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                 IconButton(
                   icon: Image.asset(
                     'assets/slicing/thumbsup.png',
-                    width: 28,
-                    height: 28,
+                    width: 22,
+                    height: 22,
                   ),
                   onPressed: () {
                     _onItemTapped(3);
@@ -93,8 +95,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                 IconButton(
                   icon: Image.asset(
                     'assets/slicing/avatar5.png',
-                    width: 28,
-                    height: 28,
+                    width: 22,
+                    height: 22,
                   ),
                   onPressed: () {
                     _onItemTapped(4);

@@ -1,3 +1,4 @@
+import 'package:anrear/screens/home/drawer.dart';
 import 'package:flutter/material.dart';
 
 class ArtistsScreen extends StatefulWidget {
@@ -12,6 +13,8 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -21,15 +24,22 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
         ),
       ),
       child: Scaffold(
+        key: _key,
+        drawer: NavDrawer(),
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.all(13.0),
-            child:
-                Container(child: Image.asset('assets/slicing/hamburger.png')),
+          leading: GestureDetector(
+            onTap: () {
+              _key.currentState!.openDrawer();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(13.0),
+              child:
+                  Container(child: Image.asset('assets/slicing/hamburger.png')),
+            ),
           ),
           actions: [
             Padding(

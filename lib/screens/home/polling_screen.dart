@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Pollings extends StatefulWidget {
-  const Pollings({Key? key}) : super(key: key);
+class PollingsScreen extends StatefulWidget {
+  const PollingsScreen({Key? key}) : super(key: key);
 
   @override
-  State<Pollings> createState() => _Pollings();
+  State<PollingsScreen> createState() => _PollingsScreen();
 }
 
-class _Pollings extends State<Pollings> {
+class _PollingsScreen extends State<PollingsScreen> {
   @override
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
