@@ -1,5 +1,7 @@
 import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
+import 'package:anrear/screens/home/artist_profile_screen.dart';
 import 'package:anrear/screens/home/homescreen.dart';
 import 'package:anrear/screens/home/polling_screen.dart';
 import 'package:anrear/screens/home/artists_screen.dart';
@@ -113,15 +115,25 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
         )),
       ),
       body: GetBuilder<BottomController>(
-          builder: (_) => bottomctrl.navigationBarIndexValue == 1
-              ? ArtistsScreen()
-              : bottomctrl.navigationBarIndexValue == 2
-                  ? HomeScreen(): bottomctrl.navigationBarIndexValue == 4
-                  ? ProfileScreen()
-                  : bottomctrl.navigationBarIndexValue == 3
-                      ? PollingsScreen(): bottomctrl.navigationBarIndexValue == 0
-                      ? SearchScreen()
-                      : Container()),
+          builder: (_) => UserType == "user"
+              ? screenarrangementuser[bottomctrl.navigationBarIndexValue]
+              : screenarrangementartist[bottomctrl.navigationBarIndexValue]),
     );
   }
 }
+
+var screenarrangementuser = [
+  SearchScreen(),
+  ArtistsScreen(),
+  HomeScreen(),
+  PollingsScreen(),
+  ProfileScreen()
+];
+
+var screenarrangementartist = [
+  SearchScreen(),
+  ArtistsScreen(),
+  HomeScreen(),
+  PollingsScreen(),
+  ArtistProfileScreen()
+];

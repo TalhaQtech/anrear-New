@@ -1,4 +1,5 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/create_profile.dart';
 import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/screens/auth/login.dart';
@@ -150,7 +151,11 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(() => CreateProfileScreen());
+                if (UserType == "artist") {
+                  Get.to(() => CreateProfileScreen());
+                } else {
+                  Get.to(() => HomeMainScreen());
+                }
               },
               child: Container(
                 width: res_width * 0.9,

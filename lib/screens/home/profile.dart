@@ -37,9 +37,8 @@ class _ProfileScreen extends State<ProfileScreen> {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Container(
-                  child: Image.asset('assets/slicing/notfication.png')),
+              padding: const EdgeInsets.all(14.0),
+              child: Container(child: Image.asset('assets/slicing/edit.png')),
             )
           ],
           centerTitle: true,
