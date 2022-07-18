@@ -1,7 +1,9 @@
 import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/screens/home/homescreen.dart';
 import 'package:anrear/screens/home/polling_screen.dart';
 import 'package:anrear/screens/home/artists_screen.dart';
+import 'package:anrear/screens/home/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -38,7 +40,9 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                 width: 26,
                 height: 26,
               ),
-              onPressed: () {},
+              onPressed: () {
+                _onItemTapped(2);
+              },
             ),
             onPressed: () {
               _onItemTapped(2);
@@ -110,9 +114,12 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
       body: GetBuilder<BottomController>(
           builder: (_) => bottomctrl.navigationBarIndexValue == 1
               ? ArtistsScreen()
-              : bottomctrl.navigationBarIndexValue == 3
-                  ? PollingsScreen()
-                  : Container()),
+              : bottomctrl.navigationBarIndexValue == 2
+                  ? HomeScreen(): bottomctrl.navigationBarIndexValue == 4
+                  ? ProfileScreen()
+                  : bottomctrl.navigationBarIndexValue == 3
+                      ? PollingsScreen()
+                      : Container()),
     );
   }
 }

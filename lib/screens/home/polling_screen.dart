@@ -38,11 +38,10 @@ class _PollingsScreen extends State<PollingsScreen> {
                   child: Image.asset('assets/slicing/notfication.png')),
             )
           ],
-          title: Center(
-            child: Text(
-              'Pollings',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+          centerTitle: true,
+          title: Text(
+            'Pollings',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         body: Container(

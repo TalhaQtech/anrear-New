@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:anrear/screens/auth/selecttype_screen.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,7 +35,7 @@ class _SplashScreeState extends State<SplashScree> {
   void initState() {
     super.initState();
     print('run');
-    Timer(Duration(seconds: 2), () => Get.to(() => HomeMainScreen()));
+    Timer(Duration(seconds: 2), () => Get.to(() => SelectUserTypeScreen()));
   }
 
   @override
