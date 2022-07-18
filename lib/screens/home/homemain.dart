@@ -4,6 +4,7 @@ import 'package:anrear/screens/home/homescreen.dart';
 import 'package:anrear/screens/home/polling_screen.dart';
 import 'package:anrear/screens/home/artists_screen.dart';
 import 'package:anrear/screens/home/profile.dart';
+import 'package:anrear/screens/home/search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -118,7 +119,8 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
                   ? HomeScreen(): bottomctrl.navigationBarIndexValue == 4
                   ? ProfileScreen()
                   : bottomctrl.navigationBarIndexValue == 3
-                      ? PollingsScreen()
+                      ? PollingsScreen(): bottomctrl.navigationBarIndexValue == 0
+                      ? SearchScreen()
                       : Container()),
     );
   }

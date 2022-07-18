@@ -47,9 +47,12 @@ class _OtpScreenState extends State<OtpScreen> {
             SizedBox(
               height: res_height * 0.11,
             ),
-            Container(
-                width: res_width * 0.4,
-                child: Image.asset('assets/slicing/logo.png')),
+            Hero(
+              tag: 'logoImage',
+              child: Container(
+                  width: res_width * 0.4,
+                  child: Image.asset('assets/slicing/logo.png')),
+            ),
             SizedBox(
               height: res_height * 0.1,
             ),

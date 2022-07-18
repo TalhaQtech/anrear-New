@@ -43,9 +43,12 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: res_height * 0.125,
             ),
-            Container(
-                width: res_width * 0.4,
-                child: Image.asset('assets/slicing/logo.png')),
+            Hero(
+              tag: 'logoImage',
+              child: Container(
+                  width: res_width * 0.4,
+                  child: Image.asset('assets/slicing/logo.png')),
+            ),
             SizedBox(
               height: res_height * 0.05,
             ),
@@ -96,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
-               onTap: () {
+              onTap: () {
                 Get.to(() => ForgotScreen());
               },
               child: Container(
@@ -179,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: res_height * 0.05,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.to(() => SignupScreen());
               },
               child: Align(
@@ -209,7 +212,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             )
-          
           ],
         ),
       ),

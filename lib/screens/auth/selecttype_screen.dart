@@ -41,9 +41,12 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
             SizedBox(
               height: res_height * 0.15,
             ),
-            Container(
-                width: res_width * 0.4,
-                child: Image.asset('assets/slicing/logo.png')),
+            Hero(
+              tag: 'logoImage',
+              child: Container(
+                  width: res_width * 0.4,
+                  child: Image.asset('assets/slicing/logo.png')),
+            ),
             SizedBox(
               height: res_height * 0.125,
             ),
@@ -58,7 +61,7 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.to(() => LoginScreen());
               },
               child: Container(

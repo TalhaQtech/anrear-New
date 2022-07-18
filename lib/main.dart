@@ -56,9 +56,12 @@ class _SplashScreeState extends State<SplashScree> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-                width: res_width * 0.4,
-                child: Image.asset('assets/slicing/logo.png'))
+            Hero(
+              tag: 'logoImage',
+              child: Container(
+                  width: res_width * 0.4,
+                  child: Image.asset('assets/slicing/logo.png')),
+            )
           ],
         ),
       ),
