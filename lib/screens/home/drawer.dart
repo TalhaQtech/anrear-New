@@ -1,4 +1,8 @@
 import 'package:anrear/helper/bottomcontrller.dart';
+import 'package:anrear/screens/home/confirmed_location.dart';
+import 'package:anrear/screens/home/privacy.dart';
+import 'package:anrear/screens/home/setting.dart';
+import 'package:anrear/screens/home/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -105,6 +109,246 @@ class _NavDrawerState extends State<NavDrawer> {
                           ),
                           Text(
                             'Home',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (bottomctrl.navigationBarIndexValue != 4) {
+                    bottomctrl.navBarChange(4);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                  "assets/slicing/avatarsidemenu.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Profile',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (bottomctrl.navigationBarIndexValue != 3) {
+                    bottomctrl.navBarChange(3);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset("assets/slicing/list.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Polling Lists',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Get.to(() => ConfirmLocationScreen());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                  "assets/slicing/confirmed location.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Confirm Locations',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Get.to(() => SettingScreen());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset("assets/slicing/setting.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Settings',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Get.to(() => TermsScreen());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                  "assets/slicing/termcondiditon.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Terms & Condition',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Get.to(() => PrivacyScreen());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                  "assets/slicing/privacypolicy.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Privacy Policy',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.4),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (bottomctrl.navigationBarIndexValue != 0) {
+                    bottomctrl.navBarChange(0);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset("assets/slicing/logout.png"),
+                            ),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            'Logout',
                             style: TextStyle(fontSize: 15, color: Colors.white),
                           )
                         ],

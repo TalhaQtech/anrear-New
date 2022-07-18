@@ -1,5 +1,7 @@
 import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ArtistsScreen extends StatefulWidget {
   const ArtistsScreen({Key? key}) : super(key: key);
@@ -42,10 +44,15 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Container(
-                  child: Image.asset('assets/slicing/notfication.png')),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => NotificationScreen());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: Container(
+                    child: Image.asset('assets/slicing/notfication.png')),
+              ),
             )
           ],
           centerTitle: true,

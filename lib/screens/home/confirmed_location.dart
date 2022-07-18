@@ -1,15 +1,14 @@
-import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PollingsScreen extends StatefulWidget {
-  const PollingsScreen({Key? key}) : super(key: key);
+class ConfirmLocationScreen extends StatefulWidget {
+  const ConfirmLocationScreen({Key? key}) : super(key: key);
 
   @override
-  State<PollingsScreen> createState() => _PollingsScreen();
+  State<ConfirmLocationScreen> createState() => _ConfirmLocationScreen();
 }
 
-class _PollingsScreen extends State<PollingsScreen> {
+class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
   @override
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
@@ -30,24 +29,23 @@ class _PollingsScreen extends State<PollingsScreen> {
           automaticallyImplyLeading: false,
           leading: Padding(
             padding: const EdgeInsets.all(13.0),
-            child:
-                Container(child: Image.asset('assets/slicing/hamburger.png')),
+            child: GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Icon(Icons.arrow_back_ios)),
           ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Get.to(() => NotificationScreen());
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(13.0),
-                child: Container(
-                    child: Image.asset('assets/slicing/notfication.png')),
-              ),
-            )
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.all(13.0),
+          //     child: Container(
+          //         child: Image.asset('assets/slicing/notfication.png')),
+          //   )
+          // ],
           centerTitle: true,
+
           title: Text(
-            'Pollings',
+            'Confirmed Locations',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -56,22 +54,16 @@ class _PollingsScreen extends State<PollingsScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Andy Marshal', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Andy Marshal', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                ConfirmLocationBox(
+                    'John Doe',
+                    'assets/slicing/girl.jpeg',
+                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                    'Confirm'),
+                ConfirmLocationBox(
+                    'John Doe',
+                    'assets/slicing/girl.jpeg',
+                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                    'Confirm'),
                 SizedBox(
                   height: res_height * 0.135,
                 ),
@@ -83,7 +75,7 @@ class _PollingsScreen extends State<PollingsScreen> {
     );
   }
 
-  ArtistBox(name, image, description) {
+  ConfirmLocationBox(name, image, description, status) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -136,38 +128,46 @@ class _PollingsScreen extends State<PollingsScreen> {
                   ),
                   Container(
                     width: res_width * 0.6,
-                    child: Text(
-                      description,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Color(0xff929292),
-                        height: 1.5,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Performance Name',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.black,
+                              height: 1.5,
+                            )),
+                        // Spacer(),
+                        Row(
+                          children: [
+                            Text('Location 1: ',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            Text('Confirm ',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.green,
+                                  height: 1.5,
+                                ))
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                  Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Start: 2/2/2022',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Color(0xff929292),
-                            height: 1.5),
-                      ),
-                      SizedBox(
-                        width: res_width * 0.019,
-                      ),
-                      // Spacer(),
-                      Text(
-                        'End: 12/2/2022',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Color(0xff929292),
-                            height: 1.5),
-                      ),
-                    ],
+                  SizedBox(
+                    height: res_height * 0.00075,
                   ),
+                  Container(
+                      width: res_width * 0.6,
+                      child: Text(description,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color(0xff929292),
+                            height: 1.5,
+                          ))),
                 ],
               )
             ],

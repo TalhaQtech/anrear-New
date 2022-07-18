@@ -2,6 +2,7 @@ import 'package:anrear/helper/colors.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,10 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Container(
-                  child: Image.asset('assets/slicing/notfication.png')),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => NotificationScreen());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: Container(
+                    child: Image.asset('assets/slicing/notfication.png')),
+              ),
             )
           ],
           centerTitle: true,
