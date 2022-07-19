@@ -50,7 +50,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 30),
+                    fontSize: 26),
               ),
               SizedBox(
                 height: res_height * 0.015,
@@ -151,7 +151,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 19),
                 ),
               ),
               SizedBox(
@@ -235,7 +235,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 19),
                 ),
               ),
               SizedBox(
@@ -319,7 +319,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 17),
+                        fontSize: 16),
                   ),
                 ),
               ),

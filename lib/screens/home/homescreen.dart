@@ -111,14 +111,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       'John Doe',
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
-                                          fontSize: 18),
+                                          fontSize: 16),
                                     ),
                                     Container(
                                         width: res_width * 0.45,
                                         child: Text(
                                             'Lorem ipsum dolor sit amet, adipi scing elit.',
                                             style: TextStyle(
-                                              fontSize: 13,
+                                              fontSize: 11,
                                               color: Color(0xff929292),
                                               height: 1.5,
                                             )))
@@ -167,14 +167,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       'John Doe',
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
-                                          fontSize: 18),
+                                          fontSize: 16),
                                     ),
                                     Container(
                                         width: res_width * 0.45,
                                         child: Text(
                                             'Lorem ipsum dolor sit amet, adipi scing elit.',
                                             style: TextStyle(
-                                              fontSize: 13,
+                                              fontSize: 11,
                                               color: Color(0xff929292),
                                               height: 1.5,
                                             )))
@@ -227,9 +227,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? bottomFabColor
                                         : Color(0xfffbbcb3),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
+                                        BorderRadius.all(Radius.circular(20))),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
+                                  padding: const EdgeInsets.all(15.0),
                                   child: Center(
                                     child: Text(
                                       'Artist List',
@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ? Colors.white
                                               : Colors.white.withOpacity(0.5),
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                          fontSize: 15),
                                     ),
                                   ),
                                 ),
@@ -260,9 +260,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? bottomFabColor
                                         : Color(0xfffbbcb3),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
+                                        BorderRadius.all(Radius.circular(20))),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
+                                  padding: const EdgeInsets.all(15.0),
                                   child: Center(
                                     child: Text(
                                       'Polling',
@@ -272,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ? Colors.white
                                               : Colors.white.withOpacity(0.5),
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                          fontSize: 15),
                                     ),
                                   ),
                                 ),
@@ -294,9 +294,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? bottomFabColor
                                         : Color(0xfffbbcb3),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
+                                        BorderRadius.all(Radius.circular(20))),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
+                                  padding: const EdgeInsets.all(15.0),
                                   child: Center(
                                     child: Text(
                                       'Confirm Location',
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ? Colors.white
                                               : Colors.white.withOpacity(0.5),
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                          fontSize: 15),
                                     ),
                                   ),
                                 ),
@@ -431,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       name,
                       style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 18),
+                          fontWeight: FontWeight.normal, fontSize: 16),
                     ),
                     SizedBox(
                       height: res_height * 0.00075,
@@ -440,7 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: res_width * 0.6,
                         child: Text(description,
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 11,
                               color: Color(0xff929292),
                               height: 1.5,
                             ))),
@@ -451,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text('Start: ${start}',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 11,
                               color: Color(0xff929292),
                               height: 1.5,
                             )),
@@ -460,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text('End: ${end}',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 11,
                               color: Color(0xff929292),
                               height: 1.5,
                             ))
@@ -522,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     name,
                     style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
                   ),
                   SizedBox(
                     height: res_height * 0.00075,
@@ -565,7 +565,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: res_width * 0.6,
                       child: Text(description,
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 11,
                             color: Color(0xff929292),
                             height: 1.5,
                           ))),
@@ -628,7 +628,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       name,
                       style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 18),
+                          fontWeight: FontWeight.normal, fontSize: 16),
                     ),
                     SizedBox(
                       height: res_height * 0.00075,
@@ -637,7 +637,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: res_width * 0.6,
                         child: Text(description,
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 11,
                               color: Color(0xff929292),
                               height: 1.5,
                             )))

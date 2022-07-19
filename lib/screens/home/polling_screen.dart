@@ -1,3 +1,4 @@
+import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,8 @@ class _PollingsScreen extends State<PollingsScreen> {
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -24,14 +27,21 @@ class _PollingsScreen extends State<PollingsScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        key: _key,
+        drawer: NavDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.all(13.0),
-            child:
-                Container(child: Image.asset('assets/slicing/hamburger.png')),
+          leading: GestureDetector(
+            onTap: () {
+              _key.currentState!.openDrawer();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(13.0),
+              child:
+                  Container(child: Image.asset('assets/slicing/hamburger.png')),
+            ),
           ),
           actions: [
             GestureDetector(
@@ -129,7 +139,7 @@ class _PollingsScreen extends State<PollingsScreen> {
                   Text(
                     name,
                     style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
                   ),
                   SizedBox(
                     height: res_height * 0.00075,
@@ -139,7 +149,7 @@ class _PollingsScreen extends State<PollingsScreen> {
                     child: Text(
                       description,
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 11,
                         color: Color(0xff929292),
                         height: 1.5,
                       ),
@@ -151,7 +161,7 @@ class _PollingsScreen extends State<PollingsScreen> {
                       Text(
                         'Start: 2/2/2022',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 11,
                             color: Color(0xff929292),
                             height: 1.5),
                       ),
@@ -162,7 +172,7 @@ class _PollingsScreen extends State<PollingsScreen> {
                       Text(
                         'End: 12/2/2022',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 11,
                             color: Color(0xff929292),
                             height: 1.5),
                       ),

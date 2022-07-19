@@ -66,9 +66,13 @@ class _SearchScreenState extends State<SearchScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
                 Container(
                   width: res_width * 0.9,
                   child: TextField(
+                    enabled: false,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -160,7 +164,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text(
                     name,
                     style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
                   ),
                   SizedBox(
                     height: res_height * 0.00075,
@@ -169,7 +173,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       width: res_width * 0.6,
                       child: Text(description,
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 11,
                             color: Color(0xff929292),
                             height: 1.5,
                           )))

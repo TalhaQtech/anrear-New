@@ -1,5 +1,7 @@
 import 'package:anrear/helper/bottomcontrller.dart';
+import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
+import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/screens/home/privacy.dart';
 import 'package:anrear/screens/home/setting.dart';
 import 'package:anrear/screens/home/terms.dart';
@@ -87,10 +89,10 @@ class _NavDrawerState extends State<NavDrawer> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  if (bottomctrl.navigationBarIndexValue != 0) {
-                    bottomctrl.navBarChange(0);
+                  if (bottomctrl.navigationBarIndexValue != 2) {
+                    bottomctrl.navBarChange(2);
                   } else {
-                    Navigator.pop(context);
+                    Get.back();
                   }
                 },
                 child: Padding(
@@ -105,7 +107,13 @@ class _NavDrawerState extends State<NavDrawer> {
                               child: Image.asset(
                                   "assets/slicing/home sidemenu.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (bottomctrl.navigationBarIndexValue != 2) {
+                                bottomctrl.navBarChange(2);
+                              } else {
+                                Get.back();
+                              }
+                            },
                           ),
                           Text(
                             'Home',
@@ -127,7 +135,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   if (bottomctrl.navigationBarIndexValue != 4) {
                     bottomctrl.navBarChange(4);
                   } else {
-                    Navigator.pop(context);
+                    Get.back();
                   }
                 },
                 child: Padding(
@@ -142,7 +150,13 @@ class _NavDrawerState extends State<NavDrawer> {
                               child: Image.asset(
                                   "assets/slicing/avatarsidemenu.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (bottomctrl.navigationBarIndexValue != 4) {
+                                bottomctrl.navBarChange(4);
+                              } else {
+                                Get.back();
+                              }
+                            },
                           ),
                           Text(
                             'Profile',
@@ -164,7 +178,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   if (bottomctrl.navigationBarIndexValue != 3) {
                     bottomctrl.navBarChange(3);
                   } else {
-                    Navigator.pop(context);
+                    Get.back();
                   }
                 },
                 child: Padding(
@@ -178,7 +192,13 @@ class _NavDrawerState extends State<NavDrawer> {
                               padding: const EdgeInsets.all(7.0),
                               child: Image.asset("assets/slicing/list.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (bottomctrl.navigationBarIndexValue != 3) {
+                                bottomctrl.navBarChange(3);
+                              } else {
+                                Get.back();
+                              }
+                            },
                           ),
                           Text(
                             'Polling Lists',
@@ -211,7 +231,9 @@ class _NavDrawerState extends State<NavDrawer> {
                               child: Image.asset(
                                   "assets/slicing/confirmed location.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => ConfirmLocationScreen());
+                            },
                           ),
                           Text(
                             'Confirm Locations',
@@ -243,7 +265,9 @@ class _NavDrawerState extends State<NavDrawer> {
                               padding: const EdgeInsets.all(7.0),
                               child: Image.asset("assets/slicing/setting.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => SettingScreen());
+                            },
                           ),
                           Text(
                             'Settings',
@@ -276,7 +300,9 @@ class _NavDrawerState extends State<NavDrawer> {
                               child: Image.asset(
                                   "assets/slicing/termcondiditon.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => TermsScreen());
+                            },
                           ),
                           Text(
                             'Terms & Condition',
@@ -309,7 +335,9 @@ class _NavDrawerState extends State<NavDrawer> {
                               child: Image.asset(
                                   "assets/slicing/privacypolicy.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => PrivacyScreen());
+                            },
                           ),
                           Text(
                             'Privacy Policy',
@@ -328,11 +356,7 @@ class _NavDrawerState extends State<NavDrawer> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  if (bottomctrl.navigationBarIndexValue != 0) {
-                    bottomctrl.navBarChange(0);
-                  } else {
-                    Navigator.pop(context);
-                  }
+                  Get.to(() => LoginScreen());
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 13, right: 13),
@@ -345,7 +369,9 @@ class _NavDrawerState extends State<NavDrawer> {
                               padding: const EdgeInsets.all(7.0),
                               child: Image.asset("assets/slicing/logout.png"),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => LoginScreen());
+                            },
                           ),
                           Text(
                             'Logout',

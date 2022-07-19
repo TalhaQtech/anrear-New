@@ -49,7 +49,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 25),
+                    fontSize: 26),
               ),
               SizedBox(
                 height: res_height * 0.015,
@@ -95,7 +95,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 17),
                 ),
               ),
               SizedBox(
@@ -196,7 +196,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 17),
                 ),
               ),
               SizedBox(
@@ -300,7 +300,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 17),
                 ),
               ),
               SizedBox(
@@ -321,7 +321,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
-                                fontSize: 18),
+                                fontSize: 16),
                           ),
                           SizedBox(
                             height: 5,
@@ -350,7 +350,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
-                                fontSize: 18),
+                                fontSize: 16),
                           ),
                           SizedBox(
                             height: 5,
@@ -383,7 +383,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 17),
+                        fontSize: 16),
                   ),
                 ),
               ),

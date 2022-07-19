@@ -2,15 +2,16 @@ import 'package:anrear/helper/colors.dart';
 import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class ArtistPollingScreen extends StatefulWidget {
-  const ArtistPollingScreen({Key? key}) : super(key: key);
+class ArtistVotingScreen extends StatefulWidget {
+  const ArtistVotingScreen({Key? key}) : super(key: key);
 
   @override
-  State<ArtistPollingScreen> createState() => _ArtistPollingScreen();
+  State<ArtistVotingScreen> createState() => _ArtistVotingScreen();
 }
 
-class _ArtistPollingScreen extends State<ArtistPollingScreen> {
+class _ArtistVotingScreen extends State<ArtistVotingScreen> {
   @override
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
@@ -38,18 +39,6 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
               child: Icon(Icons.arrow_back_ios),
             ),
           ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Get.to(() => ArtistVotingScreen());
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(13.0),
-                child:
-                    Container(child: Image.asset('assets/slicing/polling.png')),
-              ),
-            )
-          ],
           centerTitle: true,
           title: Text(
             'Artist Polling',
@@ -165,32 +154,16 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                 SizedBox(
                   height: res_height * 0.03,
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    child: Text(
-                      'Location Of Performance',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: res_height * 0.015,
-                ),
-                LocationBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                LocationBox('Andy Marshal', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                LocationBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                LocationBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                SizedBox(
-                  height: res_height * 0.135,
-                ),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    votebox(),
+                    votebox(),
+                    votebox(),
+                    votebox(),
+                  ],
+                )
               ],
             ),
           ),
@@ -199,82 +172,57 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
     );
   }
 
-  LocationBox(name, image, description) {
+  votebox() {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
-      width: res_width * 0.94,
-      // decoration: BoxDecoration(
-      //     color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: res_width * 0.16,
-                height: res_width * 0.16,
-                decoration: BoxDecoration(
-                  color: const Color(0xff7c94b6),
-                  image: DecorationImage(
-                    image: AssetImage(image),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  border: Border.all(
-                    color: Color(0xffc88225),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: res_width * 0.0235,
-              ),
-
-              // Container(
-              //     width: res_width * 0.225,
-              //     child: Center(child: Image.asset(image))),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      width: res_width * 0.425,
+      height: res_height * 0.18,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    name,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: res_height * 0.00075,
-                  ),
-                  Text(
-                    'Performance Name',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11,
-                        color: Colors.black),
-                  ),
-                  //   SizedBox(
-                  //   height: res_height * 0.00075,
-                  // ),
+                  Text('Location 1',
+                      style: new TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 17.0)),
                   Container(
-                    width: res_width * 0.6,
-                    child: Text(
-                      description,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Color(0xff929292),
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
+                      width: res_width * 0.075,
+                      child: Image.asset('assets/slicing/thumbsup.png'))
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Color(0xff150a35),
+                  borderRadius: BorderRadius.circular(100)),
+              child: CircularPercentIndicator(
+                radius: 45,
+                lineWidth: 5.0,
+                animation: true,
+                percent: 0.7,
+                center: new Text(
+                  "50 Votes",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 13.0),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Color(0xffaa6b80),
+              ),
+            ),
+          ],
         ),
       ),
     );

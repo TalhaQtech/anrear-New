@@ -121,7 +121,7 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                   Text(
                     name,
                     style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
                   ),
                   SizedBox(
                     height: res_height * 0.00075,
@@ -164,7 +164,7 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                       width: res_width * 0.6,
                       child: Text(description,
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 11,
                             color: Color(0xff929292),
                             height: 1.5,
                           ))),

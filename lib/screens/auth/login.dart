@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 30),
+                  fontSize: 26),
             ),
             SizedBox(
               height: res_height * 0.015,

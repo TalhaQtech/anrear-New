@@ -1,5 +1,7 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/screens/auth/login.dart';
+import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/notification.dart';
 import 'package:anrear/screens/home/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,8 @@ class _ProfileScreen extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -26,19 +30,32 @@ class _ProfileScreen extends State<ProfileScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        key: _key,
+        drawer: NavDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.all(13.0),
-            child:
-                Container(child: Image.asset('assets/slicing/hamburger.png')),
+          leading: GestureDetector(
+            onTap: () {
+              _key.currentState!.openDrawer();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(13.0),
+              child:
+                  Container(child: Image.asset('assets/slicing/hamburger.png')),
+            ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Container(child: Image.asset('assets/slicing/edit.png')),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => NotificationScreen());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: Container(
+                    child: Image.asset('assets/slicing/notfication.png')),
+              ),
             )
           ],
           centerTitle: true,
@@ -81,7 +98,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         'John Doe',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                   ),
@@ -99,7 +116,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         'john@email.com',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                   ),
@@ -117,7 +134,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         '+123 321 213123',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                   ),
@@ -135,7 +152,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         'Lorem ipsum dolor sit amet consectetur adipiscing, eliteuismod laoreet dignissim mi quisque ullamcorper duis quis nisi.',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                   ),

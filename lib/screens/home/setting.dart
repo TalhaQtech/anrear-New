@@ -81,7 +81,7 @@ class _SettingScreen extends State<SettingScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Notifiactions',
+                            'Notification',
                             style: TextStyle(fontSize: 17),
                           ),
                           Transform.scale(

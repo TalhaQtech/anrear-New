@@ -1,4 +1,6 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +16,8 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
+    final GlobalKey<ScaffoldState> _key = GlobalKey();
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -24,19 +28,32 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        key: _key,
+        drawer: NavDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.all(13.0),
-            child:
-                Container(child: Image.asset('assets/slicing/hamburger.png')),
+          leading: GestureDetector(
+            onTap: () {
+              _key.currentState!.openDrawer();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(13.0),
+              child:
+                  Container(child: Image.asset('assets/slicing/hamburger.png')),
+            ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Container(child: Image.asset('assets/slicing/edit.png')),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => NotificationScreen());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: Container(
+                    child: Image.asset('assets/slicing/notfication.png')),
+              ),
             )
           ],
           centerTitle: true,
@@ -424,7 +441,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: res_height * 0.03,
+                  height: res_height * 0.125,
                 ),
               ],
             ),
