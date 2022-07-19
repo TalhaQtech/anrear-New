@@ -37,6 +37,7 @@ class _ProfileScreen extends State<ProfileScreen> {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               _key.currentState!.openDrawer();
             },
@@ -48,6 +49,7 @@ class _ProfileScreen extends State<ProfileScreen> {
           ),
           actions: [
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => NotificationScreen());
               },
@@ -161,6 +163,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                   height: res_height * 0.01,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Get.to(() => SettingScreen());
                   },
@@ -186,6 +189,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                   height: res_height * 0.01,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Get.to(() => LoginScreen());
                   },

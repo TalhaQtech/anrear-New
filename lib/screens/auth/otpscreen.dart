@@ -94,6 +94,7 @@ class _OtpScreenState extends State<OtpScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => NewPasswordScreen());
               },

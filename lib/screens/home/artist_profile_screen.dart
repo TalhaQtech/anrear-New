@@ -35,6 +35,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               _key.currentState!.openDrawer();
             },
@@ -46,6 +47,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
           ),
           actions: [
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => NotificationScreen());
               },
@@ -241,7 +243,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -266,7 +268,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 17),
+                                  fontSize: 15),
                             ),
                           )),
                         ),
@@ -286,7 +288,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                               style: TextStyle(
                                   color: kPrimaryColor,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 17),
+                                  fontSize: 15),
                             ),
                           )),
                         ),
@@ -306,7 +308,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                               style: TextStyle(
                                   color: kPrimaryColor,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 17),
+                                  fontSize: 15),
                             ),
                           )),
                         ),
@@ -324,7 +326,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -365,7 +367,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(

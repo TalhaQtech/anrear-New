@@ -62,6 +62,7 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 UserType = "user";
                 Get.to(() => LoginScreen());
@@ -88,6 +89,7 @@ class _SelectUserTypeScreenState extends State<SelectUserTypeScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 UserType = "artist";
                 Get.to(() => LoginScreen());

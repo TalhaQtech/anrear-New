@@ -38,178 +38,185 @@ class _SignupScreenState extends State<SignupScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: res_height * 0.11,
-            ),
-            Hero(
-              tag: 'logoImage',
-              child: Container(
-                  width: res_width * 0.4,
-                  child: Image.asset('assets/slicing/logo.png')),
-            ),
-            SizedBox(
-              height: res_height * 0.04,
-            ),
-            Text(
-              'Signup',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26),
-            ),
-            SizedBox(
-              height: res_height * 0.015,
-            ),
-            Container(
-              width: res_width * 0.9,
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: "Full Name",
-                    fillColor: Colors.white),
+        child: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: res_height * 0.11,
               ),
-            ),
-            SizedBox(
-              height: res_height * 0.015,
-            ),
-            Container(
-              width: res_width * 0.9,
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: "Email Address",
-                    fillColor: Colors.white),
-              ),
-            ),
-            SizedBox(
-              height: res_height * 0.015,
-            ),
-            Container(
-              width: res_width * 0.9,
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: "Phone Number",
-                    fillColor: Colors.white),
-              ),
-            ),
-            SizedBox(
-              height: res_height * 0.015,
-            ),
-            Container(
-              width: res_width * 0.9,
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: "Password",
-                    fillColor: Colors.white),
-              ),
-            ),
-            SizedBox(
-              height: res_height * 0.015,
-            ),
-            Container(
-              width: res_width * 0.9,
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: "Confirm Password",
-                    fillColor: Colors.white),
-              ),
-            ),
-            SizedBox(
-              height: res_height * 0.015,
-            ),
-            GestureDetector(
-              onTap: () {
-                if (UserType == "artist") {
-                  Get.to(() => CreateProfileScreen());
-                } else {
-                  Get.to(() => HomeMainScreen());
-                }
-              },
-              child: Container(
-                width: res_width * 0.9,
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Text(
-                    'Signup',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  ),
-                )),
-              ),
-            ),
-            SizedBox(
-              height: res_height * 0.02,
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.to(() => LoginScreen());
-              },
-              child: Align(
-                alignment: Alignment.center,
+              Hero(
+                tag: 'logoImage',
                 child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account ? ",
-                        style: TextStyle(
-                            // decoration: TextDecoration.underline,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                    width: res_width * 0.4,
+                    child: Image.asset('assets/slicing/logo.png')),
+              ),
+              SizedBox(
+                height: res_height * 0.04,
+              ),
+              Text(
+                'Signup',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26),
+              ),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              Container(
+                width: res_width * 0.9,
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
                       ),
-                      Text(
-                        'Signin',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      )
-                    ],
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      hintText: "Full Name",
+                      fillColor: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              Container(
+                width: res_width * 0.9,
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      hintText: "Email Address",
+                      fillColor: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              Container(
+                width: res_width * 0.9,
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      hintText: "Phone Number",
+                      fillColor: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              Container(
+                width: res_width * 0.9,
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      hintText: "Password",
+                      fillColor: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              Container(
+                width: res_width * 0.9,
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey),
+                      hintText: "Confirm Password",
+                      fillColor: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (UserType == "artist") {
+                    Get.to(() => CreateProfileScreen());
+                  } else {
+                    Get.to(() => HomeMainScreen());
+                  }
+                },
+                child: Container(
+                  width: res_width * 0.9,
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Signup',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  )),
+                ),
+              ),
+              SizedBox(
+                height: res_height * 0.02,
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Get.to(() => LoginScreen());
+                },
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account ? ",
+                          style: TextStyle(
+                              // decoration: TextDecoration.underline,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          'Signin',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            )
-          ],
+              SizedBox(
+                height: res_height * 0.04,
+              ),
+            ],
+          ),
         ),
       ),
     );

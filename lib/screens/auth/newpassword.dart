@@ -97,6 +97,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => LoginScreen());
               },

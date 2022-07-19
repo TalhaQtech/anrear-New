@@ -30,6 +30,7 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               Get.back();
             },
@@ -40,6 +41,7 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
           ),
           actions: [
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => ArtistVotingScreen());
               },

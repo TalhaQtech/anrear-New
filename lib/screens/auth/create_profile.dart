@@ -363,6 +363,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 height: res_height * 0.015,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Get.to(() => ForgotScreen());
                 },
@@ -386,6 +387,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 height: res_height * 0.015,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Get.to(() => CreatePollingScreen());
                 },

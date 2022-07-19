@@ -40,6 +40,7 @@ class _SettingScreen extends State<SettingScreen> {
           leading: Padding(
             padding: const EdgeInsets.all(13.0),
             child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Get.back();
                 },
@@ -47,6 +48,7 @@ class _SettingScreen extends State<SettingScreen> {
           ),
           actions: [
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => NotificationScreen());
               },
@@ -105,6 +107,7 @@ class _SettingScreen extends State<SettingScreen> {
                   height: res_height * 0.01,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Get.to(() => TermsScreen());
                   },
@@ -137,6 +140,7 @@ class _SettingScreen extends State<SettingScreen> {
                   height: res_height * 0.01,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Get.to(() => PrivacyScreen());
                   },
@@ -169,6 +173,7 @@ class _SettingScreen extends State<SettingScreen> {
                   height: res_height * 0.01,
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     Get.to(() => ChangePasswordScreen());
                   },

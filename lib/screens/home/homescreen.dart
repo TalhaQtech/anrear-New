@@ -1,6 +1,7 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
+import 'package:anrear/screens/home/confirmed_location.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               _key.currentState!.openDrawer();
             },
@@ -50,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => NotificationScreen());
               },
@@ -217,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           children: [
                             GestureDetector(
+                              behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 selectionctrl.changeValue(0);
                               },
@@ -250,6 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: res_width * 0.02,
                             ),
                             GestureDetector(
+                              behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 selectionctrl.changeValue(1);
                               },
@@ -284,6 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
 
                             GestureDetector(
+                              behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 selectionctrl.changeValue(2);
                               },
@@ -385,6 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         Get.to(() => ArtistPollingScreen());
       },
@@ -479,99 +486,105 @@ class _HomeScreenState extends State<HomeScreen> {
   ConfirmLocationBox(name, image, description, status) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
-    return Container(
-      width: res_width * 0.94,
-      // decoration: BoxDecoration(
-      //     color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: res_width * 0.1675,
-                height: res_width * 0.1675,
-                decoration: BoxDecoration(
-                  color: const Color(0xff7c94b6),
-                  image: DecorationImage(
-                    image: AssetImage(image),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  border: Border.all(
-                    color: Color(0xffc88225),
-                    width: 2.0,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: res_width * 0.0235,
-              ),
-
-              // Container(
-              //     width: res_width * 0.225,
-              //     child: Center(child: Image.asset(image))),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: res_height * 0.00075,
-                  ),
-                  Container(
-                    width: res_width * 0.6,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Performance Name',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.black,
-                              height: 1.5,
-                            )),
-                        // Spacer(),
-                        Row(
-                          children: [
-                            Text('Location 1: ',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  height: 1.5,
-                                )),
-                            Text('Confirm ',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.green,
-                                  height: 1.5,
-                                ))
-                          ],
-                        )
-                      ],
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        Get.to(() => ConfirmLocationScreen());
+      },
+      child: Container(
+        width: res_width * 0.94,
+        // decoration: BoxDecoration(
+        //     color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: res_width * 0.1675,
+                  height: res_width * 0.1675,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff7c94b6),
+                    image: DecorationImage(
+                      image: AssetImage(image),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    border: Border.all(
+                      color: Color(0xffc88225),
+                      width: 2.0,
                     ),
                   ),
-                  SizedBox(
-                    height: res_height * 0.00075,
-                  ),
-                  Container(
+                ),
+                SizedBox(
+                  width: res_width * 0.0235,
+                ),
+
+                // Container(
+                //     width: res_width * 0.225,
+                //     child: Center(child: Image.asset(image))),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: res_height * 0.00075,
+                    ),
+                    Container(
                       width: res_width * 0.6,
-                      child: Text(description,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: Color(0xff929292),
-                            height: 1.5,
-                          ))),
-                ],
-              )
-            ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Performance Name',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.black,
+                                height: 1.5,
+                              )),
+                          // Spacer(),
+                          Row(
+                            children: [
+                              Text('Location 1: ',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.black,
+                                    height: 1.5,
+                                  )),
+                              Text('Confirm ',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.green,
+                                    height: 1.5,
+                                  ))
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: res_height * 0.00075,
+                    ),
+                    Container(
+                        width: res_width * 0.6,
+                        child: Text(description,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Color(0xff929292),
+                              height: 1.5,
+                            ))),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -582,6 +595,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         Get.to(() => ArtisProfileUserScreen());
       },

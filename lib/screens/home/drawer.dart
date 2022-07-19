@@ -1,5 +1,6 @@
 import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/screens/auth/login.dart';
+import 'package:anrear/screens/auth/selecttype_screen.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/screens/home/privacy.dart';
@@ -356,7 +357,7 @@ class _NavDrawerState extends State<NavDrawer> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  Get.to(() => LoginScreen());
+                  Get.to(() => SelectUserTypeScreen());
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 13, right: 13),

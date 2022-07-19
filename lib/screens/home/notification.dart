@@ -30,6 +30,7 @@ class _NotificationScreen extends State<NotificationScreen> {
           leading: Padding(
             padding: const EdgeInsets.all(13.0),
             child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Get.back();
                 },

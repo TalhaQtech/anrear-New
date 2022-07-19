@@ -44,6 +44,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           leading: Padding(
             padding: const EdgeInsets.all(13.0),
             child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Get.back();
                 },
@@ -124,6 +125,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 height: res_height * 0.015,
               ),
               GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   Get.back();
                 },

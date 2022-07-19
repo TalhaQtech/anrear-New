@@ -29,6 +29,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               Get.back();
             },
@@ -140,7 +141,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -226,7 +227,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -245,13 +246,13 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                               borderRadius: BorderRadius.circular(15)),
                           child: Center(
                               child: Padding(
-                            padding: const EdgeInsets.all(18.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Text(
                               'Loremsum',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 17),
+                                  fontSize: 15),
                             ),
                           )),
                         ),
@@ -265,13 +266,13 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                               borderRadius: BorderRadius.circular(15)),
                           child: Center(
                               child: Padding(
-                            padding: const EdgeInsets.all(18.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Text(
                               'Loremsum',
                               style: TextStyle(
                                   color: kPrimaryColor,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 17),
+                                  fontSize: 15),
                             ),
                           )),
                         ),
@@ -285,13 +286,13 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                               borderRadius: BorderRadius.circular(15)),
                           child: Center(
                               child: Padding(
-                            padding: const EdgeInsets.all(18.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Text(
                               'Loremsum',
                               style: TextStyle(
                                   color: kPrimaryColor,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 17),
+                                  fontSize: 15),
                             ),
                           )),
                         ),
@@ -309,7 +310,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(
@@ -350,7 +351,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(

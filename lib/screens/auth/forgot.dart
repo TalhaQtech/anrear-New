@@ -80,6 +80,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
               height: res_height * 0.015,
             ),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 Get.to(() => OtpScreen());
               },
