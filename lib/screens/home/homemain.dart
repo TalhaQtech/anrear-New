@@ -1,6 +1,7 @@
 import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
+import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/home/artist_profile_screen.dart';
 import 'package:anrear/screens/home/homescreen.dart';
 import 'package:anrear/screens/home/polling_screen.dart';
@@ -13,7 +14,8 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class HomeMainScreen extends StatefulWidget {
-  const HomeMainScreen({Key? key}) : super(key: key);
+  final UserModel? userModel;
+  const HomeMainScreen({Key? key, this.userModel}) : super(key: key);
 
   @override
   State<HomeMainScreen> createState() => _HomeMainScreenState();
@@ -27,6 +29,7 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(widget.userModel!.userEmail);
     return Scaffold(
       extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

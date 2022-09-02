@@ -1,17 +1,24 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
+import 'package:anrear/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ArtisProfileUserScreen extends StatefulWidget {
-  const ArtisProfileUserScreen({Key? key}) : super(key: key);
+  var artistdata;
+  ArtisProfileUserScreen({Key? key, this.artistdata}) : super(key: key);
 
   @override
   State<ArtisProfileUserScreen> createState() => _ArtisProfileUserScreen();
 }
 
 class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
+  late List like = widget.artistdata["fav"];
   @override
   Widget build(BuildContext context) {
+    print(like.contains(globalUserid));
+    print(widget.artistdata["fav"]);
+    print(globalUserid);
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -41,8 +48,19 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
           actions: [
             Padding(
               padding: const EdgeInsets.all(13.0),
-              child:
-                  Container(child: Image.asset('assets/slicing/polling.png')),
+              child: GestureDetector(
+                onTap: () {
+                  addfav(like, auth.currentUser!.uid, "users",
+                      "${widget.artistdata["uid"]}");
+                },
+                child: Container(
+                    child: Image.asset(
+                  'assets/slicing/polling.png',
+                  color: like.contains(auth.currentUser!.uid)
+                      ? Colors.black
+                      : Colors.white,
+                )),
+              ),
             )
           ],
           centerTitle: true,
@@ -72,7 +90,8 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xff7c94b6),
                           image: DecorationImage(
-                            image: AssetImage('assets/slicing/girl.jpeg'),
+                            image: NetworkImage(
+                                '${widget.artistdata["userImage"]}'),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -85,7 +104,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                       SizedBox(
                         height: res_height * 0.01,
                       ),
-                      Text('John Doe',
+                      Text('${widget.artistdata["fullName"]}',
                           style: TextStyle(
                               fontWeight: FontWeight.normal, fontSize: 18)),
                       SizedBox(
@@ -114,8 +133,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                       Container(
                         width: res_width * 0.6,
                         child: Center(
-                          child: Text(
-                              'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                          child: Text('${widget.artistdata["description"]}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 13,

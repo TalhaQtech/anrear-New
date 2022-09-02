@@ -1,4 +1,5 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xff7c94b6),
                           image: DecorationImage(
-                            image: AssetImage('assets/slicing/girl.jpeg'),
+                            image: NetworkImage('${currentUserData.userImage}'),
                             fit: BoxFit.cover,
                           ),
                           borderRadius:
@@ -99,7 +100,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                       SizedBox(
                         height: res_height * 0.01,
                       ),
-                      Text('John Doe',
+                      Text('${currentUserData.fullName}'.toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
@@ -130,8 +131,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                       Container(
                         width: res_width * 0.6,
                         child: Center(
-                          child: Text(
-                              'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                          child: Text('${currentUserData.description}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 13,

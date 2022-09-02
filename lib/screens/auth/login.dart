@@ -1,9 +1,14 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
+import 'package:anrear/models/FirebaseHelper.dart';
+import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/screens/auth/signup.dart';
 import 'package:anrear/screens/home/homemain.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
@@ -22,6 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
     // Timer(Duration(seconds: 2), () => Get.to(() => HomeMainScreen()));
   }
 
+  var Password = TextEditingController();
+  var email = TextEditingController();
+  var formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
@@ -37,189 +46,224 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         child: SingleChildScrollView(
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: res_height * 0.125,
-              ),
-              Hero(
-                tag: 'logoImage',
-                child: Container(
-                    width: res_width * 0.4,
-                    child: Image.asset('assets/slicing/logo.png')),
-              ),
-              SizedBox(
-                height: res_height * 0.05,
-              ),
-              Text(
-                'Login',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26),
-              ),
-              SizedBox(
-                height: res_height * 0.015,
-              ),
-              Container(
-                width: res_width * 0.9,
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.grey),
-                      prefixIcon: Icon(Icons.email_outlined),
-                      hintText: "Email Address",
-                      fillColor: Colors.white),
+          child: Form(
+            key: formkey,
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: res_height * 0.125,
                 ),
-              ),
-              SizedBox(
-                height: res_height * 0.015,
-              ),
-              Container(
-                width: res_width * 0.9,
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.grey),
-                      prefixIcon: Icon(Icons.lock_outline),
-                      hintText: "Password",
-                      fillColor: Colors.white),
-                ),
-              ),
-              SizedBox(
-                height: res_height * 0.015,
-              ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  Get.to(() => ForgotScreen());
-                },
-                child: Container(
-                    width: res_width * 0.9,
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          'Forget Password ?',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ))),
-              ),
-              SizedBox(
-                height: res_height * 0.015,
-              ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  Get.to(() => HomeMainScreen());
-                },
-                child: Container(
-                  width: res_width * 0.9,
-                  decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                      child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                  )),
-                ),
-              ),
-              SizedBox(
-                height: res_height * 0.02,
-              ),
-              Text(
-                'Login With',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              SizedBox(
-                height: res_height * 0.02,
-              ),
-              Container(
-                width: res_width * 0.7,
-                height: 1,
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: res_height * 0.02,
-              ),
-              Container(
-                width: res_width * 0.7,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                        width: res_width * 0.15,
-                        child: Image.asset('assets/slicing/fb.png')),
-                    Container(
-                        width: res_width * 0.15,
-                        child: Image.asset('assets/slicing/googlr.png')),
-                    Container(
-                        width: res_width * 0.15,
-                        child: Image.asset('assets/slicing/insta.png'))
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: res_height * 0.05,
-              ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  Get.to(() => SignupScreen());
-                },
-                child: Align(
-                  alignment: Alignment.center,
+                Hero(
+                  tag: 'logoImage',
                   child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account ? ",
-                          style: TextStyle(
-                              // decoration: TextDecoration.underline,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                      width: res_width * 0.4,
+                      child: Image.asset('assets/slicing/logo.png')),
+                ),
+                SizedBox(
+                  height: res_height * 0.05,
+                ),
+                Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26),
+                ),
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                Container(
+                  width: res_width * 0.9,
+                  child: TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
                         ),
-                        Text(
-                          'Signup',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        )
-                      ],
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey),
+                        prefixIcon: Icon(Icons.email_outlined),
+                        hintText: "Email Address",
+                        fillColor: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                Container(
+                  width: res_width * 0.9,
+                  child: TextFormField(
+                    controller: Password,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey),
+                        prefixIcon: Icon(Icons.lock_outline),
+                        hintText: "Password",
+                        fillColor: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.to(() => ForgotScreen());
+                  },
+                  child: Container(
+                      width: res_width * 0.9,
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            'Forget Password ?',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ))),
+                ),
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () async {
+                    if (email.text == "" || Password.text == "") {
+                      Get.snackbar(
+                          "Incomplete Data", "Please fill all the fields");
+                    } else {
+                      try {
+                        EasyLoading.show();
+                        UserCredential user =
+                            await auth.signInWithEmailAndPassword(
+                                email: email.text.trim(),
+                                password: Password.text.trim());
+                        User? currentUser = await auth.currentUser;
+                        print(currentUser!.uid);
+                        // if (currentUser != null) {
+                        // Logged In
+                        currentUserData = await FirebaseHelper.getUserModelById(
+                            currentUser.uid);
+                        // currentUserData = thisUserModel;
+                        Get.to(() => HomeMainScreen(
+                              userModel: currentUserData,
+                            ));
+                        print(currentUserData!.fullName);
+                        EasyLoading.dismiss();
+                        // }
+                      } catch (e) {
+                        EasyLoading.dismiss();
+
+                        Get.snackbar("Error", e.toString());
+                        print(e.toString());
+                      }
+                      // Get.to(() => HomeMainScreen());
+                    }
+                  },
+                  child: Container(
+                    width: res_width * 0.9,
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                    )),
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.02,
+                ),
+                Text(
+                  'Login With',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
+                SizedBox(
+                  height: res_height * 0.02,
+                ),
+                Container(
+                  width: res_width * 0.7,
+                  height: 1,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: res_height * 0.02,
+                ),
+                Container(
+                  width: res_width * 0.7,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          width: res_width * 0.15,
+                          child: Image.asset('assets/slicing/fb.png')),
+                      Container(
+                          width: res_width * 0.15,
+                          child: Image.asset('assets/slicing/googlr.png')),
+                      Container(
+                          width: res_width * 0.15,
+                          child: Image.asset('assets/slicing/insta.png'))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.05,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.to(() => SignupScreen());
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account ? ",
+                            style: TextStyle(
+                                // decoration: TextDecoration.underline,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                          Text(
+                            'Signup',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: res_height * 0.05,
-              ),
-            ],
+                SizedBox(
+                  height: res_height * 0.05,
+                ),
+              ],
+            ),
           ),
         ),
       ),

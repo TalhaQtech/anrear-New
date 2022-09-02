@@ -1,6 +1,7 @@
 import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -69,22 +70,64 @@ class _PollingsScreen extends State<PollingsScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Andy Marshal', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Andy Marshal', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    print(snapshot.hasData);
+                    if (snapshot.hasError) {
+                      return Center(child: CircularProgressIndicator());
+                      // Handle errors
+                    } else if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                      // Handle no data
+                    }
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var data = snapshot.data!.docs[index];
+                          print(snapshot.data!.docs[index]["fullName"]);
+                          return ArtistBox(
+                              '${data["fullName"]}',
+                              '${data["userImage"]}',
+                              '${data["description"]}',
+                              data);
+                          // ArtistBox(
+                          //     '${data["fullName"]}',
+                          //     '${data["userImage"]}',
+                          //     '${data["description"]}',
+                          //     data);
+                          ;
+                        },
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+
+                // ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox('Andy Marshal', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox('Sarah Smith', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox('John Doe', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox('Andy Marshal', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox('Sarah Smith', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // ArtistBox(
+                //     'John Doe',
+                //     'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                //     ),
                 SizedBox(
                   height: res_height * 0.135,
                 ),
@@ -96,13 +139,15 @@ class _PollingsScreen extends State<PollingsScreen> {
     );
   }
 
-  ArtistBox(name, image, description) {
+  ArtistBox(name, image, description, data) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Get.to(() => ArtistPollingScreen());
+        Get.to(() => ArtistPollingScreen(
+              data: data,
+            ));
       },
       child: Container(
         width: res_width * 0.94,
@@ -124,7 +169,7 @@ class _PollingsScreen extends State<PollingsScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xff7c94b6),
                     image: DecorationImage(
-                      image: AssetImage(image),
+                      image: NetworkImage(image),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),

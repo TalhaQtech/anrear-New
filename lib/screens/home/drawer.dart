@@ -1,4 +1,7 @@
 import 'package:anrear/helper/bottomcontrller.dart';
+import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
+import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/auth/selecttype_screen.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
@@ -50,7 +53,8 @@ class _NavDrawerState extends State<NavDrawer> {
                             decoration: BoxDecoration(
                               color: const Color(0xff7c94b6),
                               image: DecorationImage(
-                                image: AssetImage("assets/slicing/girl.jpeg"),
+                                image: NetworkImage(
+                                    "${currentUserData.userImage}"),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius:
@@ -68,13 +72,13 @@ class _NavDrawerState extends State<NavDrawer> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'John Doe',
+                                '${currentUserData.fullName}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                     color: Colors.white),
                               ),
-                              Text('john@email.com',
+                              Text('${currentUserData.userEmail}',
                                   style: TextStyle(color: Colors.white))
                             ],
                           ),
@@ -173,48 +177,187 @@ class _NavDrawerState extends State<NavDrawer> {
                   ),
                 ),
               ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (bottomctrl.navigationBarIndexValue != 3) {
-                    bottomctrl.navBarChange(3);
-                  } else {
-                    Get.back();
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 13, right: 13),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Padding(
-                              padding: const EdgeInsets.all(7.0),
-                              child: Image.asset("assets/slicing/list.png"),
+              if (UserType == "")
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    if (bottomctrl.navigationBarIndexValue != 3) {
+                      bottomctrl.navBarChange(3);
+                    } else {
+                      Get.back();
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 13, right: 13),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(7.0),
+                                child: Image.asset("assets/slicing/list.png"),
+                              ),
+                              onPressed: () {
+                                if (bottomctrl.navigationBarIndexValue != 3) {
+                                  bottomctrl.navBarChange(3);
+                                } else {
+                                  Get.back();
+                                }
+                              },
                             ),
-                            onPressed: () {
-                              if (bottomctrl.navigationBarIndexValue != 3) {
-                                bottomctrl.navBarChange(3);
-                              } else {
-                                Get.back();
-                              }
-                            },
-                          ),
-                          Text(
-                            'Polling Lists',
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 1,
-                        color: Colors.white.withOpacity(0.4),
-                      )
-                    ],
+                            Text(
+                              'Polling Lists',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: 1,
+                          color: Colors.white.withOpacity(0.4),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              if (UserType == "artist")
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    if (bottomctrl.navigationBarIndexValue != 3) {
+                      bottomctrl.navBarChange(3);
+                    } else {
+                      Get.back();
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 13, right: 13),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(7.0),
+                                child: Image.asset(
+                                  "assets/slicing/singer.png",
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                if (bottomctrl.navigationBarIndexValue != 3) {
+                                  bottomctrl.navBarChange(3);
+                                } else {
+                                  Get.back();
+                                }
+                              },
+                            ),
+                            Text(
+                              'Artist',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: 1,
+                          color: Colors.white.withOpacity(0.4),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              if (UserType == "artist")
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    if (bottomctrl.navigationBarIndexValue != 3) {
+                      bottomctrl.navBarChange(3);
+                    } else {
+                      Get.back();
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 13, right: 13),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(7.0),
+                                child: Image.asset(
+                                    "assets/slicing/performing .png"),
+                              ),
+                              onPressed: () {
+                                if (bottomctrl.navigationBarIndexValue != 3) {
+                                  bottomctrl.navBarChange(3);
+                                } else {
+                                  Get.back();
+                                }
+                              },
+                            ),
+                            Text(
+                              'My Perfomance Polling',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: 1,
+                          color: Colors.white.withOpacity(0.4),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              if (UserType == "artist")
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    if (bottomctrl.navigationBarIndexValue != 3) {
+                      bottomctrl.navBarChange(3);
+                    } else {
+                      Get.back();
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 13, right: 13),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Padding(
+                                padding: const EdgeInsets.all(7.0),
+                                child: Image.asset(
+                                    "assets/slicing/add performing.png"),
+                              ),
+                              onPressed: () {
+                                if (bottomctrl.navigationBarIndexValue != 3) {
+                                  bottomctrl.navBarChange(3);
+                                } else {
+                                  Get.back();
+                                }
+                              },
+                            ),
+                            Text(
+                              'Add Performance',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: 1,
+                          color: Colors.white.withOpacity(0.4),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {

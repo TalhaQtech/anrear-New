@@ -1,4 +1,4 @@
-package com.example.anrear
+package com.anrear.thesuitch
 
 import io.flutter.embedding.android.FlutterActivity
 

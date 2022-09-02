@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ArtistPollingScreen extends StatefulWidget {
-  const ArtistPollingScreen({Key? key}) : super(key: key);
+  var data;
+  ArtistPollingScreen({Key? key, this.data}) : super(key: key);
 
   @override
   State<ArtistPollingScreen> createState() => _ArtistPollingScreen();
@@ -79,7 +80,7 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xff7c94b6),
                           image: DecorationImage(
-                            image: AssetImage('assets/slicing/girl.jpeg'),
+                            image: NetworkImage('${widget.data["userImage"]}'),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -92,7 +93,7 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                       SizedBox(
                         height: res_height * 0.01,
                       ),
-                      Text('John Doe',
+                      Text('${widget.data["fullName"]}',
                           style: TextStyle(
                               fontWeight: FontWeight.normal, fontSize: 18)),
                       SizedBox(
@@ -101,8 +102,7 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                       Container(
                         width: res_width * 0.6,
                         child: Center(
-                          child: Text(
-                              'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                          child: Text('${widget.data["description"]}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 13,
