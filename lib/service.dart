@@ -4,10 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
 firestore_set(collection, doc, set) async {
+  doc != null?
   await FirebaseFirestore.instance
       .collection(collection.toString())
       .doc(doc.toString())
-      .set(set);
+      .set(set): await FirebaseFirestore.instance
+      .collection(collection.toString())
+   
+      .add(set);
 }
 
 firestore_update(collection, doc, data) {

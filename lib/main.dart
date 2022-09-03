@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:anrear/firebase_options.dart';
 import 'package:anrear/screens/auth/selecttype_screen.dart';
-import 'package:anrear/screens/home/homemain.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

@@ -1,5 +1,7 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
+import 'package:anrear/screens/auth/create_polling_screen.dart';
+import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
 import 'package:anrear/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,15 +52,23 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
               padding: const EdgeInsets.all(13.0),
               child: GestureDetector(
                 onTap: () {
-                  addfav(like, auth.currentUser!.uid, "users",
-                      "${widget.artistdata["uid"]}");
+                  // addfav(like, auth.currentUser!.uid, "users",
+                  //     "${widget.artistdata["uid"]}");
+                  UserType == ""
+                      ? Get.to(ArtistVotingScreen())
+                      : Get.to(CreatePollingScreen(
+                          userModel: currentUserData,
+                          firebaseUser: globalUserid,
+                        ));
                 },
                 child: Container(
                     child: Image.asset(
                   'assets/slicing/polling.png',
-                  color: like.contains(auth.currentUser!.uid)
-                      ? Colors.black
-                      : Colors.white,
+                  color:
+                      //  like.contains(auth.currentUser!.uid)
+                      // ? Colors.black
+                      // :
+                      Colors.white,
                 )),
               ),
             )
@@ -165,76 +175,101 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                Container(
-                  width: res_width * 0.9,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                                width: res_width * 0.325,
-                                child:
-                                    Image.asset('assets/slicing/poster1.png')),
-                            Text(
-                              'Lorem Ipsum',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                                width: res_width * 0.325,
-                                child:
-                                    Image.asset('assets/slicing/poster2.png')),
-                            Text(
-                              'Lorem Ipsum',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                                width: res_width * 0.325,
-                                child:
-                                    Image.asset('assets/slicing/poster3.png')),
-                            Text(
-                              'Lorem Ipsum',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                                width: res_width * 0.325,
-                                child:
-                                    Image.asset('assets/slicing/poster3.png')),
-                            Text(
-                              'Lorem Ipsum',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                // Container(
+                //   width: res_width * 0.9,
+                //   child: SingleChildScrollView(
+                //     scrollDirection: Axis.horizontal,
+                //     child: Row(
+                //       children: [
+                //         Column(
+                //           children: [
+                // ListView(
+                //   children:
+                // widget.artistdata["albums"].map((e) => Text(e)).toList(),
+                // ),
+                // ListView.builder(
+                //   // scrollDirection: Axis.horizontal,
+                //   shrinkWrap: true,
+                //   itemCount: widget.artistdata["albums"].length,
+                //   itemBuilder: (context, index) {
+                //     return Container(
+                //         width: res_width * 0.325,
+                //         child: Image.asset('assets/slicing/poster2.png'));
+                //   },
+                // ),
+                // Expanded(
+                //   child: ListView.builder(
+                //     shrinkWrap: true,
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: 15,
+                //     itemBuilder: (BuildContext context, int index) => Card(
+                //       child: Center(child: Text('Dummy Card Text')),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //     width: res_width * 0.325,
+                //     child:
+
+                //      Image.asset('assets/slicing/poster1.png')),
+                //             Text(
+                //               'Lorem Ipsum',
+                //               style: TextStyle(
+                //                   color: Colors.white,
+                //                   fontWeight: FontWeight.normal,
+                //                   fontSize: 16),
+                //             )
+                //           ],
+                //         ),
+                //         Column(
+                //           children: [
+                // Container(
+                //     width: res_width * 0.325,
+                //     child:
+                //         Image.asset('assets/slicing/poster2.png')),
+                //             Text(
+                //               'Lorem Ipsum',
+                //               style: TextStyle(
+                //                   color: Colors.white,
+                //                   fontWeight: FontWeight.normal,
+                //                   fontSize: 16),
+                //             )
+                //           ],
+                //         ),
+                Column(
+                  children: [
+                    Container(
+                        width: res_width * 0.325,
+                        child: Image.asset('assets/slicing/poster3.png')),
+                    Text(
+                      'Lorem Ipsum',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16),
+                    )
+                  ],
                 ),
+                //         Column(
+                //           children: [
+                //             Container(
+                //                 width: res_width * 0.325,
+                //                 child:
+                //                     Image.asset('assets/slicing/poster3.png')),
+                //             Text(
+                //               'Lorem Ipsum',
+                //               style: TextStyle(
+                //                   color: Colors.white,
+                //                   fontWeight: FontWeight.normal,
+                //                   fontSize: 16),
+                //             )
+                //           ],
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 SizedBox(
                   height: res_height * 0.03,
                 ),

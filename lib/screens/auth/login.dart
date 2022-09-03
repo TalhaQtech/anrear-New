@@ -147,7 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 email: email.text.trim(),
                                 password: Password.text.trim());
                         User? currentUser = await auth.currentUser;
-                        print(currentUser!.uid);
+                        globalUserid = currentUser!.uid;
+                        // print(currentUser!.uid);
                         // if (currentUser != null) {
                         // Logged In
                         currentUserData = await FirebaseHelper.getUserModelById(

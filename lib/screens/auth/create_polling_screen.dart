@@ -15,8 +15,8 @@ import 'package:get/get_navigation/get_navigation.dart';
 
 class CreatePollingScreen extends StatefulWidget {
   final UserModel? userModel;
-  final User? firebaseUser;
-  const CreatePollingScreen({Key? key, this.userModel, this.firebaseUser})
+  var firebaseUser;
+  CreatePollingScreen({Key? key, this.userModel, this.firebaseUser})
       : super(key: key);
 
   @override
@@ -61,8 +61,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
             endDate: endDate.text.trim(),
             startDate: startDate.text.trim(),
             fullName: fullName.text.trim());
-        await firestore_set(
-            "PerformancePolling", globalUserid, newUser.toMap());
+        await firestore_set("PerformancePolling", null, newUser.toMap());
         Get.to(() => HomeMainScreen(
               userModel: widget.userModel,
             ));

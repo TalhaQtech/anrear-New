@@ -3,5 +3,5 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 String UserType = "";
 var auth = FirebaseAuth.instance;
-var globalUserid;
+String? globalUserid;
 var currentUserData;
