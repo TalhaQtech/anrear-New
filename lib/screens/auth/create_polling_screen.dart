@@ -34,9 +34,12 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   var startDate = TextEditingController();
   var endDate = TextEditingController();
   var fullName = TextEditingController();
+  List fbLinksControl = [];
 
   var fbitemCount = 1;
   List<TextEditingController> _controllers = [];
+
+  var location3 = TextEditingController();
 
   // var _controllers2 = TextEditingController();
   @override
@@ -46,10 +49,17 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
     // Timer(Duration(seconds: 2), () => Get.to(() => HomeMainScreen()));
   }
 
-  UploadTask? uploadTask;
   Uint8List? image;
   List listimg = [];
   List listimg2 = [];
+  List listimg3 = [];
+  List listimg4 = [];
+  var urls1 = [];
+  var urls2 = [];
+  var urls3 = [];
+  var urls4 = [];
+  var locat3 = false;
+  var locat4 = false;
 
   selectImage(ImageSource source, listofimg) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
@@ -75,14 +85,12 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
         perNamec == "") {
       Get.snackbar("Incomplete Data", "Please fill all the fields");
     } else {
-      var urls1 = [];
-      var urls2 = [];
       EasyLoading.show();
       // if (listimg.isNotEmpty) {
-      urls1 = uploadimg( listimg);
+      urls1 = await uploadimg(listimg);
       // }
       // if (listimg2.isNotEmpty) {
-      urls2 = uploadimg(listimg2);
+      urls2 = await uploadimg(listimg2);
       // }
       try {
         performancePolingModel newUser = await performancePolingModel(
@@ -118,48 +126,27 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
 
   uploadimg(listOfimg) {
     listOfimg.forEach((listOfimg) async {
-      uploadTask = FirebaseStorage.instance
-          .ref("testimg")
-          .child(uuid.v1().toString())
-          .putData(listOfimg!);
-      TaskSnapshot? snapshot = await uploadTask;
+      print(listOfimg);
+      try {
+        EasyLoading.show();
+        UploadTask uploadTask = FirebaseStorage.instance
+            .ref("testimg")
+            .child(uuid.v1().toString())
+            .putData(listOfimg!);
+        TaskSnapshot? snapshot = await uploadTask;
+        // print(await uploadTask.snapshot.ref.getDownloadURL());
+        // imagesUrls.add(await (await uploadTask).ref.getDownloadURL());
+        imagesUrls.add(await uploadTask.snapshot.ref.getDownloadURL());
+        // print(snapshot.ref.getDownloadURL());
+        EasyLoading.dismiss();
+      } catch (e) {
+        EasyLoading.dismiss();
 
-      imagesUrls.add(await (await snapshot)!.ref.getDownloadURL());
+        print(e);
+      }
     });
     print(imagesUrls);
     return imagesUrls;
-  }
-
-  imgupload() async {
-    if (listimg.isNotEmpty) {
-      for (var i = 0; i < listimg.length; i++) {
-        // if (listimg[i] == null) {
-        //   break;
-        // }
-
-        print(i);
-        print("object ${listimg[i]} ${i}");
-        try {
-          uploadTask = FirebaseStorage.instance
-              .ref("testimg")
-              .child(widget.userModel!.uid.toString())
-              .putData(listimg[i]!);
-          TaskSnapshot? snapshot = await uploadTask;
-          return snapshot!.ref.getDownloadURL();
-        } catch (e) {
-          print(e.toString() + "Error");
-        }
-
-        // print("object ${listimg[0]} ${i}");
-      }
-      // uploadTask = FirebaseStorage.instance
-      //     .ref("profilepictures")
-      //     .child(widget.userModel!.uid.toString())
-      //     .putData(image!);
-      // TaskSnapshot? snapshot = await uploadTask;
-    } else {
-      print("image is null");
-    }
   }
 
   @override
@@ -353,9 +340,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: listimg.length,
+                          itemCount: listimg2.length,
                           itemBuilder: (context, index) {
-                            return listimg[index] != null
+                            return listimg2[index] != null
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
@@ -366,7 +353,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(13))),
                                       child: Image.memory(
-                                        listimg[index],
+                                        listimg2[index],
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -404,22 +391,235 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               SizedBox(
                 height: res_height * 0.015,
               ),
-              Container(
-                width: res_width * 0.9,
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Text(
-                    'Add Another Location',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  ),
-                )),
+
+              locat3
+                  ? Container(
+                      width: res_width * 0.9,
+                      child: TextFormField(
+                        controller: location3,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: "Location 3",
+                            fillColor: Colors.white),
+                      ),
+                    )
+                  : Container(),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+              locat3
+                  ? Container(
+                      width: res_width * 0.9,
+                      child: Text(
+                        'Upload image of polling location',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    )
+                  : Container(),
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+
+              locat3
+                  ? Container(
+                      width: res_width * 0.9,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // width: 400,
+                              height: 100,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: listimg2.length,
+                                itemBuilder: (context, index) {
+                                  return listimg2[index] != null
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: res_width * 0.2,
+                                            height: res_width * 0.2,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(13))),
+                                            child: Image.memory(
+                                              listimg2[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : Container();
+                                },
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                await selectImage(
+                                    ImageSource.gallery, listimg2);
+                              },
+                              child: Container(
+                                width: res_width * 0.2,
+                                height: res_width * 0.2,
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(13))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.add_outlined,
+                                    color: Colors.white,
+                                    size: 33,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(),
+              locat4
+                  ? Container(
+                      width: res_width * 0.9,
+                      child: TextFormField(
+                        controller: location2,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: "Location 4",
+                            fillColor: Colors.white),
+                      ),
+                    )
+                  : Container(),
+              locat4
+                  ? SizedBox(
+                      height: res_height * 0.015,
+                    )
+                  : Container(),
+              locat4
+                  ? Container(
+                      width: res_width * 0.9,
+                      child: Text(
+                        'Upload image of polling location',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    )
+                  : Container(),
+              locat4
+                  ? SizedBox(
+                      height: res_height * 0.015,
+                    )
+                  : Container(),
+
+              locat4
+                  ? Container(
+                      width: res_width * 0.9,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // width: 400,
+                              height: 100,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: listimg2.length,
+                                itemBuilder: (context, index) {
+                                  return listimg2[index] != null
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: res_width * 0.2,
+                                            height: res_width * 0.2,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(13))),
+                                            child: Image.memory(
+                                              listimg2[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : Container();
+                                },
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                await selectImage(
+                                    ImageSource.gallery, listimg2);
+                              },
+                              child: Container(
+                                width: res_width * 0.2,
+                                height: res_width * 0.2,
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(13))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.add_outlined,
+                                    color: Colors.white,
+                                    size: 33,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(),
+
+              GestureDetector(
+                onTap: () async {
+                  // await uploadimg(listimg);
+                  setState(() {
+                    locat3 = true;
+                    locat4 = true;
+                  });
+                },
+                child: Container(
+                  width: res_width * 0.9,
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Add Another Location',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  )),
+                ),
               ),
               SizedBox(
                 height: res_height * 0.015,
@@ -628,12 +828,19 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                 onTap: () {
                   // print(_controllers[0].text);
                   // print(_controllers[1].text);
-                  for (var i = 0; i <= _controllers.length; i++) {
-                    print(_controllers[1].text);
-                  }
-                  setState(() {
-                    fbitemCount++;
+                  // for (var i = 0; i <= _controllers.length; i++) {
+                  //   print(_controllers[i].text);
+                  // }
+                  // print(_controllers.toList());
+
+                  _controllers.forEach((element) {
+                    fbLinksControl.add(element.text.toString());
                   });
+                  print(fbLinksControl);
+
+                  // setState(() {
+                  //   fbitemCount++;
+                  // });
                 },
                 child: Container(
                   width: res_width * 0.9,
