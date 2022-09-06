@@ -24,16 +24,16 @@
 //     }
 //   }
 
-//   List listimg = [];
+  // List listimg = [];
 
-//   void selectImage(ImageSource source) async {
-//     Uint8List? im = await pickImage(ImageSource.gallery);
-//     setState(() {
-//       // image = im;
-//       listimg.add(im);
-//       print(listimg.length);
-//     });
-//   }
+  // void selectImage(ImageSource source) async {
+  //   Uint8List? im = await pickImage(ImageSource.gallery);
+  //   setState(() {
+  //     // image = im;
+  //     listimg.add(im);
+  //     print(listimg.length);
+  //   });
+  // }
 
 //   @override
 //   Widget build(BuildContext context) {

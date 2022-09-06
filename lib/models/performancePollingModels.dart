@@ -7,12 +7,16 @@ class performancePolingModel {
   String? startDate;
   String? description;
   String? userImage;
+  List polling_location_im;
+  List polling_location_im2;
   // int? singup_step;
   // String? userImage;
   // String? userPhone;
   // String? password;
 
   performancePolingModel({
+    required this.polling_location_im,
+    required this.polling_location_im2,
     required this.description,
     required this.userImage,
     required this.uid,
@@ -42,7 +46,9 @@ class performancePolingModel {
       "fullName": fullName,
       "startDate": startDate,
       "description": description,
-      "userImage": userImage
+      "userImage": userImage,
+      "polling_location_im": polling_location_im,
+      "polling_location_im2": polling_location_im2
     };
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
+import 'package:anrear/main.dart';
 import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/forgot.dart';
@@ -7,11 +10,13 @@ import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreatePollingScreen extends StatefulWidget {
   final UserModel? userModel;
@@ -30,11 +35,31 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   var endDate = TextEditingController();
   var fullName = TextEditingController();
 
+  var fbitemCount = 1;
+  List<TextEditingController> _controllers = [];
+
+  // var _controllers2 = TextEditingController();
   @override
   void initState() {
     super.initState();
     // print('run');
     // Timer(Duration(seconds: 2), () => Get.to(() => HomeMainScreen()));
+  }
+
+  UploadTask? uploadTask;
+  Uint8List? image;
+  List listimg = [];
+  List listimg2 = [];
+
+  selectImage(ImageSource source, listofimg) async {
+    Uint8List? im = await pickImage(ImageSource.gallery);
+    if (im != null) {
+      setState(() {
+        // image = im;
+        listofimg.add(im);
+        print(listofimg.length);
+      });
+    }
   }
 
   uploadData() async {
@@ -50,9 +75,19 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
         perNamec == "") {
       Get.snackbar("Incomplete Data", "Please fill all the fields");
     } else {
+      var urls1 = [];
+      var urls2 = [];
+      EasyLoading.show();
+      // if (listimg.isNotEmpty) {
+      urls1 = uploadimg( listimg);
+      // }
+      // if (listimg2.isNotEmpty) {
+      urls2 = uploadimg(listimg2);
+      // }
       try {
-        EasyLoading.show();
         performancePolingModel newUser = await performancePolingModel(
+            polling_location_im2: urls2,
+            polling_location_im: urls1,
             description: widget.userModel!.description,
             userImage: widget.userModel!.userImage,
             uid: widget.userModel!.uid,
@@ -75,6 +110,55 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
         Get.snackbar("Error", e.toString());
         EasyLoading.dismiss();
       }
+    }
+  }
+
+  List<String> imagesUrls = [];
+  List<String> imagesUrls2 = [];
+
+  uploadimg(listOfimg) {
+    listOfimg.forEach((listOfimg) async {
+      uploadTask = FirebaseStorage.instance
+          .ref("testimg")
+          .child(uuid.v1().toString())
+          .putData(listOfimg!);
+      TaskSnapshot? snapshot = await uploadTask;
+
+      imagesUrls.add(await (await snapshot)!.ref.getDownloadURL());
+    });
+    print(imagesUrls);
+    return imagesUrls;
+  }
+
+  imgupload() async {
+    if (listimg.isNotEmpty) {
+      for (var i = 0; i < listimg.length; i++) {
+        // if (listimg[i] == null) {
+        //   break;
+        // }
+
+        print(i);
+        print("object ${listimg[i]} ${i}");
+        try {
+          uploadTask = FirebaseStorage.instance
+              .ref("testimg")
+              .child(widget.userModel!.uid.toString())
+              .putData(listimg[i]!);
+          TaskSnapshot? snapshot = await uploadTask;
+          return snapshot!.ref.getDownloadURL();
+        } catch (e) {
+          print(e.toString() + "Error");
+        }
+
+        // print("object ${listimg[0]} ${i}");
+      }
+      // uploadTask = FirebaseStorage.instance
+      //     .ref("profilepictures")
+      //     .child(widget.userModel!.uid.toString())
+      //     .putData(image!);
+      // TaskSnapshot? snapshot = await uploadTask;
+    } else {
+      print("image is null");
     }
   }
 
@@ -159,74 +243,68 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               SizedBox(
                 height: res_height * 0.015,
               ),
+
               Container(
                 width: res_width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 33,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        // width: 400,
+                        height: 100,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: listimg.length,
+                          itemBuilder: (context, index) {
+                            return listimg[index] != null
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: res_width * 0.2,
+                                      height: res_width * 0.2,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(13))),
+                                      child: Image.memory(
+                                        listimg[index],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : Container();
+                          },
                         ),
                       ),
-                    ),
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 33,
+                      GestureDetector(
+                        onTap: () async {
+                          await selectImage(ImageSource.gallery, listimg);
+                        },
+                        child: Container(
+                          width: res_width * 0.2,
+                          height: res_width * 0.2,
+                          decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.add_outlined,
+                              color: Colors.white,
+                              size: 33,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 33,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.add_outlined,
-                          color: Colors.white,
-                          size: 33,
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
+
               SizedBox(
                 height: res_height * 0.015,
               ),
@@ -261,74 +339,68 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               SizedBox(
                 height: res_height * 0.015,
               ),
+
               Container(
                 width: res_width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 33,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        // width: 400,
+                        height: 100,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: listimg.length,
+                          itemBuilder: (context, index) {
+                            return listimg[index] != null
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: res_width * 0.2,
+                                      height: res_width * 0.2,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(13))),
+                                      child: Image.memory(
+                                        listimg[index],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : Container();
+                          },
                         ),
                       ),
-                    ),
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 33,
+                      GestureDetector(
+                        onTap: () async {
+                          await selectImage(ImageSource.gallery, listimg2);
+                        },
+                        child: Container(
+                          width: res_width * 0.2,
+                          height: res_width * 0.2,
+                          decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.add_outlined,
+                              color: Colors.white,
+                              size: 33,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 33,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: res_width * 0.2,
-                      height: res_width * 0.2,
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(13))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.add_outlined,
-                          color: Colors.white,
-                          size: 33,
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
+
               SizedBox(
                 height: res_height * 0.015,
               ),
@@ -385,8 +457,30 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           SizedBox(
                             height: 5,
                           ),
+                          // ElevatedButton(
+                          //     onPressed: () async {
+                          //       print("object");
+
+                          // var start  =   await showDatePicker(
+                          //       context: context,
+                          //       initialDate: DateTime.now(),
+                          //       firstDate: DateTime(2000),
+                          //       lastDate: DateTime(2025),
+                          //     );
+                          //     },
+                          //     child: Text("data")),
                           TextFormField(
                             controller: startDate,
+                            onTap: () async {
+                              var start = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2025),
+                              );
+                              startDate.text =
+                                  "${start!.toLocal()}".split(' ')[0];
+                            },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -417,6 +511,15 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           ),
                           TextFormField(
                             controller: endDate,
+                            onTap: () async {
+                              var end = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2025),
+                              );
+                              endDate.text = "${end!.toLocal()}".split(' ')[0];
+                            },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -448,48 +551,89 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: res_height * 0.015,
-              ),
-              Container(
-                width: res_width * 0.9,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.facebook_outlined,
-                        color: kPrimaryColor,
-                        size: 40,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: res_height * 0.04,
-                        width: 1,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'https://www.facebook.com',
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   height: res_height * 0.015,
+              // ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: fbitemCount,
+                  itemBuilder: (context, index) {
+                    _controllers.add(new TextEditingController());
+                    return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: Get.width * 0.05),
+                        child:
+                            // Container(
+                            // width: res_width * 0.9,
+                            // decoration: BoxDecoration(
+                            //     color: Colors.white,
+                            //     borderRadius:
+                            //         BorderRadius.all(Radius.circular(10))),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.all(8.0),
+                            //     child: Wrap(
+                            //       direction: Axis.horizontal,
+                            //       children: [
+                            //         Icon(
+                            //           Icons.facebook_outlined,
+                            // color: kPrimaryColor,
+                            // size: 40,
+                            //         ),
+                            //         SizedBox(
+                            //           width: 10,
+                            //         ),
+                            //         Container(
+                            //           height: res_height * 0.04,
+                            //           width: 1,
+                            //           color: Colors.grey,
+                            //         ),
+                            //         SizedBox(
+                            //           width: 10,
+                            //         ),
+
+                            //         // Text(
+                            //         //   'https://www.facebook.com',
+                            //         //   style: TextStyle(
+                            //         //       color: Colors.black, fontSize: 16),
+                            //         // )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            Container(
+                          width: res_width * 0.9,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: TextField(
+                            controller: _controllers[index],
+                            // controller: _controllers.add( _controllers2,),
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.facebook_outlined,
+                                color: kPrimaryColor,
+                                size: 40,
+                              ),
+                              hintText: 'https://www.facebook.com',
+                            ),
+                          ),
+                        ));
+                  }),
               SizedBox(
                 height: res_height * 0.015,
               ),
               GestureDetector(
                 onTap: () {
-                  // Get.to(() => ForgotScreen());
+                  // print(_controllers[0].text);
+                  // print(_controllers[1].text);
+                  for (var i = 0; i <= _controllers.length; i++) {
+                    print(_controllers[1].text);
+                  }
+                  setState(() {
+                    fbitemCount++;
+                  });
                 },
                 child: Container(
                   width: res_width * 0.9,
