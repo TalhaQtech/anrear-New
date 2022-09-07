@@ -1,15 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/main.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/create_polling_screen.dart';
 import 'package:anrear/screens/auth/forgot.dart';
-import 'package:anrear/screens/auth/login.dart';
-import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -34,9 +32,48 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     Uint8List? im = await pickImage(ImageSource.gallery);
     setState(() {
       image = im;
-      listimg.add(im);
-      print(listimg.length);
+      // listimg.add(im);
+      // print(listimg.length);
     });
+  }
+
+  selectImage2(ImageSource source, listofimg) async {
+    Uint8List? im = await pickImage(ImageSource.gallery);
+    if (im != null) {
+      setState(() {
+        // image = im;
+        listofimg.add(im);
+        print(listofimg.length);
+      });
+    }
+  }
+
+  List<String> imagesUrls = [];
+
+  uploadimg(listOfimg) {
+    listOfimg.forEach((listOfimg) async {
+      print(listOfimg);
+      try {
+        EasyLoading.show();
+        UploadTask uploadTask = FirebaseStorage.instance
+            .ref("testimg")
+            .child(uuid.v1().toString())
+            .putData(listOfimg!);
+        TaskSnapshot? snapshot = await uploadTask;
+        // print(await uploadTask.snapshot.ref.getDownloadURL());
+        // imagesUrls.add(await (await uploadTask).ref.getDownloadURL());
+        imagesUrls.add(await uploadTask.snapshot.ref.getDownloadURL());
+        // print(snapshot.ref.getDownloadURL());
+        EasyLoading.dismiss();
+        print(imagesUrls);
+      } catch (e) {
+        EasyLoading.dismiss();
+
+        print(e);
+      }
+    });
+    print(imagesUrls);
+    return imagesUrls;
   }
 
   @override
@@ -50,12 +87,14 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   var Dob = TextEditingController();
   var Description = TextEditingController();
   late var fullName = TextEditingController(text: widget.userModel!.fullName);
+  var urls1 = [];
 
   uploadData() async {
     if (Nationality.text == "" ||
         Dob.text == "" ||
         Description.text == "" ||
-        fullName.text == "") {
+        fullName.text == "" ||
+        image == null) {
       Get.snackbar("Incomplete Data", "Please fill all the fields");
     } else {
       try {
@@ -68,13 +107,17 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         TaskSnapshot? snapshot = await uploadTask;
 
         String? imageUrl = await snapshot!.ref.getDownloadURL();
+
+        urls1 = await uploadimg(listimg);
+        widget.userModel!.award = urls1;
         widget.userModel!.userImage = imageUrl.toString();
         widget.userModel?.Nationality = Nationality.text.toString().trim();
         widget.userModel?.description = Description.text.trim().toString();
         widget.userModel?.dob = Dob.text.trim();
         widget.userModel?.fullName = fullName.text.trim();
         widget.userModel?.singup_step = 2;
-        firestore_set("users", widget.userModel!.uid, widget.userModel!.toMap())
+        await firestore_set(
+                "users", widget.userModel!.uid, widget.userModel!.toMap())
             .then((value) {
           Get.to(CreatePollingScreen(
               userModel: widget.userModel, firebaseUser: widget.firebaseUser));
@@ -257,63 +300,62 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
               Container(
                 width: res_width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  
-
-                    // Container(
-                    //   width: res_width * 0.2,
-                    //   height: res_width * 0.2,
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.all(Radius.circular(13))),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: Icon(
-                    //       Icons.image_outlined,
-                    //       color: Colors.grey,
-                    //       size: 33,
-                    //     ),
-                    //   ),
-                    // ),
-                    // Container(
-                    //   width: res_width * 0.2,
-                    //   height: res_width * 0.2,
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.all(Radius.circular(13))),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: Icon(
-                    //       Icons.image_outlined,
-                    //       color: Colors.grey,
-                    //       size: 33,
-                    //     ),
-                    //   ),
-                    // ),
-                    GestureDetector(
-                      onTap: () {
-                        selectImage(ImageSource.gallery);
-                      },
-                      child: Container(
-                        width: res_width * 0.2,
-                        height: res_width * 0.2,
-                        decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(13))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.add_outlined,
-                            color: Colors.white,
-                            size: 33,
-                          ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 100,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: listimg.length,
+                          itemBuilder: (context, index) {
+                            return listimg[index] != null
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: res_width * 0.2,
+                                      height: res_width * 0.2,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(13))),
+                                      child: Image.memory(
+                                        listimg[index],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )
+                                : Container();
+                          },
                         ),
                       ),
-                    )
-                  ],
+                      GestureDetector(
+                        onTap: () async {
+                          // selectImage(ImageSource.gallery);
+                          await selectImage2(ImageSource.gallery, listimg);
+                        },
+                        child: Container(
+                          width: res_width * 0.2,
+                          height: res_width * 0.2,
+                          decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.add_outlined,
+                              color: Colors.white,
+                              size: 33,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

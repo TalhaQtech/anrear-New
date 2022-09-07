@@ -2,7 +2,6 @@ import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/create_polling_screen.dart';
 import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
-import 'package:anrear/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,12 +14,12 @@ class ArtisProfileUserScreen extends StatefulWidget {
 }
 
 class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
-  late List like = widget.artistdata["fav"];
+  // late List like = widget.artistdata["fav"];
   @override
   Widget build(BuildContext context) {
-    print(like.contains(globalUserid));
-    print(widget.artistdata["fav"]);
-    print(globalUserid);
+    // print(like.contains(globalUserid));
+    // print(widget.artistdata["fav"]);
+    // print(globalUserid);
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -236,19 +235,36 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                 //             )
                 //           ],
                 //         ),
-                Column(
-                  children: [
-                    Container(
-                        width: res_width * 0.325,
-                        child: Image.asset('assets/slicing/poster3.png')),
-                    Text(
-                      'Lorem Ipsum',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16),
-                    )
-                  ],
+
+                Container(
+                  width: Get.width * 0.9,
+                  height: Get.height * 0.25,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.artistdata["award"].length ?? 1,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                  height: 100,
+                                  width: res_width * 0.325,
+                                  child: Image.network(
+                                    '${widget.artistdata["award"][index]}',
+                                    fit: BoxFit.cover,
+                                  )),
+                            ),
+                            Text(
+                              'Lorem Ipsum',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16),
+                            )
+                          ],
+                        );
+                      }),
                 ),
                 //         Column(
                 //           children: [

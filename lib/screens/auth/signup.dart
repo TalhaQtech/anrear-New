@@ -49,6 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
           email: email.text.trim(), password: Password.text.trim());
       globalUserid = credential.user!.uid;
       UserModel newUser = UserModel(
+          award: [],
           userType: UserType,
           Nationality: "",
           description: "",

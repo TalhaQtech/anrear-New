@@ -6,6 +6,7 @@ class UserModel {
   String? fullName;
   String? userEmail;
   int? singup_step;
+  List? award;
   String? userImage;
   String? userPhone;
   String? password;
@@ -17,6 +18,7 @@ class UserModel {
       required this.dob,
       required this.description,
       required this.userType,
+      required this.award,
       this.password,
       this.fullName,
       this.userEmail,
@@ -25,6 +27,7 @@ class UserModel {
       this.userPhone});
 
   UserModel.fromMap(Map<String, dynamic> map) {
+    award = map["award"];
     uid = map["uid"];
     Nationality = map["nationality"];
     dob = map["dob"];
@@ -36,6 +39,7 @@ class UserModel {
   }
   Map<String, dynamic> toMap() {
     return {
+      "award": award,
       "password": password,
       "userType": userType,
       "singupStep": singup_step,

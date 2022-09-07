@@ -1,17 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:anrear/helper/colors.dart';
-import 'package:anrear/helper/helper.dart';
 import 'package:anrear/main.dart';
 import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
-import 'package:anrear/screens/auth/forgot.dart';
-import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -41,6 +36,8 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
 
   var location3 = TextEditingController();
 
+  var isvisible = false;
+
   // var _controllers2 = TextEditingController();
   @override
   void initState() {
@@ -58,8 +55,8 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   var urls2 = [];
   var urls3 = [];
   var urls4 = [];
-  var locat3 = false;
-  var locat4 = false;
+  // var locat3 = false;
+  // var locat4 = false;
 
   selectImage(ImageSource source, listofimg) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
@@ -392,215 +389,252 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                 height: res_height * 0.015,
               ),
 
-              locat3
-                  ? Container(
-                      width: res_width * 0.9,
-                      child: TextFormField(
-                        controller: location3,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            hintStyle: TextStyle(color: Colors.grey),
-                            hintText: "Location 3",
-                            fillColor: Colors.white),
-                      ),
-                    )
-                  : Container(),
+              // locat3
+              //     ?
+              Visibility(
+                visible: isvisible,
+                child: Container(
+                  width: res_width * 0.9,
+                  child: TextFormField(
+                    controller: location3,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey),
+                        hintText: "Location 3",
+                        fillColor: Colors.white),
+                  ),
+                ),
+              )
+              // : Container(),
+              ,
               SizedBox(
                 height: res_height * 0.015,
               ),
-              locat3
-                  ? Container(
-                      width: res_width * 0.9,
-                      child: Text(
-                        'Upload image of polling location',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                    )
-                  : Container(),
+              // locat3
+              //     ?
+              Visibility(
+                visible: isvisible,
+                child: Container(
+                  width: res_width * 0.9,
+                  child: Text(
+                    'Upload image of polling location',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+              )
+              // : Container(),
+              ,
               SizedBox(
                 height: res_height * 0.015,
               ),
 
-              locat3
-                  ? Container(
-                      width: res_width * 0.9,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              // width: 400,
-                              height: 100,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: listimg2.length,
-                                itemBuilder: (context, index) {
-                                  return listimg2[index] != null
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            width: res_width * 0.2,
-                                            height: res_width * 0.2,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(13))),
-                                            child: Image.memory(
-                                              listimg2[index],
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        )
-                                      : Container();
-                                },
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                await selectImage(
-                                    ImageSource.gallery, listimg2);
-                              },
-                              child: Container(
-                                width: res_width * 0.2,
-                                height: res_width * 0.2,
-                                decoration: BoxDecoration(
-                                    color: kPrimaryColor,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(13))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.add_outlined,
-                                    color: Colors.white,
-                                    size: 33,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+              // locat3
+              //     ?
+              Visibility(
+                visible: isvisible,
+                child: Container(
+                  width: res_width * 0.9,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          // width: 400,
+                          height: 100,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: listimg2.length,
+                            itemBuilder: (context, index) {
+                              return listimg2[index] != null
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: res_width * 0.2,
+                                        height: res_width * 0.2,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(13))),
+                                        child: Image.memory(
+                                          listimg2[index],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    )
+                                  : Container();
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                  : Container(),
-              locat4
-                  ? Container(
-                      width: res_width * 0.9,
-                      child: TextFormField(
-                        controller: location2,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            hintStyle: TextStyle(color: Colors.grey),
-                            hintText: "Location 4",
-                            fillColor: Colors.white),
-                      ),
-                    )
-                  : Container(),
-              locat4
-                  ? SizedBox(
-                      height: res_height * 0.015,
-                    )
-                  : Container(),
-              locat4
-                  ? Container(
-                      width: res_width * 0.9,
-                      child: Text(
-                        'Upload image of polling location',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                    )
-                  : Container(),
-              locat4
-                  ? SizedBox(
-                      height: res_height * 0.015,
-                    )
-                  : Container(),
-
-              locat4
-                  ? Container(
-                      width: res_width * 0.9,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              // width: 400,
-                              height: 100,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: listimg2.length,
-                                itemBuilder: (context, index) {
-                                  return listimg2[index] != null
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            width: res_width * 0.2,
-                                            height: res_width * 0.2,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(13))),
-                                            child: Image.memory(
-                                              listimg2[index],
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        )
-                                      : Container();
-                                },
+                        GestureDetector(
+                          onTap: () async {
+                            await selectImage(ImageSource.gallery, listimg2);
+                          },
+                          child: Container(
+                            width: res_width * 0.2,
+                            height: res_width * 0.2,
+                            decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.add_outlined,
+                                color: Colors.white,
+                                size: 33,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                await selectImage(
-                                    ImageSource.gallery, listimg2);
-                              },
-                              child: Container(
-                                width: res_width * 0.2,
-                                height: res_width * 0.2,
-                                decoration: BoxDecoration(
-                                    color: kPrimaryColor,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(13))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.add_outlined,
-                                    color: Colors.white,
-                                    size: 33,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+              // : Container(),
+              ,
+              // locat4
+              //     ?
+              Visibility(
+                visible: isvisible,
+                child: Container(
+                  width: res_width * 0.9,
+                  child: TextFormField(
+                    controller: location2,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
                         ),
-                      ),
-                    )
-                  : Container(),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey),
+                        hintText: "Location 4",
+                        fillColor: Colors.white),
+                  ),
+                ),
+              )
+              // : Container(),
+              // locat4
+              //     ?
+              ,
+              Visibility(
+                visible: isvisible,
+                child: SizedBox(
+                  height: res_height * 0.015,
+                ),
+              )
+              //     : Container(),
+              // locat4
+              // ?
+              ,
+              Visibility(
+                visible: isvisible,
+                child: Container(
+                  width: res_width * 0.9,
+                  child: Text(
+                    'Upload image of polling location',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+              )
+              //     : Container(),
+              // locat4
+              // ?
+              ,
+              Visibility(
+                visible: isvisible,
+                child: SizedBox(
+                  height: res_height * 0.015,
+                ),
+              )
+              // : Container(),
 
+              // locat4
+              //     ?
+              ,
+              Visibility(
+                visible: isvisible,
+                child: Container(
+                  width: res_width * 0.9,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          // width: 400,
+                          height: 100,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: listimg2.length,
+                              itemBuilder: (context, index) {
+                                return listimg2[index] != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: res_width * 0.2,
+                                          height: res_width * 0.2,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(13))),
+                                          child: Image.memory(
+                                            listimg2[index],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ))
+                                    : Container();
+                              }),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            await selectImage(ImageSource.gallery, listimg2);
+                          },
+                          child: Container(
+                            width: res_width * 0.2,
+                            height: res_width * 0.2,
+                            decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.add_outlined,
+                                color: Colors.white,
+                                size: 33,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+              // : Container(),
+
+              ,
               GestureDetector(
                 onTap: () async {
                   // await uploadimg(listimg);
                   setState(() {
-                    locat3 = true;
-                    locat4 = true;
+                    // locat3 = true;
+                    // locat4 = true;
+                    isvisible = !isvisible;
                   });
                 },
                 child: Container(
@@ -721,6 +755,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                               endDate.text = "${end!.toLocal()}".split(' ')[0];
                             },
                             decoration: InputDecoration(
+                                // enabled: false,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide: BorderSide.none,
@@ -838,9 +873,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   });
                   print(fbLinksControl);
 
-                  // setState(() {
-                  //   fbitemCount++;
-                  // });
+                  setState(() {
+                    fbitemCount++;
+                  });
                 },
                 child: Container(
                   width: res_width * 0.9,
@@ -895,16 +930,6 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:anrear/helper/colors.dart';
 // import 'package:anrear/models/usermodels.dart';
