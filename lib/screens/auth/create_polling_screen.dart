@@ -38,6 +38,8 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
 
   var isvisible = false;
 
+  var location4 = TextEditingController();
+
   // var _controllers2 = TextEditingController();
   @override
   void initState() {
@@ -88,9 +90,17 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
       // }
       // if (listimg2.isNotEmpty) {
       urls2 = await uploadimg(listimg2);
+      urls3 = await uploadimg(listimg3);
+      // }
+      // if (listimg2.isNotEmpty) {
+      urls4 = await uploadimg(listimg4);
       // }
       try {
         performancePolingModel newUser = await performancePolingModel(
+            location3: location3.text.trim(),
+            location4: location4.text.trim(),
+            polling_location_im3: urls3,
+            polling_location_im4: urls4,
             polling_location_im2: urls2,
             polling_location_im: urls1,
             description: widget.userModel!.description,
@@ -452,9 +462,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: listimg2.length,
+                            itemCount: listimg3.length,
                             itemBuilder: (context, index) {
-                              return listimg2[index] != null
+                              return listimg3[index] != null
                                   ? Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
@@ -465,7 +475,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(13))),
                                         child: Image.memory(
-                                          listimg2[index],
+                                          listimg3[index],
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -476,7 +486,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await selectImage(ImageSource.gallery, listimg2);
+                            await selectImage(ImageSource.gallery, listimg3);
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -509,7 +519,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                 child: Container(
                   width: res_width * 0.9,
                   child: TextFormField(
-                    controller: location2,
+                    controller: location4,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -579,9 +589,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: listimg2.length,
+                              itemCount: listimg4.length,
                               itemBuilder: (context, index) {
-                                return listimg2[index] != null
+                                return listimg4[index] != null
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
@@ -592,7 +602,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(13))),
                                           child: Image.memory(
-                                            listimg2[index],
+                                            listimg4[index],
                                             fit: BoxFit.cover,
                                           ),
                                         ))
@@ -601,7 +611,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await selectImage(ImageSource.gallery, listimg2);
+                            await selectImage(ImageSource.gallery, listimg4);
                           },
                           child: Container(
                             width: res_width * 0.2,

@@ -1,4 +1,5 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
@@ -99,7 +100,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'John Doe',
+                        '${currentUserData.fullName}',
                         style: TextStyle(fontSize: 15),
                       ),
                     ),

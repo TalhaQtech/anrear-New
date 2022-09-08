@@ -1,5 +1,4 @@
 import 'package:anrear/helper/colors.dart';
-import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
@@ -351,6 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                       if (snapshot.hasData) {
                                         return ListView.builder(
+                                          physics: ScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: snapshot.data!.docs.length,
                                           itemBuilder: (context, index) {

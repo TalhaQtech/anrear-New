@@ -1,5 +1,6 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,9 +12,14 @@ class ArtistPollingScreen extends StatefulWidget {
   State<ArtistPollingScreen> createState() => _ArtistPollingScreen();
 }
 
+var date = "${DateTime.now().toLocal()}".split(' ')[0];
+
 class _ArtistPollingScreen extends State<ArtistPollingScreen> {
   @override
   Widget build(BuildContext context) {
+    print(date.toString());
+    // print("${DateTime.now().toLocal()}");
+    //  "${start!.toLocal()}".split(' ')[0]
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -182,14 +188,69 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                LocationBox('John Doe', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                LocationBox('Andy Marshal', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                LocationBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
-                LocationBox('Sarah Smith', 'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("PerformancePolling")
+                      // .where("uid", isEqualTo: widget.data["uid"])
+                      // .where("endDate", isGreaterThanOrEqualTo: "$date")
+                      .where("uid", isEqualTo: widget.data["uid"])
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    // print(snapshot.data!.docs);
+                    if (snapshot.hasError) {
+                      return Center(child: Text("snapshot.hasError"));
+                    }
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        physics: ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          // print(DateTime.parse(
+                          //             snapshot.data!.docs[index]["endDate"])
+                          //         .month >
+                          //     DateTime.parse("2022-10-16").month);
+                          // print("object");
+                          // if (DateTime.parse(
+                          //                 snapshot.data!.docs[index]["endDate"])
+                          //             .day <=
+                          //         DateTime.parse("2022-09-16").day &&
+                          //     DateTime.parse(
+                          //                 snapshot.data!.docs[index]["endDate"])
+                          //             .month <=
+                          //         DateTime.parse("2022-05-16").month &&
+                          //     DateTime.parse(
+                          //                 snapshot.data!.docs[index]["endDate"])
+                          //             .year <=
+                          //         DateTime.parse("2022-09-16").year)
+                          //   // 2022-09-16
+                          //   return LocationBox(
+                          //       'John Doe',
+                          //       'assets/slicing/girl.jpeg',
+                          //       'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.');
+                          return LocationBox(
+                              'John Doe',
+                              'assets/slicing/girl.jpeg',
+                              'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.');
+                          ;
+                        },
+                      );
+                    }
+                    return Center(child: Text("error"));
+                  },
+                ),
+                // LocationBox('John Doe', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // LocationBox('Andy Marshal', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // LocationBox('Sarah Smith', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
+                // LocationBox('Sarah Smith', 'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
                 SizedBox(
                   height: res_height * 0.135,
                 ),

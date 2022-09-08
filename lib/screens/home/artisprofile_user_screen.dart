@@ -1,7 +1,7 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/create_polling_screen.dart';
-import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
+import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,8 +53,10 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                 onTap: () {
                   // addfav(like, auth.currentUser!.uid, "users",
                   //     "${widget.artistdata["uid"]}");
-                  UserType == ""
-                      ? Get.to(ArtistVotingScreen())
+                  UserType == "user"
+                      ? Get.to(ArtistPollingScreen(
+                          data: widget.artistdata,
+                        ))
                       : Get.to(CreatePollingScreen(
                           userModel: currentUserData,
                           firebaseUser: globalUserid,
