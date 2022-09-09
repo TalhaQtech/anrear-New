@@ -334,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             selectionctrl.selectionValue == 0
                                 ? StreamBuilder<QuerySnapshot>(
                                     stream: FirebaseFirestore.instance
-                                        .collection("users")
+                                        .collection("artist")
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -413,6 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           if (snapshot.hasData) {
                                             return ListView.builder(
                                               shrinkWrap: true,
+                                              physics: ScrollPhysics(),
                                               itemCount:
                                                   snapshot.data!.docs.length,
                                               itemBuilder: (context, index) {
@@ -488,6 +489,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                               if (snapshot.hasData) {
                                                 return ListView.builder(
+                                                  physics: ScrollPhysics(),
                                                   shrinkWrap: true,
                                                   itemCount: snapshot
                                                       .data!.docs.length,

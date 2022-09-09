@@ -1,5 +1,6 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
+import 'package:anrear/models/FirebaseHelper.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/create_profile.dart';
 import 'package:anrear/screens/auth/forgot.dart';
@@ -21,6 +22,8 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  bool _passwordVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +41,52 @@ class _SignupScreenState extends State<SignupScreen> {
   var fullName = TextEditingController();
 
   var confirmPassword = TextEditingController();
+
+  usersingup() async {
+    try {
+      EasyLoading.show();
+      UserCredential credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: email.text.trim(), password: Password.text.trim());
+      UserModel newUser = UserModel(
+          award: [],
+          userType: UserType,
+          Nationality: "",
+          description: "",
+          dob: "",
+          password: Password.text.trim(),
+          uid: credential.user!.uid,
+          fullName: fullName.text.trim(),
+          userEmail: email.text.trim(),
+          userImage: "",
+          singup_step: 1,
+          userPhone: phone.text.trim());
+      await firestore_set("user", credential.user!.uid, newUser.toMap())
+          .then((value) async {
+        print("New User Created!");
+        UserCredential user = await auth.signInWithEmailAndPassword(
+            email: newUser.userEmail.toString().trim(),
+            password: newUser.password.toString().trim());
+        globalUserid = user.user!.uid;
+        // print(currentUser!.uid);
+        // if (currentUser != null) {
+        // Logged In
+        currentUserData =
+            await FirebaseHelper.getUserModelById(globalUserid.toString());
+        print("New User Created! and login");
+        print(currentUserData.fullName);
+        Get.to(HomeMainScreen(
+          userModel: currentUserData,
+        ));
+      });
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+      print(e.toString());
+
+      Get.snackbar("Error", e.toString());
+    }
+  }
 
   signup() async {
     UserCredential? credential;
@@ -61,17 +110,27 @@ class _SignupScreenState extends State<SignupScreen> {
           userImage: "",
           singup_step: 1,
           userPhone: phone.text.trim());
-      firestore_set("users", globalUserid, newUser.toMap()).then((value) {
+      await firestore_set("artist", globalUserid, newUser.toMap())
+          .then((value) async {
         print("New User Created!");
+        UserCredential user = await auth.signInWithEmailAndPassword(
+            email: newUser.userEmail.toString().trim(),
+            password: newUser.password.toString().trim());
+        globalUserid = user.user!.uid;
+        // print(currentUser!.uid);
+        // if (currentUser != null) {
+        // Logged In
+        currentUserData = await FirebaseHelper.getUserModelById(user.user!.uid);
+        print("New User Created! and login");
         Get.to(CreateProfileScreen(
-            userModel: newUser, firebaseUser: credential!.user!));
+            userModel: currentUserData, firebaseUser: credential!.user!));
       });
 
       EasyLoading.dismiss();
       // Get.to(() => CreateProfileScreen());
     } catch (e) {
       EasyLoading.dismiss();
-
+      print(e);
       Get.snackbar("Error", e.toString());
     }
   }
@@ -184,9 +243,24 @@ class _SignupScreenState extends State<SignupScreen> {
                 Container(
                   width: res_width * 0.9,
                   child: TextFormField(
+                    obscureText: !_passwordVisible,
                     validator: (val) => val!.isEmpty ? "Field Required" : null,
                     controller: Password,
                     decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            // Based on passwordVisible state choose the icon
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            // color: Theme.of(context).primaryColorDark,
+                          ),
+                        ),
                         errorStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -204,6 +278,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Container(
                   width: res_width * 0.9,
                   child: TextFormField(
+                    obscureText: !_passwordVisible,
                     controller: confirmPassword,
                     validator: (validator) {
                       if (validator!.isEmpty) return 'Empty';
@@ -228,12 +303,14 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
-                  onTap: () {
+                  onTap: () async {
                     if (UserType == "artist") {
-                      if (formkey.currentState!.validate()) signup();
+                      
+                      if (formkey.currentState!.validate()) await signup();
                       // Get.to(() => CreateProfileScreen());
                     } else {
-                      Get.to(() => HomeMainScreen());
+                      if (formkey.currentState!.validate()) await usersingup();
+                      // Get.to(() => HomeMainScreen());
                     }
                   },
                   child: Container(

@@ -1,5 +1,7 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
+import 'package:anrear/screens/home/artisprofile_user_screen.dart';
+import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,8 +51,16 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
           actions: [
             GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: () {
-                Get.to(() => ArtistVotingScreen());
+              onTap: () async {
+                var data = await FirebaseFirestore.instance
+                    .collection("PerformancePolling")
+                    .doc("${widget.data["uid"]}")
+                    .get();
+                // .get();
+                var Perform = data.data();
+                print("object ${data.data()}");
+                Get.to(() => ArtistVotingScreen(
+                    performancePolling: Perform, artistdata: widget.data));
               },
               child: Padding(
                 padding: const EdgeInsets.all(13.0),
@@ -120,14 +130,21 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                       SizedBox(
                         height: res_height * 0.01,
                       ),
-                      Text(
-                        'View Profile',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Get.to(ArtisProfileUserScreen(
+                      //       artistdata: widget.data,
+                      //     ));
+                      //   },
+                      //   child: Text(
+                      //     'View Profile',
+                      //     style: TextStyle(
+                      //         decoration: TextDecoration.underline,
+                      //         color: kPrimaryColor,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontSize: 16),
+                      //   ),
+                      // ),
                       SizedBox(
                         height: res_height * 0.015,
                       ),
@@ -188,61 +205,63 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("PerformancePolling")
-                      // .where("uid", isEqualTo: widget.data["uid"])
-                      // .where("endDate", isGreaterThanOrEqualTo: "$date")
-                      .where("uid", isEqualTo: widget.data["uid"])
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    // print(snapshot.data!.docs);
-                    if (snapshot.hasError) {
-                      return Center(child: Text("snapshot.hasError"));
-                    }
-                    if (!snapshot.hasData) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          // print(DateTime.parse(
-                          //             snapshot.data!.docs[index]["endDate"])
-                          //         .month >
-                          //     DateTime.parse("2022-10-16").month);
-                          // print("object");
-                          // if (DateTime.parse(
-                          //                 snapshot.data!.docs[index]["endDate"])
-                          //             .day <=
-                          //         DateTime.parse("2022-09-16").day &&
-                          //     DateTime.parse(
-                          //                 snapshot.data!.docs[index]["endDate"])
-                          //             .month <=
-                          //         DateTime.parse("2022-05-16").month &&
-                          //     DateTime.parse(
-                          //                 snapshot.data!.docs[index]["endDate"])
-                          //             .year <=
-                          //         DateTime.parse("2022-09-16").year)
-                          //   // 2022-09-16
-                          //   return LocationBox(
-                          //       'John Doe',
-                          //       'assets/slicing/girl.jpeg',
-                          //       'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.');
-                          return LocationBox(
-                              'John Doe',
-                              'assets/slicing/girl.jpeg',
-                              'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.');
-                          ;
-                        },
-                      );
-                    }
-                    return Center(child: Text("error"));
-                  },
-                ),
+
+                // StreamBuilder<QuerySnapshot>(
+                //   stream: FirebaseFirestore.instance
+                //       .collection("PerformancePolling")
+                //       // .where("uid", isEqualTo: widget.data["uid"])
+                //       // .where("endDate", isGreaterThanOrEqualTo: "$date")
+                //       .where("uid", isEqualTo: widget.data["uid"])
+                //       .snapshots(),
+                //   builder: (BuildContext context,
+                //       AsyncSnapshot<QuerySnapshot> snapshot) {
+                //     // print(snapshot.data!.docs);
+                //     if (snapshot.hasError) {
+                //       return Center(child: Text("snapshot.hasError"));
+                //     }
+                //     if (!snapshot.hasData) {
+                //       return Center(child: CircularProgressIndicator());
+                //     }
+                //     if (snapshot.hasData) {
+                //       return ListView.builder(
+                //         physics: ScrollPhysics(),
+                //         shrinkWrap: true,
+                //         itemCount: 4,
+                //         itemBuilder: (context, index) {
+                //           // print(DateTime.parse(
+                //           //             snapshot.data!.docs[index]["endDate"])
+                //           //         .month >
+                //           //     DateTime.parse("2022-10-16").month);
+                //           // print("object");
+                //           // if (DateTime.parse(
+                //           //                 snapshot.data!.docs[index]["endDate"])
+                //           //             .day <=
+                //           //         DateTime.parse("2022-09-16").day &&
+                //           //     DateTime.parse(
+                //           //                 snapshot.data!.docs[index]["endDate"])
+                //           //             .month <=
+                //           //         DateTime.parse("2022-05-16").month &&
+                //           //     DateTime.parse(
+                //           //                 snapshot.data!.docs[index]["endDate"])
+                //           //             .year <=
+                //           //         DateTime.parse("2022-09-16").year)
+                //           //   // 2022-09-16
+                //           //   return LocationBox(
+                //           //       'John Doe',
+                //           //       'assets/slicing/girl.jpeg',
+                //           //       'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.');
+                //           return LocationBox(
+                //               'John Doe',
+                //               'assets/slicing/girl.jpeg',
+                //               'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.');
+                //           ;
+                //         },
+                //       );
+                //     }
+                //     return Center(child: Text("error"));
+                //   },
+                // ),
+
                 // LocationBox('John Doe', 'assets/slicing/girl.jpeg',
                 //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.'),
                 // LocationBox('Andy Marshal', 'assets/slicing/girl.jpeg',

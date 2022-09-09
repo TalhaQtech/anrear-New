@@ -78,7 +78,9 @@ class _ProfileScreen extends State<ProfileScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xff7c94b6),
                     image: DecorationImage(
-                      image: AssetImage('assets/slicing/girl.jpeg'),
+                      image: NetworkImage(currentUserData.userImage == ""
+                          ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                          : "${currentUserData.userImage}"),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(100.0)),
@@ -118,7 +120,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'john@email.com',
+                        currentUserData.userEmail ?? 'john@email.com',
                         style: TextStyle(fontSize: 15),
                       ),
                     ),
@@ -136,7 +138,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        '+123 321 213123',
+                        currentUserData.userPhone ?? '+123 321 213123',
                         style: TextStyle(fontSize: 15),
                       ),
                     ),
@@ -154,7 +156,8 @@ class _ProfileScreen extends State<ProfileScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'Lorem ipsum dolor sit amet consectetur adipiscing, eliteuismod laoreet dignissim mi quisque ullamcorper duis quis nisi.',
+                        currentUserData.description ??
+                            'Lorem ipsum dolor sit amet consectetur adipiscing, eliteuismod laoreet dignissim mi quisque ullamcorper duis quis nisi.',
                         style: TextStyle(fontSize: 15),
                       ),
                     ),

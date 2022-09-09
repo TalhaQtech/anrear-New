@@ -117,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection("users")
+                      .collection("artist")
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {

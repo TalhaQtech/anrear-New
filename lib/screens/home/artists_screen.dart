@@ -72,7 +72,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
               children: [
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection("users")
+                      .collection("artist")
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -86,6 +86,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                     }
                     if (snapshot.hasData) {
                       return ListView.builder(
+                        physics: ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {

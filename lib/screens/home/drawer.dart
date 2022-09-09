@@ -9,6 +9,7 @@ import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/screens/home/privacy.dart';
 import 'package:anrear/screens/home/setting.dart';
 import 'package:anrear/screens/home/terms.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,8 +54,10 @@ class _NavDrawerState extends State<NavDrawer> {
                             decoration: BoxDecoration(
                               color: const Color(0xff7c94b6),
                               image: DecorationImage(
-                                image: NetworkImage(
-                                    "${currentUserData.userImage}"),
+                                image: NetworkImage(currentUserData.userImage ==
+                                        ""
+                                    ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                    : "${currentUserData.userImage}"),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius:
@@ -499,7 +502,8 @@ class _NavDrawerState extends State<NavDrawer> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () {
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
                   Get.to(() => SelectUserTypeScreen());
                 },
                 child: Padding(
@@ -532,7 +536,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 ),
               ),
               SizedBox(
-                height: res_height * 0.02,
+                height: res_height * 0.22,
               )
             ],
           ),

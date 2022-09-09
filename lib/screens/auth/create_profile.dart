@@ -28,6 +28,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   UploadTask? uploadTask;
   Uint8List? image;
   List listimg = [];
+
+  String? imageUrl;
   void selectImage(ImageSource source) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
     setState(() {
@@ -40,10 +42,12 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   selectImage2(ImageSource source, listofimg) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
     if (im != null) {
+      // print(im);
       setState(() {
         // image = im;
         listofimg.add(im);
-        print(listofimg.length);
+        // listofimg = im;
+        // print(listofimg.toString() + "asad");
       });
     }
   }
@@ -87,7 +91,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   var Dob = TextEditingController();
   var Description = TextEditingController();
   late var fullName = TextEditingController(text: widget.userModel!.fullName);
-  var urls1 = [];
+  // var urls1 = [];
 
   uploadData() async {
     if (Nationality.text == "" ||
@@ -99,17 +103,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     } else {
       try {
         EasyLoading.show();
-        if (image != null)
-          uploadTask = FirebaseStorage.instance
-              .ref("profilepictures")
-              .child(widget.userModel!.uid.toString())
-              .putData(image!);
-        TaskSnapshot? snapshot = await uploadTask;
 
-        String? imageUrl = await snapshot!.ref.getDownloadURL();
-
-        urls1 = await uploadimg(listimg);
-        widget.userModel!.award = urls1;
+        widget.userModel!.award = imagesUrls;
         widget.userModel!.userImage = imageUrl.toString();
         widget.userModel?.Nationality = Nationality.text.toString().trim();
         widget.userModel?.description = Description.text.trim().toString();
@@ -117,7 +112,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         widget.userModel?.fullName = fullName.text.trim();
         widget.userModel?.singup_step = 2;
         await firestore_set(
-                "users", widget.userModel!.uid, widget.userModel!.toMap())
+                "artist", widget.userModel!.uid, widget.userModel!.toMap())
             .then((value) {
           Get.to(CreatePollingScreen(
               userModel: widget.userModel, firebaseUser: widget.firebaseUser));
@@ -164,8 +159,11 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 height: res_height * 0.015,
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   selectImage(ImageSource.gallery);
+                  if (listimg.isEmpty) {
+                    await uploadimg(listimg);
+                  }
                   // setState(() {});
                 },
                 child: image == null
@@ -336,6 +334,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                         onTap: () async {
                           // selectImage(ImageSource.gallery);
                           await selectImage2(ImageSource.gallery, listimg);
+                          if (listimg.isEmpty) {
+                            await uploadimg(listimg);
+                          }
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -521,8 +522,23 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  uploadData();
+                onTap: () async {
+                  if(listimg.isNotEmpty){
+                    Get.snackbar("Error", "Please select award winnigs ");
+                  }
+                  if (imagesUrls.isEmpty) {
+                    await uploadimg(listimg);
+                  }
+                  print(imagesUrls.toString() + "asdas");
+                  if (image != null)
+                    uploadTask = FirebaseStorage.instance
+                        .ref("profilepictures")
+                        .child(widget.userModel!.uid.toString())
+                        .putData(image!);
+                  TaskSnapshot? snapshot = await uploadTask;
+
+                  imageUrl = await snapshot!.ref.getDownloadURL();
+                  await uploadData();
                   // Get.to(() => CreatePollingScreen());
                 },
                 child: Container(

@@ -33,6 +33,7 @@ class UserModel {
     dob = map["dob"];
     fullName = map["fullName"];
     description = map["description"];
+    userPhone = map["userPhone"];
     userEmail = map["userEmail"];
     userImage = map["userImage"];
     userType = map["userType"];

@@ -1,10 +1,16 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/screens/home/artisprofile_user_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ArtistVotingScreen extends StatefulWidget {
-  const ArtistVotingScreen({Key? key}) : super(key: key);
+  var performancePolling;
+  var artistdata;
+  ArtistVotingScreen(
+      {Key? key, required this.performancePolling, required this.artistdata})
+      : super(key: key);
 
   @override
   State<ArtistVotingScreen> createState() => _ArtistVotingScreen();
@@ -66,7 +72,8 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                         decoration: BoxDecoration(
                           color: const Color(0xff7c94b6),
                           image: DecorationImage(
-                            image: AssetImage('assets/slicing/girl.jpeg'),
+                            image: NetworkImage(
+                                "${widget.artistdata["userImage"]}"),
                             fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -79,7 +86,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       SizedBox(
                         height: res_height * 0.01,
                       ),
-                      Text('John Doe',
+                      Text(widget.artistdata["fullName"] ?? 'John Doe',
                           style: TextStyle(
                               fontWeight: FontWeight.normal, fontSize: 18)),
                       SizedBox(
@@ -88,8 +95,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       Container(
                         width: res_width * 0.6,
                         child: Center(
-                          child: Text(
-                              'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                          child: Text('${widget.artistdata["description"]}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 13,
@@ -101,13 +107,20 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       SizedBox(
                         height: res_height * 0.01,
                       ),
-                      Text(
-                        'View Profile',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(ArtisProfileUserScreen(
+                            artistdata: widget.artistdata,
+                          ));
+                        },
+                        child: Text(
+                          'View Profile',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
                       ),
                       SizedBox(
                         height: res_height * 0.015,
@@ -158,10 +171,10 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                   spacing: 10,
                   runSpacing: 10,
                   children: [
-                    votebox(),
-                    votebox(),
-                    votebox(),
-                    votebox(),
+                    votebox(widget.performancePolling["location"]),
+                    votebox(widget.performancePolling["location2"]),
+                    votebox(widget.performancePolling["location3"]),
+                    votebox(widget.performancePolling["location4"]),
                   ],
                 )
               ],
@@ -172,7 +185,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
     );
   }
 
-  votebox() {
+  votebox(location1) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -191,7 +204,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Location 1',
+                  Text('${location1}',
                       style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,

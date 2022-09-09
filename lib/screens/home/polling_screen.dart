@@ -72,7 +72,7 @@ class _PollingsScreen extends State<PollingsScreen> {
               children: [
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection("users")
+                      .collection("artist")
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -5,6 +5,7 @@ import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/screens/auth/signup.dart';
 import 'package:anrear/screens/home/homemain.dart';
+import 'package:anrear/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _passwordVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -96,8 +99,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   width: res_width * 0.9,
                   child: TextFormField(
+                    obscureText: !_passwordVisible,
                     controller: Password,
                     decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            // Based on passwordVisible state choose the icon
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            // color: Theme.of(context).primaryColorDark,
+                          ),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide.none,
@@ -136,6 +154,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () async {
+                    // if (UserType == "user") {
+                    //   print(UserType);
+                    //   UserCredential user =
+                    //       await auth.signInWithEmailAndPassword(
+                    //           email: email.text.trim(),
+                    //           password: Password.text.trim());
+                    //   print(user.user!.uid);
+                    //   currentUserData =
+                    //       await firestore_get("user", user.user!.uid);
+                    //   print(currentUserData);
+                    // }
+
+                    // if (UserType == "artist") {
                     if (email.text == "" || Password.text == "") {
                       Get.snackbar(
                           "Incomplete Data", "Please fill all the fields");
@@ -146,13 +177,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             await auth.signInWithEmailAndPassword(
                                 email: email.text.trim(),
                                 password: Password.text.trim());
-                        User? currentUser = await auth.currentUser;
-                        globalUserid = currentUser!.uid;
+                        // User? currentUser = await auth.currentUser;
+                        globalUserid = user.user!.uid;
                         // print(currentUser!.uid);
                         // if (currentUser != null) {
                         // Logged In
                         currentUserData = await FirebaseHelper.getUserModelById(
-                            currentUser.uid);
+                            user.user!.uid);
                         // currentUserData = thisUserModel;
                         Get.to(() => HomeMainScreen(
                               userModel: currentUserData,
@@ -168,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       // Get.to(() => HomeMainScreen());
                     }
+                    // }
                   },
                   child: Container(
                     width: res_width * 0.9,

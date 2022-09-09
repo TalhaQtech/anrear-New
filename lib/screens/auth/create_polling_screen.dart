@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/main.dart';
 import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
@@ -63,10 +64,11 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   selectImage(ImageSource source, listofimg) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
     if (im != null) {
+      // print(im);
       setState(() {
         // image = im;
         listofimg.add(im);
-        print(listofimg.length);
+        // print(listofimg);
       });
     }
   }
@@ -86,14 +88,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
     } else {
       EasyLoading.show();
       // if (listimg.isNotEmpty) {
-      urls1 = await uploadimg(listimg);
-      // }
-      // if (listimg2.isNotEmpty) {
-      urls2 = await uploadimg(listimg2);
-      urls3 = await uploadimg(listimg3);
-      // }
-      // if (listimg2.isNotEmpty) {
-      urls4 = await uploadimg(listimg4);
+
       // }
       try {
         performancePolingModel newUser = await performancePolingModel(
@@ -111,7 +106,8 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
             endDate: endDate.text.trim(),
             startDate: startDate.text.trim(),
             fullName: fullName.text.trim());
-        await firestore_set("PerformancePolling", null, newUser.toMap());
+        await firestore_set(
+            "PerformancePolling", currentUserData.uid, newUser.toMap());
         Get.to(() => HomeMainScreen(
               userModel: widget.userModel,
             ));
@@ -128,10 +124,10 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
     }
   }
 
-  List<String> imagesUrls = [];
+  // List<String> imagesUrls = [];
   List<String> imagesUrls2 = [];
 
-  uploadimg(listOfimg) {
+  uploadimg(listOfimg, imagesUrls) {
     listOfimg.forEach((listOfimg) async {
       print(listOfimg);
       try {
@@ -253,6 +249,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: listimg.length,
                           itemBuilder: (context, index) {
+                            print(listimg[index]);
                             return listimg[index] != null
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -641,6 +638,15 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               GestureDetector(
                 onTap: () async {
                   // await uploadimg(listimg);
+                  if (urls1.isEmpty &&
+                      urls2.isEmpty &&
+                      urls3.isEmpty &&
+                      urls4.isEmpty) {
+                    await uploadimg(listimg, urls1);
+                    await uploadimg(listimg2, urls2);
+                    await uploadimg(listimg3, urls3);
+                    await uploadimg(listimg4, urls4);
+                  }
                   setState(() {
                     // locat3 = true;
                     // locat4 = true;
@@ -716,6 +722,16 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           TextFormField(
                             controller: startDate,
                             onTap: () async {
+                              if (urls1.isEmpty &&
+                                  urls2.isEmpty &&
+                                  urls3.isEmpty &&
+                                  urls4.isEmpty) {
+                                await uploadimg(listimg, urls1);
+                                await uploadimg(listimg2, urls2);
+                                await uploadimg(listimg3, urls3);
+                                await uploadimg(listimg4, urls4);
+                              }
+
                               var start = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
@@ -756,6 +772,18 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           TextFormField(
                             controller: endDate,
                             onTap: () async {
+                              if (urls1 == null) {
+                                urls1 = await uploadimg(listimg, urls1);
+                                print(urls1.toString() + "sadasdasda");
+                                // }
+                                // if (listimg2.isNotEmpty) {
+                                urls2 = await uploadimg(listimg2, urls2);
+                                urls3 = await uploadimg(listimg3, urls3);
+                                // // }
+                                // // if (listimg2.isNotEmpty) {
+                                urls4 = await uploadimg(listimg4, urls4);
+                              }
+
                               var end = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
@@ -907,8 +935,38 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                 height: res_height * 0.015,
               ),
               GestureDetector(
-                onTap: () {
-                  uploadData();
+                onTap: () async {
+                  try {
+                    if (listimg.isEmpty &&
+                        listimg2.isEmpty &&
+                        listimg3.isEmpty &&
+                        listimg4.isEmpty) {
+                      Get.snackbar("Error", "Please add All 4 locations");
+                    }
+
+                    if (urls1.isEmpty &&
+                        urls2.isEmpty &&
+                        urls3.isEmpty &&
+                        urls4.isEmpty) {
+                      await uploadimg(listimg, urls1);
+                      await uploadimg(listimg2, urls2);
+                      await uploadimg(listimg3, urls3);
+                      await uploadimg(listimg4, urls4);
+                    }
+
+                    print(urls1.toString() + "sadasdasda");
+                    // }
+                    // if (listimg2.isNotEmpty) {
+
+                    // // }
+                    // // if (listimg2.isNotEmpty) {
+
+                    await uploadData();
+                  } catch (e) {
+                    print(e);
+                    Get.snackbar("Error", e.toString());
+                  }
+
                   // Get.to(() => HomeMainScreen());
                   // userModel: widget.userModel,
                 },

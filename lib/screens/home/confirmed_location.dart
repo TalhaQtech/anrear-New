@@ -55,16 +55,16 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ConfirmLocationBox(
-                    'John Doe',
-                    'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
-                    'Confirm'),
-                ConfirmLocationBox(
-                    'John Doe',
-                    'assets/slicing/girl.jpeg',
-                    'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
-                    'Confirm'),
+                // ConfirmLocationBox(
+                //     'John Doe',
+                //     'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                //     'Confirm'),
+                // ConfirmLocationBox(
+                //     'John Doe',
+                //     'assets/slicing/girl.jpeg',
+                //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
+                //     'Confirm'),
                 SizedBox(
                   height: res_height * 0.135,
                 ),

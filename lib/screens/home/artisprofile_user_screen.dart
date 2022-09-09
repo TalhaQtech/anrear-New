@@ -253,7 +253,11 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                                   height: 100,
                                   width: res_width * 0.325,
                                   child: Image.network(
-                                    '${widget.artistdata["award"][index]}',
+                                    widget.artistdata["award"][index] == null
+                                        ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                        : "${widget.artistdata["award"][index]}",
+
+                                    // '${widget.artistdata["award"][index]}',
                                     fit: BoxFit.cover,
                                   )),
                             ),
@@ -394,20 +398,55 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     child: Row(
                       children: [
                         Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award2.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award3.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award2.png'))
+                          width: Get.width * 0.9,
+                          height: Get.height * 0.25,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: widget.artistdata["award"].length ?? 1,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Container(
+                                          height: 100,
+                                          width: res_width * 0.325,
+                                          child: Image.network(
+                                            widget.artistdata["award"][index] ==
+                                                    null
+                                                ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                                : "${widget.artistdata["award"][index]}",
+
+                                            // '${widget.artistdata["award"][index]}',
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                    // Text(
+                                    //   'Lorem Ipsum',
+                                    //   style: TextStyle(
+                                    //       color: Colors.white,
+                                    //       fontWeight: FontWeight.normal,
+                                    //       fontSize: 16),
+                                    // )
+                                  ],
+                                );
+                              }),
+                        ),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award2.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award3.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award2.png'))
                       ],
                     ),
                   ),
