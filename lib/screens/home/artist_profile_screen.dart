@@ -355,20 +355,51 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                     child: Row(
                       children: [
                         Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award2.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award3.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award.png')),
-                        Container(
-                            width: res_width * 0.3,
-                            child: Image.asset('assets/slicing/award2.png'))
+                          height: Get.height * 0.25,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: currentUserData.award.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Container(
+                                          height: 100,
+                                          width: res_width * 0.325,
+                                          child: Image.network(
+                                            '${currentUserData.award[index]}',
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                    // Text(
+                                    //   'Lorem Ipsum',
+                                    //   style: TextStyle(
+                                    //       color: Colors.white,
+                                    //       fontWeight: FontWeight.normal,
+                                    //       fontSize: 16),
+                                    // )
+                                  ],
+                                );
+                              }),
+                        ),
+
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award2.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award3.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award.png')),
+                        // Container(
+                        //     width: res_width * 0.3,
+                        //     child: Image.asset('assets/slicing/award2.png'))
                       ],
                     ),
                   ),

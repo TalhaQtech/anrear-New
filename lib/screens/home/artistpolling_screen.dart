@@ -52,15 +52,21 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () async {
-                var data = await FirebaseFirestore.instance
-                    .collection("PerformancePolling")
-                    .doc("${widget.data["uid"]}")
-                    .get();
+                try {
+                  var data = await FirebaseFirestore.instance
+                      .collection("PerformancePolling")
+                      .doc("${widget.data["uid"]}")
+                      .get();
+                  var Perform = data.data();
+                  print("object ${Perform}");
+
+                  Get.to(() => ArtistVotingScreen(
+                      performancePolling: Perform, artistdata: widget.data));
+                } catch (e) {
+                  Get.snackbar("Error", e.toString());
+                }
+
                 // .get();
-                var Perform = data.data();
-                print("object ${data.data()}");
-                Get.to(() => ArtistVotingScreen(
-                    performancePolling: Perform, artistdata: widget.data));
               },
               child: Padding(
                 padding: const EdgeInsets.all(13.0),

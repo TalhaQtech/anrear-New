@@ -1,4 +1,5 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
@@ -335,6 +336,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? StreamBuilder<QuerySnapshot>(
                                     stream: FirebaseFirestore.instance
                                         .collection("artist")
+                                        .where("uid",
+                                            isNotEqualTo: globalUserid)
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -393,6 +396,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ? StreamBuilder<QuerySnapshot>(
                                         stream: FirebaseFirestore.instance
                                             .collection("PerformancePolling")
+                                            .where("uid",
+                                                isNotEqualTo: globalUserid)
                                             .snapshots(),
                                         builder: (BuildContext context,
                                             AsyncSnapshot<QuerySnapshot>
@@ -469,10 +474,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                             stream: FirebaseFirestore.instance
                                                 .collection(
                                                     "PerformancePolling")
+                                                .where("endDate",
+                                                    isLessThan: "$date")
                                                 .snapshots(),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<QuerySnapshot>
                                                     snapshot) {
+                                              print(date);
                                               print(snapshot.hasData);
                                               if (snapshot.hasError) {
                                                 return Center(

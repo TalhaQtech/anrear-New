@@ -1,5 +1,8 @@
 import 'package:anrear/helper/colors.dart';
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
+import 'package:anrear/screens/home/my_performance_polling.dart';
+import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,20 +69,26 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       SizedBox(
                         height: res_height * 0.015,
                       ),
-                      Container(
-                        width: res_width * 0.16,
-                        height: res_width * 0.16,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff7c94b6),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "${widget.artistdata["userImage"]}"),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                          border: Border.all(
-                            color: Color(0xffc88225),
-                            width: 2.0,
+                      GestureDetector(
+                        onTap: () {
+                          // Get.to(my_perfomance_polling());
+                        },
+                        child: Container(
+                          width: res_width * 0.16,
+                          height: res_width * 0.16,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff7c94b6),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "${widget.artistdata["userImage"]}"),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50.0)),
+                            border: Border.all(
+                              color: Color(0xffc88225),
+                              width: 2.0,
+                            ),
                           ),
                         ),
                       ),
@@ -171,10 +180,112 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                   spacing: 10,
                   runSpacing: 10,
                   children: [
-                    votebox(widget.performancePolling["location"]),
-                    votebox(widget.performancePolling["location2"]),
-                    votebox(widget.performancePolling["location3"]),
-                    votebox(widget.performancePolling["location4"]),
+                    votebox(
+                        widget.performancePolling["location"]["location1"]
+                            .toString(),
+                        "${widget.performancePolling["location"]["like"].length.toString()}",
+                        () async {
+                      // print(
+                      // widget.performancePolling["location"]["like"].length);
+                      if (widget.performancePolling["location2"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location3"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location4"]["like"]
+                              .contains(globalUserid)) {
+                        Get.snackbar("Already voted", "");
+                      } else {
+                        if (!widget.performancePolling["location"]["like"]
+                            .contains(globalUserid)) {
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          Get.back();
+                        }
+                      }
+                    }),
+                    votebox(
+                        widget.performancePolling["location2"]["location2"]
+                            .toString(),
+                        "${widget.performancePolling["location2"]["like"].length.toString()}",
+                        () async {
+                      if (widget.performancePolling["location"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location3"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location4"]["like"]
+                              .contains(globalUserid)) {
+                        Get.snackbar("Already voted", "");
+                      } else {
+                        if (!widget.performancePolling["location2"]["like"]
+                            .contains(globalUserid)) {
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location2.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          Get.back();
+                        }
+                      }
+                    }),
+                    votebox(
+                        widget.performancePolling["location3"]["location3"]
+                            .toString(),
+                        "${widget.performancePolling["location3"]["like"].length.toString()}",
+                        () async {
+                      if (widget.performancePolling["location2"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location4"]["like"]
+                              .contains(globalUserid)) {
+                        Get.snackbar("Already voted", "");
+                      } else {
+                        if (!widget.performancePolling["location3"]["like"]
+                            .contains(globalUserid)) {
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location3.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          Get.back();
+                        }
+                      }
+                    }),
+                    votebox(
+                        widget.performancePolling["location4"]["location4"]
+                            .toString(),
+                        "${widget.performancePolling["location4"]["like"].length.toString()}",
+                        () async {
+                      if (widget.performancePolling["location2"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location"]["like"]
+                              .contains(globalUserid) ||
+                          widget.performancePolling["location3"]["like"]
+                              .contains(globalUserid)) {
+                        Get.snackbar("Already voted", "");
+                      } else {
+                        if (!widget.performancePolling["location4"]["like"]
+                            .contains(globalUserid)) {
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location3.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          Get.back();
+                        }
+                      }
+                    }),
                   ],
                 )
               ],
@@ -185,7 +296,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
     );
   }
 
-  votebox(location1) {
+  votebox(location1, votes, likeOnTap) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -213,9 +324,12 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                   SizedBox(
                     width: Get.width * 0.09,
                   ),
-                  Container(
-                      width: res_width * 0.075,
-                      child: Image.asset('assets/slicing/thumbsup.png'))
+                  GestureDetector(
+                    onTap: likeOnTap,
+                    child: Container(
+                        width: res_width * 0.075,
+                        child: Image.asset('assets/slicing/thumbsup.png')),
+                  )
                 ],
               ),
               Container(
@@ -226,9 +340,9 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                   radius: 45,
                   lineWidth: 5.0,
                   animation: true,
-                  percent: 0.7,
+                  percent: 0.2,
                   center: new Text(
-                    "50 Votes",
+                    "${votes} Votes",
                     style: new TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

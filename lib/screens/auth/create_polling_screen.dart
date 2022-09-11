@@ -7,6 +7,7 @@ import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -107,7 +108,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
             startDate: startDate.text.trim(),
             fullName: fullName.text.trim());
         await firestore_set(
-            "PerformancePolling", currentUserData.uid, newUser.toMap());
+            "PerformancePolling", currentUserData.uid, newUser.toMap(),);
         Get.to(() => HomeMainScreen(
               userModel: widget.userModel,
             ));

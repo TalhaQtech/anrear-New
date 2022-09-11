@@ -4,11 +4,15 @@ import 'package:anrear/helper/helper.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/auth/selecttype_screen.dart';
+import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
 import 'package:anrear/screens/home/homemain.dart';
+import 'package:anrear/screens/home/my_performance_polling.dart';
 import 'package:anrear/screens/home/privacy.dart';
 import 'package:anrear/screens/home/setting.dart';
 import 'package:anrear/screens/home/terms.dart';
+import 'package:anrear/service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -274,12 +278,30 @@ class _NavDrawerState extends State<NavDrawer> {
               if (UserType == "artist")
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    if (bottomctrl.navigationBarIndexValue != 3) {
-                      bottomctrl.navBarChange(3);
-                    } else {
-                      Get.back();
+                  onTap: () async {
+                    // if (bottomctrl.navigationBarIndexValue != 3) {
+                    //   bottomctrl.navBarChange(3);
+                    // } else {
+                    //   Get.back();
+                    // }
+                    try {
+                      var data = await
+                          //  FirebaseFirestore.instance
+                          //     .collection("PerformancePolling")
+                          //     .doc("${globalUserid}")
+                          //     .get();
+                          firestore_get(
+                              "PerformancePolling", "${globalUserid}");
+                      var Perform = data.data();
+                      print("object ${Perform}");
+
+                      Get.to(() => my_perfomance_polling(
+                          performancePolling: Perform,
+                       ));
+                    } catch (e) {
+                      Get.snackbar("Error", e.toString());
                     }
+                    // Get.to(my_perfomance_polling());
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(left: 13, right: 13),
@@ -294,11 +316,12 @@ class _NavDrawerState extends State<NavDrawer> {
                                     "assets/slicing/performing .png"),
                               ),
                               onPressed: () {
-                                if (bottomctrl.navigationBarIndexValue != 3) {
-                                  bottomctrl.navBarChange(3);
-                                } else {
-                                  Get.back();
-                                }
+                                // if (bottomctrl.navigationBarIndexValue != 3) {
+                                //   bottomctrl.navBarChange(3);
+                                // } else {
+                                //   Get.back();
+                                // }
+                                // Get.to(my_perfomance_polling());
                               },
                             ),
                             Text(

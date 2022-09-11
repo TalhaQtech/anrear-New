@@ -1,3 +1,4 @@
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
@@ -73,6 +74,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("artist")
+                      .where("uid", isNotEqualTo: globalUserid)
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {

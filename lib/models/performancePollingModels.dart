@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class performancePolingModel {
   String? uid;
   String? location;
@@ -46,12 +48,17 @@ class performancePolingModel {
   //   userImage = map["userImage"];
   // }
   Map<String, dynamic> toMap() {
+    SetOptions(merge: true);
     return {
       "uid": uid,
-      "location": location,
-      "location2": location2,
-      "location3": location3,
-      "location4": location4,
+      "location": {"location1": location, "like": []},
+      // "location.like": [],
+      "location2": {"location2": location2, "like": []},
+      // "location2.like": [],
+      "location3": {"location3": location3, "like": []},
+      // "location3.like": [],
+      "location4": {"location4": location4, "like": []},
+      // "location4.like": [],
       "endDate": endDate,
       "fullName": fullName,
       "startDate": startDate,
