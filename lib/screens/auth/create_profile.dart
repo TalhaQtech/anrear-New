@@ -91,14 +91,16 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   var Description = TextEditingController();
   late var fullName = TextEditingController(text: widget.userModel!.fullName);
   // var urls1 = [];
-  List<String> text = [];
+  List text = [];
   TextEditingController _controller = TextEditingController();
   uploadData() async {
     if (Nationality.text == "" ||
         Dob.text == "" ||
         Description.text == "" ||
         fullName.text == "" ||
-        image == null) {
+        image == null ||
+        text.isEmpty ||
+        musicCategorie == "") {
       Get.snackbar("Incomplete Data", "Please fill all the fields");
     } else {
       try {
@@ -111,6 +113,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         widget.userModel?.dob = Dob.text.trim();
         widget.userModel?.fullName = fullName.text.trim();
         widget.userModel?.singup_step = 2;
+        widget.userModel?.links = text;
+        widget.userModel?.musicCategorie = musicCategorie;
         await firestore_set(
                 "artist", widget.userModel!.uid, widget.userModel!.toMap())
             .then((value) {
@@ -408,46 +412,47 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      musicCat(res_width),
-                      // musicCat(res_width),
-                      // musicCat(res_width),
-                      Container(
-                        width: res_width * 0.35,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Text(
-                            'Hip-Hop',
-                            style: TextStyle(
-                                color: kPrimaryColor,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 17),
-                          ),
-                        )),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: res_width * 0.35,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Text(
-                            'Rock',
-                            style: TextStyle(
-                                color: kPrimaryColor,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 17),
-                          ),
-                        )),
-                      ),
+                      musicCat(res_width, "Pop"),
+                      musicCat(res_width, "Hip-Hop"),
+                      musicCat(res_width, "Rock"),
+
+                      // Container(
+                      //   width: res_width * 0.35,
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.white,
+                      //       borderRadius: BorderRadius.circular(15)),
+                      //   child: Center(
+                      //       child: Padding(
+                      //     padding: const EdgeInsets.all(18.0),
+                      //     child: Text(
+                      //       'Hip-Hop',
+                      //       style: TextStyle(
+                      //           color: kPrimaryColor,
+                      //           fontWeight: FontWeight.normal,
+                      //           fontSize: 17),
+                      //     ),
+                      //   )),
+                      // ),
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
+                      // Container(
+                      //   width: res_width * 0.35,
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.white,
+                      //       borderRadius: BorderRadius.circular(15)),
+                      //   child: Center(
+                      //       child: Padding(
+                      //     padding: const EdgeInsets.all(18.0),
+                      //     child: Text(
+                      //       'Rock',
+                      //       style: TextStyle(
+                      //           color: kPrimaryColor,
+                      //           fontWeight: FontWeight.normal,
+                      //           fontSize: 17),
+                      //     ),
+                      //   )),
+                      // ),
                     ],
                   ),
                 ),
@@ -579,7 +584,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
-                  if (listimg.isNotEmpty) {
+                  if (listimg.isEmpty) {
                     Get.snackbar("Error", "Please select award winnigs ");
                   }
                   if (imagesUrls.isEmpty) {
@@ -594,6 +599,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   TaskSnapshot? snapshot = await uploadTask;
 
                   imageUrl = await snapshot!.ref.getDownloadURL();
+
                   await uploadData();
                   // Get.to(() => CreatePollingScreen());
                 },
@@ -625,22 +631,28 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     );
   }
 
-  GestureDetector musicCat(double res_width) {
+  String musicCategorie = "";
+  GestureDetector musicCat(double res_width, txt) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        print(txt);
+        musicCategorie = txt;
+        setState(() {});
+      },
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0),
         child: Container(
           width: res_width * 0.35,
           decoration: BoxDecoration(
-              color: kPrimaryColor, borderRadius: BorderRadius.circular(15)),
+              color: musicCategorie == txt ? kPrimaryColor : Colors.white,
+              borderRadius: BorderRadius.circular(15)),
           child: Center(
               child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Text(
-              'Pop',
+              '$txt',
               style: TextStyle(
-                  color: Colors.white,
+                  color: musicCategorie == txt ? Colors.white : Colors.black,
                   fontWeight: FontWeight.normal,
                   fontSize: 17),
             ),

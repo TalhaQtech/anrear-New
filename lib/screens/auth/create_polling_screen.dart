@@ -7,7 +7,6 @@ import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -34,13 +33,17 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   List fbLinksControl = [];
 
   var fbitemCount = 1;
-  List<TextEditingController> _controllers = [];
+  TextEditingController _controllers = TextEditingController();
 
   var location3 = TextEditingController();
 
   var isvisible = false;
 
   var location4 = TextEditingController();
+
+  DateTime? start;
+
+  DateTime? end;
 
   // var _controllers2 = TextEditingController();
   @override
@@ -80,12 +83,22 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
     String startDatec = startDate.text.trim();
     String endDatec = endDate.text.trim();
     String perNamec = fullName.text.trim();
+
     if (locationc == "" ||
         location2c == "" ||
         startDatec == "" ||
         endDatec == "" ||
         perNamec == "") {
       Get.snackbar("Incomplete Data", "Please fill all the fields");
+    } else if (start == null ||
+        end == null ||
+        DateTime.now().day > start!.day ||
+        DateTime.now().month > start!.month ||
+        DateTime.now().year > start!.year ||
+        end!.day < start!.day ||
+        end!.month < start!.month ||
+        end!.year < start!.year) {
+      Get.snackbar("Error", "Select correct date");
     } else {
       EasyLoading.show();
       // if (listimg.isNotEmpty) {
@@ -93,6 +106,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
       // }
       try {
         performancePolingModel newUser = await performancePolingModel(
+            youtubeurls: fbLinksControl,
             location3: location3.text.trim(),
             location4: location4.text.trim(),
             polling_location_im3: urls3,
@@ -108,7 +122,10 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
             startDate: startDate.text.trim(),
             fullName: fullName.text.trim());
         await firestore_set(
-            "PerformancePolling", currentUserData.uid, newUser.toMap(),);
+          "PerformancePolling",
+          currentUserData.uid,
+          newUser.toMap(),
+        );
         Get.to(() => HomeMainScreen(
               userModel: widget.userModel,
             ));
@@ -733,7 +750,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                 await uploadimg(listimg4, urls4);
                               }
 
-                              var start = await showDatePicker(
+                              start = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(2000),
@@ -785,7 +802,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                 urls4 = await uploadimg(listimg4, urls4);
                               }
 
-                              var end = await showDatePicker(
+                              end = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(2000),
@@ -831,70 +848,106 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: fbitemCount,
+                  itemCount: fbLinksControl.length,
                   itemBuilder: (context, index) {
-                    _controllers.add(new TextEditingController());
                     return Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: Get.width * 0.05),
-                        child:
-                            // Container(
-                            // width: res_width * 0.9,
-                            // decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius:
-                            //         BorderRadius.all(Radius.circular(10))),
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: Wrap(
-                            //       direction: Axis.horizontal,
-                            //       children: [
-                            //         Icon(
-                            //           Icons.facebook_outlined,
-                            // color: kPrimaryColor,
-                            // size: 40,
-                            //         ),
-                            //         SizedBox(
-                            //           width: 10,
-                            //         ),
-                            //         Container(
-                            //           height: res_height * 0.04,
-                            //           width: 1,
-                            //           color: Colors.grey,
-                            //         ),
-                            //         SizedBox(
-                            //           width: 10,
-                            //         ),
-
-                            //         // Text(
-                            //         //   'https://www.facebook.com',
-                            //         //   style: TextStyle(
-                            //         //       color: Colors.black, fontSize: 16),
-                            //         // )
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            Container(
-                          width: res_width * 0.9,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: TextField(
-                            controller: _controllers[index],
-                            // controller: _controllers.add( _controllers2,),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.facebook_outlined,
-                                color: kPrimaryColor,
-                                size: 40,
-                              ),
-                              hintText: 'https://www.facebook.com',
-                            ),
-                          ),
-                        ));
+                      padding: EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: Get.width * 0.05),
+                      child: Container(
+                        width: res_width * 0.9,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${fbLinksControl[index]}",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                    onPressed: () {
+                                      fbLinksControl
+                                          .remove(fbLinksControl[index]);
+                                      setState(() {});
+                                    },
+                                    icon: Icon(Icons.remove_circle))
+                              ],
+                            )),
+                      ),
+                    );
                   }),
+              // ListView.builder(
+              //     shrinkWrap: true,
+              //     physics: ScrollPhysics(),
+              //     itemCount: fbitemCount,
+              //     itemBuilder: (context, index) {
+              //       _controllers.add(new TextEditingController());
+              //       return Padding(
+              //           padding: EdgeInsets.symmetric(
+              //               vertical: 4.0, horizontal: Get.width * 0.05),
+              //           child:
+              //               // Container(
+              //               // width: res_width * 0.9,
+              //               // decoration: BoxDecoration(
+              //               //     color: Colors.white,
+              //               //     borderRadius:
+              //               //         BorderRadius.all(Radius.circular(10))),
+              //               //   child: Padding(
+              //               //     padding: const EdgeInsets.all(8.0),
+              //               //     child: Wrap(
+              //               //       direction: Axis.horizontal,
+              //               //       children: [
+              //               //         Icon(
+              //               //           Icons.facebook_outlined,
+              //               // color: kPrimaryColor,
+              //               // size: 40,
+              //               //         ),
+              //               //         SizedBox(
+              //               //           width: 10,
+              //               //         ),
+              //               //         Container(
+              //               //           height: res_height * 0.04,
+              //               //           width: 1,
+              //               //           color: Colors.grey,
+              //               //         ),
+              //               //         SizedBox(
+              //               //           width: 10,
+              //               //         ),
+
+              //               //         // Text(
+              //               //         //   'https://www.facebook.com',
+              //               //         //   style: TextStyle(
+              //               //         //       color: Colors.black, fontSize: 16),
+              //               //         // )
+              //               //       ],
+              //               //     ),
+              //               //   ),
+              //               // ),
+              Container(
+                width: res_width * 0.9,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: TextField(
+                  controller: _controllers,
+                  // controller: _controllers.add( _controllers2,),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.facebook_outlined,
+                      color: kPrimaryColor,
+                      size: 40,
+                    ),
+                    hintText: 'https://www.facebook.com',
+                  ),
+                ),
+              ),
+              //           ));
+              //     }),
               SizedBox(
                 height: res_height * 0.015,
               ),
@@ -906,15 +959,19 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   //   print(_controllers[i].text);
                   // }
                   // print(_controllers.toList());
+                  if (_controllers.text.length > 0) {
+                    fbLinksControl.add(_controllers.text);
+                    _controllers.clear();
+                    setState(() {});
+                  }
+                  // _controllers.forEach((element) {
+                  //   fbLinksControl.add(element.text.toString());
+                  // });
+                  // print(fbLinksControl);
 
-                  _controllers.forEach((element) {
-                    fbLinksControl.add(element.text.toString());
-                  });
-                  print(fbLinksControl);
-
-                  setState(() {
-                    fbitemCount++;
-                  });
+                  // setState(() {
+                  //   fbitemCount++;
+                  // });
                 },
                 child: Container(
                   width: res_width * 0.9,
@@ -938,9 +995,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               GestureDetector(
                 onTap: () async {
                   try {
-                    if (listimg.isEmpty &&
-                        listimg2.isEmpty &&
-                        listimg3.isEmpty &&
+                    if (listimg.isEmpty ||
+                        listimg2.isEmpty ||
+                        listimg3.isEmpty ||
                         listimg4.isEmpty) {
                       Get.snackbar("Error", "Please add All 4 locations");
                     }

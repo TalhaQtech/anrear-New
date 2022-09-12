@@ -11,9 +11,12 @@ class UserModel {
   String? userPhone;
   String? password;
   String? userType;
+  String? musicCategorie;
+  List? links;
 
   UserModel(
-      {this.uid,
+      {required this.musicCategorie,
+      this.uid,
       required this.Nationality,
       required this.dob,
       required this.description,
@@ -24,9 +27,12 @@ class UserModel {
       this.userEmail,
       this.userImage,
       this.singup_step,
+      required this.links,
       this.userPhone});
 
   UserModel.fromMap(Map<String, dynamic> map) {
+    links = map["links"];
+    musicCategorie = map["musicCategorie"];
     award = map["award"];
     uid = map["uid"];
     Nationality = map["nationality"];
@@ -40,6 +46,8 @@ class UserModel {
   }
   Map<String, dynamic> toMap() {
     return {
+      "musicCategorie": musicCategorie,
+      "links": links,
       "award": award,
       "password": password,
       "userType": userType,

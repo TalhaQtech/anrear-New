@@ -2,8 +2,11 @@ import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/create_polling_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
+import 'package:anrear/service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ArtisProfileUserScreen extends StatefulWidget {
   var artistdata;
@@ -50,17 +53,29 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
             Padding(
               padding: const EdgeInsets.all(13.0),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   // addfav(like, auth.currentUser!.uid, "users",
                   //     "${widget.artistdata["uid"]}");
-                  UserType == "user"
-                      ? Get.to(ArtistPollingScreen(
-                          data: widget.artistdata,
-                        ))
-                      : Get.to(CreatePollingScreen(
-                          userModel: currentUserData,
-                          firebaseUser: globalUserid,
-                        ));
+
+                  if (UserType == "user") {
+                    Get.to(ArtistPollingScreen(
+                      data: widget.artistdata,
+                    ));
+                  } else {
+                    EasyLoading.show();
+                    var data =
+                        await firestore_get("PerformancePolling", globalUserid);
+                    EasyLoading.dismiss();
+                    print(DateTime.parse(data["endDate"]).day);
+                    if (DateTime.parse(data["endDate"]).day >
+                        DateTime.now().day) {
+                      Get.snackbar("You have Already created pollings", "");
+                    } else
+                      Get.to(CreatePollingScreen(
+                        userModel: currentUserData,
+                        firebaseUser: globalUserid,
+                      ));
+                  }
                 },
                 child: Container(
                     child: Image.asset(
@@ -467,78 +482,105 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                Container(
-                  width: res_width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.facebook_outlined,
-                          color: kPrimaryColor,
-                          size: 40,
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.artistdata["links"].length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: Get.width * 0.05),
+                        child: Container(
+                          width: res_width * 0.9,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Wrap(
+                            children: [
+                              // // Icon(
+                              // //   Icons.facebook_outlined,
+                              // //   color: kPrimaryColor,
+                              // //   size: 40,
+                              // // ),
+                              // // SizedBox(
+                              // //   width: 10,
+                              // // ),
+                              // // Container(
+                              // //   height: res_height * 0.04,
+                              // //   width: 1,
+                              // //   color: Colors.grey,
+                              // // ),
+                              // SizedBox(
+                              //   width: 10,
+                              // ),
+                              TextButton(
+                                onPressed: () async {
+                                  print("${widget.artistdata["links"][index]}");
+                                  var url = widget.artistdata["links"][index];
+                                  // if (await launchUrl(url)) {
+                                  try {
+                                    EasyLoading.show();
+
+                                    await launchUrlString(
+                                        url.toString().trim());
+                                    EasyLoading.dismiss();
+                                  } catch (e) {
+                                    EasyLoading.dismiss();
+
+                                    Get.snackbar(
+                                        "Could not launch $url", e.toString());
+                                  }
+                                },
+                                child: Text(
+                                  '${widget.artistdata["links"][index]}',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: res_height * 0.04,
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'https://www.facebook.com',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: res_height * 0.015,
-                ),
-                Container(
-                  width: res_width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.facebook_outlined,
-                          color: kPrimaryColor,
-                          size: 40,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: res_height * 0.04,
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'https://www.facebook.com',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: res_height * 0.03,
-                ),
+                      );
+                    }),
+                // SizedBox(
+                //   height: res_height * 0.015,
+                // ),
+                // Container(
+                //   width: res_width * 0.9,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.all(Radius.circular(10))),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Row(
+                //       children: [
+                //         Icon(
+                //           Icons.facebook_outlined,
+                //           color: kPrimaryColor,
+                //           size: 40,
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Container(
+                //           height: res_height * 0.04,
+                //           width: 1,
+                //           color: Colors.grey,
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Text(
+                //           'https://www.facebook.com',
+                //           style: TextStyle(color: Colors.black, fontSize: 16),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: res_height * 0.03,
+                // ),
               ],
             ),
           ),

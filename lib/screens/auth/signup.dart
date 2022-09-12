@@ -48,6 +48,8 @@ class _SignupScreenState extends State<SignupScreen> {
           .createUserWithEmailAndPassword(
               email: email.text.trim(), password: Password.text.trim());
       UserModel newUser = UserModel(
+          musicCategorie: "",
+          links: [],
           award: [],
           userType: UserType,
           Nationality: "",
@@ -97,6 +99,8 @@ class _SignupScreenState extends State<SignupScreen> {
           email: email.text.trim(), password: Password.text.trim());
       globalUserid = credential.user!.uid;
       UserModel newUser = UserModel(
+          musicCategorie: "",
+          links: [],
           award: [],
           userType: UserType,
           Nationality: "",

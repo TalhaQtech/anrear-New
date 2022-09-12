@@ -14,6 +14,8 @@ class performancePolingModel {
   List polling_location_im;
   List polling_location_im2;
   List polling_location_im3;
+  List youtubeurls;
+
   List polling_location_im4;
   // int? singup_step;
   // String? userImage;
@@ -21,6 +23,7 @@ class performancePolingModel {
   // String? password;
 
   performancePolingModel({
+    required this.youtubeurls,
     required this.location3,
     required this.location4,
     required this.polling_location_im3,
@@ -50,6 +53,7 @@ class performancePolingModel {
   Map<String, dynamic> toMap() {
     SetOptions(merge: true);
     return {
+      "youtubeUrls": youtubeurls,
       "uid": uid,
       "location": {"location1": location, "like": []},
       // "location.like": [],
