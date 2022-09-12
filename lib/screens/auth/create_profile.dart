@@ -4,7 +4,6 @@ import 'package:anrear/helper/colors.dart';
 import 'package:anrear/main.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/create_polling_screen.dart';
-import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -92,7 +91,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   var Description = TextEditingController();
   late var fullName = TextEditingController(text: widget.userModel!.fullName);
   // var urls1 = [];
-
+  List<String> text = [];
+  TextEditingController _controller = TextEditingController();
   uploadData() async {
     if (Nationality.text == "" ||
         Dob.text == "" ||
@@ -171,16 +171,24 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                         width: res_width * 0.35,
                         height: res_width * 0.35,
                         decoration: BoxDecoration(
-                          color: const Color(0xff7c94b6),
-                          image: DecorationImage(
-                            image: AssetImage("assets/slicing/girl.jpeg"),
-                            fit: BoxFit.cover,
-                          ),
+                          // color: const Color(0xff7c94b6),
+                          // image: DecorationImage(
+                          //     image: AssetImage(
+                          //         "assets/slicing/avatarsidemenu.png"),
+                          //     fit: BoxFit.contain,
+                          //     scale: 3),
                           borderRadius:
                               BorderRadius.all(Radius.circular(100.0)),
                           border: Border.all(
                             color: kPrimaryColor,
                             width: 4.0,
+                          ),
+                        ),
+                        child: FittedBox(
+                          child: Icon(
+                            Icons.person,
+                            color: kPrimaryColor,
+                            // size: Get.height ,
                           ),
                         ),
                       )
@@ -248,6 +256,25 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               Container(
                 width: res_width * 0.9,
                 child: TextFormField(
+                  onTap: () async {
+                    // if (urls1.isEmpty &&
+                    //     urls2.isEmpty &&
+                    //     urls3.isEmpty &&
+                    //     urls4.isEmpty) {
+                    //   await uploadimg(listimg, urls1);
+                    //   await uploadimg(listimg2, urls2);
+                    //   await uploadimg(listimg3, urls3);
+                    //   await uploadimg(listimg4, urls4);
+                    // }
+
+                    var start = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2025),
+                    );
+                    Dob.text = "${start!.toLocal()}".split(' ')[0];
+                  },
                   controller: Dob,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -381,26 +408,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      Container(
-                        width: res_width * 0.35,
-                        decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Text(
-                            'Loremsum',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 17),
-                          ),
-                        )),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      musicCat(res_width),
+                      // musicCat(res_width),
+                      // musicCat(res_width),
                       Container(
                         width: res_width * 0.35,
                         decoration: BoxDecoration(
@@ -410,7 +420,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                             child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Text(
-                            'Loremsum',
+                            'Hip-Hop',
                             style: TextStyle(
                                 color: kPrimaryColor,
                                 fontWeight: FontWeight.normal,
@@ -430,7 +440,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                             child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Text(
-                            'Loremsum',
+                            'Rock',
                             style: TextStyle(
                                 color: kPrimaryColor,
                                 fontWeight: FontWeight.normal,
@@ -461,45 +471,91 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 height: res_height * 0.015,
               ),
               Container(
-                width: res_width * 0.9,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.facebook_outlined,
-                        color: kPrimaryColor,
-                        size: 40,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: res_height * 0.04,
-                        width: 1,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'https://www.facebook.com',
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      )
-                    ],
-                  ),
-                ),
+                // height: 100,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemCount: text.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: Get.width * 0.05),
+                        child: Container(
+                          width: res_width * 0.9,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "${text[index]}",
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 16),
+                                  ),
+                                  Spacer(),
+                                  IconButton(
+                                      onPressed: () {
+                                        text.remove(text[index]);
+                                        setState(() {});
+                                      },
+                                      icon: Icon(Icons.remove_circle))
+                                ],
+                              )
+                              // Row(
+                              //   children: [
+                              // Icon(
+                              //   Icons.facebook_outlined,
+                              //   color: kPrimaryColor,
+                              //   size: 40,
+                              // // ),
+                              // SizedBox(
+                              //   width: 10,
+                              // ),
+                              // Container(
+                              //   height: res_height * 0.04,
+                              //   width: 1,
+                              //   color: Colors.grey,
+                              // ),
+                              //     SizedBox(
+                              //       width: 10,
+                              //     ),
+
+                              //   ],
+                              // ),
+                              ),
+                        ),
+                      );
+                    }),
               ),
+              Container(
+                  width: res_width * 0.9,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                            hintText: "https://www.facebook.com"),
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      ))),
               SizedBox(
                 height: res_height * 0.015,
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  Get.to(() => ForgotScreen());
+                  print("object");
+                  // Get.to(() => ForgotScreen());
+                  if (_controller.text.length > 0) {
+                    text.add(_controller.text);
+                    _controller.clear();
+                    setState(() {});
+                  }
                 },
                 child: Container(
                   width: res_width * 0.9,
@@ -523,7 +579,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
-                  if(listimg.isNotEmpty){
+                  if (listimg.isNotEmpty) {
                     Get.snackbar("Error", "Please select award winnigs ");
                   }
                   if (imagesUrls.isEmpty) {
@@ -564,6 +620,31 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  GestureDetector musicCat(double res_width) {
+    return GestureDetector(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Container(
+          width: res_width * 0.35,
+          decoration: BoxDecoration(
+              color: kPrimaryColor, borderRadius: BorderRadius.circular(15)),
+          child: Center(
+              child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(
+              'Pop',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17),
+            ),
+          )),
         ),
       ),
     );

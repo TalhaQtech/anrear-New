@@ -3,13 +3,12 @@ import 'package:anrear/helper/helper.dart';
 import 'package:anrear/models/FirebaseHelper.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/create_profile.dart';
-import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -223,6 +222,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 Container(
                   width: res_width * 0.9,
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ], // Only
                     validator: (val) => val!.isEmpty ? "Field Required" : null,
                     controller: phone,
                     decoration: InputDecoration(
@@ -305,7 +308,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   behavior: HitTestBehavior.translucent,
                   onTap: () async {
                     if (UserType == "artist") {
-                      
                       if (formkey.currentState!.validate()) await signup();
                       // Get.to(() => CreateProfileScreen());
                     } else {
