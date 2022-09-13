@@ -17,6 +17,8 @@ class ArtisProfileUserScreen extends StatefulWidget {
 }
 
 class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
+  late String musicCategorie = widget.artistdata["musicCategorie"];
+
   // late List like = widget.artistdata["fav"];
   @override
   Widget build(BuildContext context) {
@@ -329,63 +331,65 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        Container(
-                          width: res_width * 0.35,
-                          decoration: BoxDecoration(
-                              color: kPrimaryColor,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(
-                              'Loremsum',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15),
-                            ),
-                          )),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: res_width * 0.35,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(
-                              'Loremsum',
-                              style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15),
-                            ),
-                          )),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          width: res_width * 0.35,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(
-                              'Loremsum',
-                              style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15),
-                            ),
-                          )),
-                        ),
+                        musicCat(res_width,
+                            "${widget.artistdata["musicCategorie"]}"),
+                        // Container(
+                        //   width: res_width * 0.35,
+                        //   decoration: BoxDecoration(
+                        //       color: kPrimaryColor,
+                        //       borderRadius: BorderRadius.circular(15)),
+                        //   child: Center(
+                        //       child: Padding(
+                        //     padding: const EdgeInsets.all(15.0),
+                        //     child: Text(
+                        //       'Loremsum',
+                        //       style: TextStyle(
+                        //           color: Colors.white,
+                        //           fontWeight: FontWeight.normal,
+                        //           fontSize: 15),
+                        //     ),
+                        //   )),
+                        // ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Container(
+                        //   width: res_width * 0.35,
+                        //   decoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(15)),
+                        //   child: Center(
+                        //       child: Padding(
+                        //     padding: const EdgeInsets.all(15.0),
+                        //     child: Text(
+                        //       'Loremsum',
+                        //       style: TextStyle(
+                        //           color: kPrimaryColor,
+                        //           fontWeight: FontWeight.normal,
+                        //           fontSize: 15),
+                        //     ),
+                        //   )),
+                        // ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Container(
+                        //   width: res_width * 0.35,
+                        //   decoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(15)),
+                        //   child: Center(
+                        //       child: Padding(
+                        //     padding: const EdgeInsets.all(15.0),
+                        //     child: Text(
+                        //       'Loremsum',
+                        //       style: TextStyle(
+                        //           color: kPrimaryColor,
+                        //           fontWeight: FontWeight.normal,
+                        //           fontSize: 15),
+                        //     ),
+                        //   )),
+                        // ),
                       ],
                     ),
                   ),
@@ -584,6 +588,36 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  GestureDetector musicCat(double res_width, txt) {
+    return GestureDetector(
+      onTap: () {
+        print(txt);
+        musicCategorie = txt;
+        setState(() {});
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Container(
+          width: res_width * 0.35,
+          decoration: BoxDecoration(
+              color: musicCategorie == txt ? kPrimaryColor : Colors.white,
+              borderRadius: BorderRadius.circular(15)),
+          child: Center(
+              child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(
+              '$txt',
+              style: TextStyle(
+                  color: musicCategorie == txt ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17),
+            ),
+          )),
         ),
       ),
     );

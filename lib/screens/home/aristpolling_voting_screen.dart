@@ -197,14 +197,19 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       } else {
                         if (!widget.performancePolling["location"]["like"]
                             .contains(globalUserid)) {
-                          await firestore_update(
-                              'PerformancePolling',
-                              widget.performancePolling["uid"],
-                              ({
-                                "location.like":
-                                    FieldValue.arrayUnion([globalUserid])
-                              }));
-                          Get.back();
+                          try {
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } catch (e) {
+                            Get.snackbar("Error", e.toString());
+                          }
                         }
                       }
                     }),
@@ -223,14 +228,19 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       } else {
                         if (!widget.performancePolling["location2"]["like"]
                             .contains(globalUserid)) {
-                          await firestore_update(
-                              'PerformancePolling',
-                              widget.performancePolling["uid"],
-                              ({
-                                "location2.like":
-                                    FieldValue.arrayUnion([globalUserid])
-                              }));
-                          Get.back();
+                          try {
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location2.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } catch (e) {
+                            Get.snackbar("Error", e.toString());
+                          }
                         }
                       }
                     }),
@@ -249,14 +259,20 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       } else {
                         if (!widget.performancePolling["location3"]["like"]
                             .contains(globalUserid)) {
-                          await firestore_update(
-                              'PerformancePolling',
-                              widget.performancePolling["uid"],
-                              ({
-                                "location3.like":
-                                    FieldValue.arrayUnion([globalUserid])
-                              }));
-                          Get.back();
+                          try {
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } catch (e) {
+                            Get.snackbar("Error", e.toString());
+                          }
                         }
                       }
                     }),
@@ -275,14 +291,19 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                       } else {
                         if (!widget.performancePolling["location4"]["like"]
                             .contains(globalUserid)) {
-                          await firestore_update(
-                              'PerformancePolling',
-                              widget.performancePolling["uid"],
-                              ({
-                                "location3.like":
-                                    FieldValue.arrayUnion([globalUserid])
-                              }));
-                          Get.back();
+                          try {
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } catch (e) {
+                            Get.snackbar("Error", e.toString());
+                          }
                         }
                       }
                     }),

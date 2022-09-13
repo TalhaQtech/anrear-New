@@ -2,6 +2,7 @@ import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/editprofile.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:anrear/screens/home/setting.dart';
 import 'package:flutter/material.dart';
@@ -207,6 +208,32 @@ class _ProfileScreen extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(18.0),
                       child: Text(
                         'Logout',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                    )),
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.01,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.to(() => editprofile());
+                  },
+                  child: Container(
+                    width: res_width * 0.9,
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Text(
+                        'Edit Profile',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

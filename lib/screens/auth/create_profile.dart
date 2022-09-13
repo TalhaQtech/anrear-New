@@ -28,7 +28,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   Uint8List? image;
   List listimg = [];
 
-  String? imageUrl;
+  String? imageUrl = "";
+
+  var start;
   void selectImage(ImageSource source) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
     setState(() {
@@ -94,13 +96,18 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   List text = [];
   TextEditingController _controller = TextEditingController();
   uploadData() async {
-    if (Nationality.text == "" ||
+    if (start.day > DateTime.now().day ||
+        start.month > DateTime.now().month ||
+        start.year > DateTime.now().year) {
+      Get.snackbar("Error", "Please select right Dob");
+    } else if (Nationality.text == "" ||
         Dob.text == "" ||
         Description.text == "" ||
         fullName.text == "" ||
         image == null ||
         text.isEmpty ||
-        musicCategorie == "") {
+        musicCategorie == "" ||
+        imageUrl == "") {
       Get.snackbar("Incomplete Data", "Please fill all the fields");
     } else {
       try {
@@ -271,7 +278,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     //   await uploadimg(listimg4, urls4);
                     // }
 
-                    var start = await showDatePicker(
+                    start = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
@@ -584,22 +591,23 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
-                  if (listimg.isEmpty) {
-                    Get.snackbar("Error", "Please select award winnigs ");
+                  if (listimg.isEmpty || imageUrl == null) {
+                    Get.snackbar("Error",
+                        "Please select award winnigs ${imageUrl!.isNotEmpty ? "" : "select user profile image"}");
                   }
                   if (imagesUrls.isEmpty) {
                     await uploadimg(listimg);
+                    print(imagesUrls.toString() + "asdas");
                   }
-                  print(imagesUrls.toString() + "asdas");
-                  if (image != null)
+                  if (image != null) {
                     uploadTask = FirebaseStorage.instance
                         .ref("profilepictures")
                         .child(widget.userModel!.uid.toString())
                         .putData(image!);
-                  TaskSnapshot? snapshot = await uploadTask;
+                    TaskSnapshot? snapshot = await uploadTask;
 
-                  imageUrl = await snapshot!.ref.getDownloadURL();
-
+                    imageUrl = await snapshot!.ref.getDownloadURL();
+                  }
                   await uploadData();
                   // Get.to(() => CreatePollingScreen());
                 },

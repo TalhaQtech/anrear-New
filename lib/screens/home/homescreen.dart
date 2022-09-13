@@ -336,8 +336,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? StreamBuilder<QuerySnapshot>(
                                     stream: FirebaseFirestore.instance
                                         .collection("artist")
-                                        .where("uid",
-                                            isNotEqualTo: globalUserid)
+                                        .orderBy("time", descending: true)
+                                        // .where("uid",
+                                        //     isNotEqualTo: globalUserid,)
+                                        // .where("uid",
+                                        //     isNotEqualTo: globalUserid)
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -361,12 +364,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 snapshot.data!.docs[index];
                                             print(snapshot.data!.docs[index]
                                                 ["fullName"]);
-                                            return ArtistBox(
-                                                '${data["fullName"]}',
-                                                '${data["userImage"]}',
-                                                '${data["description"]}',
-                                                data);
-                                            ;
+
+                                            if (data["uid"] != globalUserid)
+                                              return ArtistBox(
+                                                  '${data["fullName"]}',
+                                                  '${data["userImage"]}',
+                                                  '${data["description"]}',
+                                                  data);
+                                            return Container();
                                           },
                                         );
                                       }
@@ -396,8 +401,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ? StreamBuilder<QuerySnapshot>(
                                         stream: FirebaseFirestore.instance
                                             .collection("PerformancePolling")
-                                            .where("uid",
-                                                isNotEqualTo: globalUserid)
+                                            // .where("uid",
+                                            //     isNotEqualTo: globalUserid)
+                                            .orderBy("time", descending: true)
                                             .snapshots(),
                                         builder: (BuildContext context,
                                             AsyncSnapshot<QuerySnapshot>
@@ -476,6 +482,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     "PerformancePolling")
                                                 .where("endDate",
                                                     isLessThan: "$date")
+                                                // .orderBy("time",
+                                                //     descending: true)
                                                 .snapshots(),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<QuerySnapshot>

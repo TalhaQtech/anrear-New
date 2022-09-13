@@ -538,7 +538,8 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
     );
   }
 
-  String musicCategorie = "";
+  String musicCategorie = currentUserData.musicCategorie;
+
   GestureDetector musicCat(double res_width, txt) {
     return GestureDetector(
       onTap: () {

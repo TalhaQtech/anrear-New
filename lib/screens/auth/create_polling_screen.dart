@@ -7,6 +7,7 @@ import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -106,6 +107,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
       // }
       try {
         performancePolingModel newUser = await performancePolingModel(
+            time: Timestamp.now(),
             youtubeurls: fbLinksControl,
             location3: location3.text.trim(),
             location4: location4.text.trim(),

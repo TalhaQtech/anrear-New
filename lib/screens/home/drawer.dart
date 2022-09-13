@@ -296,8 +296,8 @@ class _NavDrawerState extends State<NavDrawer> {
                       print("object ${Perform}");
 
                       Get.to(() => my_perfomance_polling(
-                          performancePolling: Perform,
-                       ));
+                            performancePolling: Perform,
+                          ));
                     } catch (e) {
                       Get.snackbar("Error", e.toString());
                     }

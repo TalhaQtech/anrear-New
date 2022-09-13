@@ -6,6 +6,7 @@ import 'package:anrear/screens/auth/create_profile.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
           .createUserWithEmailAndPassword(
               email: email.text.trim(), password: Password.text.trim());
       UserModel newUser = UserModel(
+          time: Timestamp.now(),
           musicCategorie: "",
           links: [],
           award: [],
@@ -99,6 +101,7 @@ class _SignupScreenState extends State<SignupScreen> {
           email: email.text.trim(), password: Password.text.trim());
       globalUserid = credential.user!.uid;
       UserModel newUser = UserModel(
+          time: Timestamp.now(),
           musicCategorie: "",
           links: [],
           award: [],
