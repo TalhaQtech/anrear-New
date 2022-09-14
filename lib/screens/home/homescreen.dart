@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
@@ -481,7 +483,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .collection(
                                                     "PerformancePolling")
                                                 .where("endDate",
-                                                    isLessThan: "$date")
+                                                    isLessThan: "2022-09-22")
                                                 // .orderBy("time",
                                                 //     descending: true)
                                                 .snapshots(),
@@ -515,35 +517,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     var data = snapshot
                                                         .data!.docs[index];
                                                     var loc1 = snapshot
-                                                        .data!
-                                                        .docs[index]["location"]
-                                                            ["like"]
-                                                        .length;
+                                                            .data!.docs[index]
+                                                        ["location"]["like"];
                                                     var loc2 = snapshot
-                                                        .data!
-                                                        .docs[index]
-                                                            ["location2"]
-                                                            ["like"]
-                                                        .length;
+                                                            .data!.docs[index]
+                                                        ["location2"]["like"];
                                                     var loc3 = snapshot
-                                                        .data!
-                                                        .docs[index]
-                                                            ["location3"]
-                                                            ["like"]
-                                                        .length;
+                                                            .data!.docs[index]
+                                                        ["location3"]["like"];
                                                     var loc4 = snapshot
-                                                        .data!
-                                                        .docs[index]
-                                                            ["location4"]
-                                                            ["like"]
-                                                        .length;
-                                                    List list = []; //
-                                                    list.addAll([
-                                                      loc1,
-                                                      loc4,
-                                                      loc2,
-                                                      loc3
-                                                    ]);
+                                                            .data!.docs[index]
+                                                        ["location4"]["like"];
+                                                    // List list = []; //
+                                                    // list.addAll([
+                                                    //   loc1,
+                                                    //   loc4,
+                                                    //   loc2,
+                                                    //   loc3
+                                                    // ]);
+                                                    int a = max(loc1.length,
+                                                        loc2.length);
+                                                    int b = max(loc3.length,
+                                                        loc4.length);
+                                                    int c = max(a, b);
+                                                    // print(c);
+                                                    if (c == loc1.length) {
+                                                      print("obj 1");
+                                                      print(loc1);
+                                                      return ConfirmLocationBox(
+                                                          '${data["fullName"]}',
+                                                          '${data["userImage"]}',
+                                                          '${data["description"]}',
+                                                          '${snapshot.data!.docs[index]["location"]["location1"]}');
+                                                    }
+                                                    if (c == loc2.length) {
+                                                      print("obj 2");
+                                                      print(loc2);
+                                                      return ConfirmLocationBox(
+                                                          '${data["fullName"]}',
+                                                          '${data["userImage"]}',
+                                                          '${data["description"]}',
+                                                          '${snapshot.data!.docs[index]["location2"]["location2"]}');
+                                                    }
+                                                    if (c == loc3.length) {
+                                                      print("obj 3");
+                                                      print(loc3);
+                                                      return ConfirmLocationBox(
+                                                          '${data["fullName"]}',
+                                                          '${data["userImage"]}',
+                                                          '${data["description"]}',
+                                                          '${snapshot.data!.docs[index]["location3"]["location3"]}');
+                                                    }
+                                                    if (c == loc4.length) {
+                                                      print("obj 4");
+                                                      print(loc4);
+                                                      return ConfirmLocationBox(
+                                                          '${data["fullName"]}',
+                                                          '${data["userImage"]}',
+                                                          '${data["description"]}',
+                                                          '${snapshot.data!.docs[index]["location4"]["location4"]}');
+                                                    }
 
                                                     //  List should not be empty.
                                                     // print(list.reduce(
@@ -552,11 +585,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     //             ? curr
                                                     //             : next));
 
-                                                    var confirm_location = list
-                                                        .reduce((curr, next) =>
-                                                            curr > next
-                                                                ? curr
-                                                                : next);
+                                                    // var confirm_location = list
+                                                    //     .reduce((curr, next) =>
+                                                    //         curr > next
+                                                    //             ? curr
+                                                    //             : next);
                                                     // print(confirm_location ==
                                                     //     snapshot.data!
                                                     //                 .docs[index]
@@ -574,20 +607,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     //         ["like"]
                                                     //     .length);
 
-                                                    return ConfirmLocationBox(
-                                                            '${data["fullName"]}',
-                                                            '${data["userImage"]}',
-                                                            '${data["description"]}',
-                                                            'Confirm')
+                                                    return Container();
+                                                    // ConfirmLocationBox(
+                                                    //         '${data["fullName"]}',
+                                                    //         '${data["userImage"]}',
+                                                    //         '${data["description"]}',
+                                                    //         'Confirm')
 
-                                                        //  PollingBox(
-                                                        //     '${data["fullName"]}',
-                                                        //     '${data["userImage"]}',
-                                                        //     '${data["description"]}',
-                                                        //     '${data["startDate"]}',
-                                                        //     '${data["endDate"]}',
-                                                        //     data)
-                                                        ;
+                                                    //  PollingBox(
+                                                    //     '${data["fullName"]}',
+                                                    //     '${data["userImage"]}',
+                                                    //     '${data["description"]}',
+                                                    //     '${data["startDate"]}',
+                                                    //     '${data["endDate"]}',
+                                                    //     data)
+                                                    ;
                                                     //  ArtistBox(
                                                     //     '${data["fullName"]}',
                                                     //     '${data["userImage"]}',
@@ -798,7 +832,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           // Spacer(),
                           Row(
                             children: [
-                              Text('Location 1: ',
+                              Text('$status: ',
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: Colors.black,

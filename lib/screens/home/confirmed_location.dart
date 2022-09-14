@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,6 +58,145 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("PerformancePolling")
+                      .where("endDate", isLessThan: "2022-09-22")
+                      // .orderBy("time",
+                      //     descending: true)
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    DateTime.now();
+                    // print(date);
+                    print(snapshot.hasData);
+                    if (snapshot.hasError) {
+                      return Center(child: CircularProgressIndicator());
+                      // Handle errors
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        physics: ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var data = snapshot.data!.docs[index];
+                          var loc1 =
+                              snapshot.data!.docs[index]["location"]["like"];
+                          var loc2 =
+                              snapshot.data!.docs[index]["location2"]["like"];
+                          var loc3 =
+                              snapshot.data!.docs[index]["location3"]["like"];
+                          var loc4 =
+                              snapshot.data!.docs[index]["location4"]["like"];
+                          // List list = []; //
+                          // list.addAll([
+                          //   loc1,
+                          //   loc4,
+                          //   loc2,
+                          //   loc3
+                          // ]);
+                          int a = max(loc1.length, loc2.length);
+                          int b = max(loc3.length, loc4.length);
+                          int c = max(a, b);
+                          // print(c);
+                          if (c == loc1.length) {
+                            print("obj 1");
+                            print(loc1);
+                            return ConfirmLocationBox(
+                                '${data["fullName"]}',
+                                '${data["userImage"]}',
+                                '${data["description"]}',
+                                '${snapshot.data!.docs[index]["location"]["location1"]}');
+                          }
+                          if (c == loc2.length) {
+                            print("obj 2");
+                            print(loc2);
+                            return ConfirmLocationBox(
+                                '${data["fullName"]}',
+                                '${data["userImage"]}',
+                                '${data["description"]}',
+                                '${snapshot.data!.docs[index]["location2"]["location2"]}');
+                          }
+                          if (c == loc3.length) {
+                            print("obj 3");
+                            print(loc3);
+                            return ConfirmLocationBox(
+                                '${data["fullName"]}',
+                                '${data["userImage"]}',
+                                '${data["description"]}',
+                                '${snapshot.data!.docs[index]["location3"]["location3"]}');
+                          }
+                          if (c == loc4.length) {
+                            print("obj 4");
+                            print(loc4);
+                            return ConfirmLocationBox(
+                                '${data["fullName"]}',
+                                '${data["userImage"]}',
+                                '${data["description"]}',
+                                '${snapshot.data!.docs[index]["location4"]["location4"]}');
+                          }
+
+                          //  List should not be empty.
+                          // print(list.reduce(
+                          //     (curr, next) =>
+                          //         curr > next
+                          //             ? curr
+                          //             : next));
+
+                          // var confirm_location = list
+                          //     .reduce((curr, next) =>
+                          //         curr > next
+                          //             ? curr
+                          //             : next);
+                          // print(confirm_location ==
+                          //     snapshot.data!
+                          //                 .docs[index]
+                          //             ["location4"]
+                          //         ["like"]);
+                          // alllocation.reduce(
+                          //     (value, element) {
+                          //   print(value);
+                          //   print(element.max);
+                          // });
+
+                          // print(snapshot
+                          //     .data!
+                          //     .docs[index]["location"]
+                          //         ["like"]
+                          //     .length);
+
+                          return Container();
+                          // ConfirmLocationBox(
+                          //         '${data["fullName"]}',
+                          //         '${data["userImage"]}',
+                          //         '${data["description"]}',
+                          //         'Confirm')
+
+                          //  PollingBox(
+                          //     '${data["fullName"]}',
+                          //     '${data["userImage"]}',
+                          //     '${data["description"]}',
+                          //     '${data["startDate"]}',
+                          //     '${data["endDate"]}',
+                          //     data)
+                          ;
+                          //  ArtistBox(
+                          //     '${data["fullName"]}',
+                          //     '${data["userImage"]}',
+                          //     '${data["description"]}',
+                          //     data);
+                        },
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                )
+
                 // ConfirmLocationBox(
                 //     'John Doe',
                 //     'assets/slicing/girl.jpeg',
@@ -65,6 +207,7 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                 //     'assets/slicing/girl.jpeg',
                 //     'Lorem ipsum dolor sit amet, adipi scing elit. dipi scing elit.',
                 //     'Confirm'),
+                ,
                 SizedBox(
                   height: res_height * 0.135,
                 ),
@@ -99,7 +242,7 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                 decoration: BoxDecoration(
                   color: const Color(0xff7c94b6),
                   image: DecorationImage(
-                    image: AssetImage(image),
+                    image: NetworkImage(image),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -141,7 +284,7 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                         // Spacer(),
                         Row(
                           children: [
-                            Text('Location 1: ',
+                            Text('$status: ',
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: Colors.black,

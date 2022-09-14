@@ -96,12 +96,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   List text = [];
   TextEditingController _controller = TextEditingController();
   uploadData() async {
-    if (start.day > DateTime.now().day ||
-        start.month > DateTime.now().month ||
-        start.year > DateTime.now().year) {
-      print(1);
-      Get.snackbar("Error", "Please select right Dob");
-    } else if (Nationality.text == "" ||
+    if (Nationality.text == "" ||
         Dob.text == "" ||
         Description.text == "" ||
         fullName.text == "" ||
@@ -300,8 +295,11 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(1947),
-                      lastDate: DateTime(2025),
+                      lastDate: DateTime.now(),
                     );
+                    // print("object");
+                    // print(start > DateTime.now());
+                    // print(2);
                     Dob.text = "${start!.toLocal()}".split(' ')[0];
                   },
                   controller: Dob,
@@ -370,8 +368,8 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      height: 100,
-                                      width: res_width * 0.325,
+                                      width: res_width * 0.25,
+                                      height: res_width * 0.9,
                                       decoration: BoxDecoration(
                                         boxShadow: [
                                           BoxShadow(

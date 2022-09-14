@@ -795,7 +795,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                               start = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
+                                firstDate: DateTime.now(),
                                 lastDate: DateTime(2025),
                               );
                               startDate.text =
