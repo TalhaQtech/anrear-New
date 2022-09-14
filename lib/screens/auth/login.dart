@@ -80,8 +80,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   width: res_width * 0.9,
                   child: TextFormField(
+                    // validator: (val) => val!.isEmpty || !val.contains("@")
+                    //     ? "Enter a valid emaill"
+                    //     : null,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field Required";
+                      }
+                      if (!value.contains("@")) {
+                        return "Enter a valid emaill";
+                      }
+                      return null;
+                    },
                     controller: email,
                     decoration: InputDecoration(
+                        errorStyle: TextStyle(color: Colors.white),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: BorderSide.none,
@@ -99,9 +112,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   width: res_width * 0.9,
                   child: TextFormField(
+                    // validator: (value) {
+                    validator: (val) => val!.isEmpty ? "Field Required" : null,
                     obscureText: !_passwordVisible,
                     controller: Password,
                     decoration: InputDecoration(
+                        errorStyle: TextStyle(color: Colors.white),
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -167,10 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     // }
 
                     // if (UserType == "artist") {
-                    if (email.text == "" || Password.text == "") {
-                      Get.snackbar(
-                          "Incomplete Data", "Please fill all the fields");
-                    } else {
+                    // if (email.text == "" || Password.text == "") {
+                    //   Get.snackbar(
+                    //       "Incomplete Data", "Please fill all the fields");
+                    // } else {
+                    if (formkey.currentState!.validate()) {
                       try {
                         EasyLoading.show();
                         UserCredential user =
@@ -191,14 +208,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         print(currentUserData!.fullName);
                         EasyLoading.dismiss();
                         // }
+                      } on FirebaseAuthException catch (e) {
+                        EasyLoading.dismiss();
+
+                        print(e.message);
+                        Get.snackbar("Error", e.message.toString());
                       } catch (e) {
                         EasyLoading.dismiss();
 
-                        Get.snackbar("Error", e.toString());
                         print(e.toString());
                       }
-                      // Get.to(() => HomeMainScreen());
                     }
+                    // Get.to(() => HomeMainScreen());
+                    // }
                     // }
                   },
                   child: Container(

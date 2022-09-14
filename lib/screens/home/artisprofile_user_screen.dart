@@ -63,20 +63,25 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     Get.to(ArtistPollingScreen(
                       data: widget.artistdata,
                     ));
-                  } else {
-                    EasyLoading.show();
-                    var data =
-                        await firestore_get("PerformancePolling", globalUserid);
-                    EasyLoading.dismiss();
-                    print(DateTime.parse(data["endDate"]).day);
-                    if (DateTime.parse(data["endDate"]).day >
-                        DateTime.now().day) {
-                      Get.snackbar("You have Already created pollings", "");
-                    } else
-                      Get.to(CreatePollingScreen(
-                        userModel: currentUserData,
-                        firebaseUser: globalUserid,
-                      ));
+                  }
+                  if (UserType == "artist") {
+                    // EasyLoading.show();
+                    // var data =
+                    //     await firestore_get("PerformancePolling", globalUserid);
+                    // EasyLoading.dismiss();
+                    // print(DateTime.parse(data["endDate"]).day);
+                    // if (DateTime.parse(data["endDate"]).day >
+                    //     DateTime.now().day) {
+                    //   Get.snackbar("You have Already created pollings", "");
+                    // } else
+                    //   Get.to(CreatePollingScreen(
+                    //     userModel: currentUserData,
+                    //     firebaseUser: globalUserid,
+                    //   ));
+                    Get.to(CreatePollingScreen(
+                      userModel: currentUserData,
+                      firebaseUser: globalUserid,
+                    ));
                   }
                 },
                 child: Container(
@@ -257,8 +262,9 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
 
                 Container(
                   width: Get.width * 0.9,
-                  height: Get.height * 0.25,
+                  height: Get.height * 0.19,
                   child: ListView.builder(
+                      // shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: widget.artistdata["award"].length ?? 1,
                       itemBuilder: (context, index) {
@@ -269,22 +275,35 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                               child: Container(
                                   height: 100,
                                   width: res_width * 0.325,
-                                  child: Image.network(
-                                    widget.artistdata["award"][index] == null
-                                        ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                        : "${widget.artistdata["award"][index]}",
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 2,
+                                        // spreadRadius: 10,
+                                        color: Colors.black26,
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      widget.artistdata["award"][index] == null
+                                          ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                          : "${widget.artistdata["award"][index]}",
 
-                                    // '${widget.artistdata["award"][index]}',
-                                    fit: BoxFit.cover,
+                                      // '${widget.artistdata["award"][index]}',
+                                      fit: BoxFit.cover,
+                                    ),
                                   )),
                             ),
-                            Text(
-                              'Lorem Ipsum',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16),
-                            )
+                            // Text(
+                            //   'Lorem Ipsum',
+                            //   style: TextStyle(
+                            //       color: Colors.white,
+                            //       fontWeight: FontWeight.normal,
+                            //       fontSize: 16),
+                            // )
                           ],
                         );
                       }),
@@ -430,14 +449,29 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                                       child: Container(
                                           height: 100,
                                           width: res_width * 0.325,
-                                          child: Image.network(
-                                            widget.artistdata["award"][index] ==
-                                                    null
-                                                ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                                : "${widget.artistdata["award"][index]}",
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(2.0, 2.0),
+                                                blurRadius: 2,
+                                                // spreadRadius: 10,
+                                                color: Colors.black26,
+                                              ),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.network(
+                                              widget.artistdata["award"]
+                                                          [index] ==
+                                                      null
+                                                  ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                                  : "${widget.artistdata["award"][index]}",
 
-                                            // '${widget.artistdata["award"][index]}',
-                                            fit: BoxFit.cover,
+                                              // '${widget.artistdata["award"][index]}',
+                                              fit: BoxFit.cover,
+                                            ),
                                           )),
                                     ),
                                     // Text(
@@ -601,7 +635,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
         setState(() {});
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.only(left: 4.0),
         child: Container(
           width: res_width * 0.35,
           decoration: BoxDecoration(

@@ -83,11 +83,15 @@ class _SignupScreenState extends State<SignupScreen> {
         ));
       });
       EasyLoading.dismiss();
+    } on FirebaseAuthException catch (e) {
+      EasyLoading.dismiss();
+
+      print(e.message);
+      Get.snackbar("Error", e.message.toString());
     } catch (e) {
       EasyLoading.dismiss();
-      print(e.toString());
 
-      Get.snackbar("Error", e.toString());
+      print(e.toString());
     }
   }
 
@@ -134,10 +138,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
       EasyLoading.dismiss();
       // Get.to(() => CreateProfileScreen());
+    } on FirebaseAuthException catch (e) {
+      EasyLoading.dismiss();
+
+      print(e.message);
+      Get.snackbar("Error", e.message.toString());
     } catch (e) {
       EasyLoading.dismiss();
-      print(e);
-      Get.snackbar("Error", e.toString());
+
+      print(e.toString());
     }
   }
 
@@ -291,7 +300,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     obscureText: !_passwordVisible,
                     controller: confirmPassword,
                     validator: (validator) {
-                      if (validator!.isEmpty) return 'Empty';
+                      if (validator!.isEmpty) return 'Field Required';
                       if (validator != Password.text)
                         return 'The passwords do not match';
                       return null;

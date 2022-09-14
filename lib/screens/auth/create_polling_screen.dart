@@ -90,7 +90,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
         startDatec == "" ||
         endDatec == "" ||
         perNamec == "") {
-      Get.snackbar("Incomplete Data", "Please fill all the fields");
+      Get.snackbar("Error", "Please fill all the fields");
     } else if (start == null ||
         end == null ||
         DateTime.now().day > start!.day ||
@@ -99,7 +99,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
         end!.day < start!.day ||
         end!.month < start!.month ||
         end!.year < start!.year) {
-      Get.snackbar("Error", "Select correct date");
+      Get.snackbar("Error", "Please select proper date");
     } else {
       EasyLoading.show();
       // if (listimg.isNotEmpty) {
@@ -274,15 +274,25 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      width: res_width * 0.2,
-                                      height: res_width * 0.2,
+                                      width: res_width * 0.25,
+                                      height: res_width * 0.9,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(13))),
-                                      child: Image.memory(
-                                        listimg[index],
-                                        fit: BoxFit.cover,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(2.0, 2.0),
+                                            blurRadius: 2,
+                                            // spreadRadius: 10,
+                                            color: Colors.black26,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.memory(
+                                          listimg[index],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -370,15 +380,25 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      width: res_width * 0.2,
-                                      height: res_width * 0.2,
+                                      width: res_width * 0.25,
+                                      height: res_width * 0.9,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(13))),
-                                      child: Image.memory(
-                                        listimg2[index],
-                                        fit: BoxFit.cover,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(2.0, 2.0),
+                                            blurRadius: 2,
+                                            // spreadRadius: 10,
+                                            color: Colors.black26,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.memory(
+                                          listimg2[index],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -485,15 +505,25 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                   ? Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
-                                        width: res_width * 0.2,
-                                        height: res_width * 0.2,
+                                        width: res_width * 0.25,
+                                        height: res_width * 0.9,
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(13))),
-                                        child: Image.memory(
-                                          listimg3[index],
-                                          fit: BoxFit.cover,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: Offset(2.0, 2.0),
+                                              blurRadius: 2,
+                                              // spreadRadius: 10,
+                                              color: Colors.black26,
+                                            ),
+                                          ],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.memory(
+                                            listimg3[index],
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -612,15 +642,25 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
-                                          width: res_width * 0.2,
-                                          height: res_width * 0.2,
+                                          width: res_width * 0.25,
+                                          height: res_width * 0.9,
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(13))),
-                                          child: Image.memory(
-                                            listimg4[index],
-                                            fit: BoxFit.cover,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(2.0, 2.0),
+                                                blurRadius: 2,
+                                                // spreadRadius: 10,
+                                                color: Colors.black26,
+                                              ),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.memory(
+                                              listimg4[index],
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ))
                                     : Container();
@@ -939,12 +979,11 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   controller: _controllers,
                   // controller: _controllers.add( _controllers2,),
                   decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.facebook_outlined,
-                      color: kPrimaryColor,
-                      size: 40,
+                    prefixIcon: IconButton(
+                      onPressed: () {},
+                      icon: Image.asset("assets/slicing/yt.png"),
                     ),
-                    hintText: 'https://www.facebook.com',
+                    hintText: 'https://www.youtube.com',
                   ),
                 ),
               ),
@@ -983,10 +1022,19 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   child: Center(
                       child: Padding(
                     padding: const EdgeInsets.all(18.0),
-                    child: Icon(
-                      Icons.add_outlined,
-                      color: Colors.white,
-                      size: 17,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Add Link",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.add_outlined,
+                          color: Colors.white,
+                          size: 17,
+                        ),
+                      ],
                     ),
                   )),
                 ),
@@ -997,13 +1045,6 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               GestureDetector(
                 onTap: () async {
                   try {
-                    if (listimg.isEmpty ||
-                        listimg2.isEmpty ||
-                        listimg3.isEmpty ||
-                        listimg4.isEmpty) {
-                      Get.snackbar("Error", "Please add All 4 locations");
-                    }
-
                     if (urls1.isEmpty &&
                         urls2.isEmpty &&
                         urls3.isEmpty &&
@@ -1020,8 +1061,14 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
 
                     // // }
                     // // if (listimg2.isNotEmpty) {
-
-                    await uploadData();
+                    if (listimg.isEmpty ||
+                        listimg2.isEmpty ||
+                        listimg3.isEmpty ||
+                        listimg4.isEmpty) {
+                      Get.snackbar("Error", "Please add All 4 locations");
+                    } else {
+                      await uploadData();
+                    }
                   } catch (e) {
                     print(e);
                     Get.snackbar("Error", e.toString());

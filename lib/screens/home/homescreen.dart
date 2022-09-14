@@ -488,6 +488,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<QuerySnapshot>
                                                     snapshot) {
+                                              DateTime.now();
                                               print(date);
                                               print(snapshot.hasData);
                                               if (snapshot.hasError) {
@@ -513,8 +514,65 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       (context, index) {
                                                     var data = snapshot
                                                         .data!.docs[index];
-                                                    // print(snapshot.data!.docs[index]
-                                                    //     ["fullName"]);
+                                                    var loc1 = snapshot
+                                                        .data!
+                                                        .docs[index]["location"]
+                                                            ["like"]
+                                                        .length;
+                                                    var loc2 = snapshot
+                                                        .data!
+                                                        .docs[index]
+                                                            ["location2"]
+                                                            ["like"]
+                                                        .length;
+                                                    var loc3 = snapshot
+                                                        .data!
+                                                        .docs[index]
+                                                            ["location3"]
+                                                            ["like"]
+                                                        .length;
+                                                    var loc4 = snapshot
+                                                        .data!
+                                                        .docs[index]
+                                                            ["location4"]
+                                                            ["like"]
+                                                        .length;
+                                                    List list = []; //
+                                                    list.addAll([
+                                                      loc1,
+                                                      loc4,
+                                                      loc2,
+                                                      loc3
+                                                    ]);
+
+                                                    //  List should not be empty.
+                                                    // print(list.reduce(
+                                                    //     (curr, next) =>
+                                                    //         curr > next
+                                                    //             ? curr
+                                                    //             : next));
+
+                                                    var confirm_location = list
+                                                        .reduce((curr, next) =>
+                                                            curr > next
+                                                                ? curr
+                                                                : next);
+                                                    // print(confirm_location ==
+                                                    //     snapshot.data!
+                                                    //                 .docs[index]
+                                                    //             ["location4"]
+                                                    //         ["like"]);
+                                                    // alllocation.reduce(
+                                                    //     (value, element) {
+                                                    //   print(value);
+                                                    //   print(element.max);
+                                                    // });
+
+                                                    // print(snapshot
+                                                    //     .data!
+                                                    //     .docs[index]["location"]
+                                                    //         ["like"]
+                                                    //     .length);
 
                                                     return ConfirmLocationBox(
                                                             '${data["fullName"]}',
@@ -577,9 +635,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          Get.to(() => ArtistPollingScreen(
-                data: artist,
-              ));
+          // Get.to(() => ArtistPollingScreen(
+          //       data: artist,
+          //     ));
         },
         child: Container(
           width: res_width * 0.94,

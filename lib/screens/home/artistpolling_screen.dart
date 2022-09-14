@@ -4,7 +4,9 @@ import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ArtistPollingScreen extends StatefulWidget {
   var data;
@@ -160,54 +162,84 @@ class _ArtistPollingScreen extends State<ArtistPollingScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                Container(
-                  width: res_width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.facebook_outlined,
-                          color: kPrimaryColor,
-                          size: 40,
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.data["links"].length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: Get.width * 0.05),
+                        child: Container(
+                          width: res_width * 0.9,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Wrap(
+                              children: [
+                                // Icon(
+                                //   Icons.facebook_outlined,
+                                //   color: kPrimaryColor,
+                                //   size: 40,
+                                // ),
+                                // SizedBox(
+                                //   width: 10,
+                                // ),
+                                // Container(
+                                //   height: res_height * 0.04,
+                                //   width: 1,
+                                //   color: Colors.grey,
+                                // ),
+                                // SizedBox(
+                                //   width: 10,
+                                // ),
+
+                                TextButton(
+                                    onPressed: () async {
+                                      print("${widget.data["links"][index]}");
+                                      var url = widget.data["links"][index];
+                                      // if (await launchUrl(url)) {
+                                      try {
+                                        EasyLoading.show();
+
+                                        await launchUrlString(
+                                            url.toString().trim());
+                                        EasyLoading.dismiss();
+                                      } catch (e) {
+                                        EasyLoading.dismiss();
+
+                                        Get.snackbar("Could not launch $url",
+                                            e.toString());
+                                      }
+                                    },
+                                    child: Text(
+                                      '${widget.data["links"][index]}',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 16),
+                                    ))
+                              ],
+                            ),
+                          ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: res_height * 0.04,
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'https://www.facebook.com',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                      );
+                    }),
                 SizedBox(
                   height: res_height * 0.03,
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    child: Text(
-                      'Location Of Performance',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.center,
+                //   child: Container(
+                //     child: Text(
+                //       'Location Of Performance',
+                //       style: TextStyle(
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.normal,
+                //           fontSize: 20),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: res_height * 0.015,
                 ),

@@ -43,7 +43,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
               _key.currentState!.openDrawer();
             },
             child: Padding(
-              padding: const EdgeInsets.all(13.0),
+              padding: const EdgeInsets.all(16.0),
               child:
                   Container(child: Image.asset('assets/slicing/hamburger.png')),
             ),
@@ -172,7 +172,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                     child: Row(
                       children: [
                         Container(
-                          height: Get.height * 0.25,
+                          height: Get.height * 0.19,
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
@@ -185,18 +185,32 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                                       child: Container(
                                           height: 100,
                                           width: res_width * 0.325,
-                                          child: Image.network(
-                                            '${currentUserData.award[index]}',
-                                            fit: BoxFit.cover,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(2.0, 2.0),
+                                                blurRadius: 2,
+                                                // spreadRadius: 10,
+                                                color: Colors.black26,
+                                              ),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.network(
+                                              '${currentUserData.award[index]}',
+                                              fit: BoxFit.cover,
+                                            ),
                                           )),
                                     ),
-                                    Text(
-                                      'Lorem Ipsum',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16),
-                                    )
+                                    // Text(
+                                    //   'Lorem Ipsum',
+                                    //   style: TextStyle(
+                                    //       color: Colors.white,
+                                    //       fontWeight: FontWeight.normal,
+                                    //       fontSize: 16),
+                                    // )
                                   ],
                                 );
                               }),
@@ -339,9 +353,9 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                 //   ),
                 // ),
 
-                // SizedBox(
-                // height: res_height * 0.03,
-                // ),
+                SizedBox(
+                  height: res_height * 0.03,
+                ),
 
                 Container(
                   width: res_width * 0.9,
@@ -376,9 +390,23 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                                       child: Container(
                                           height: 100,
                                           width: res_width * 0.325,
-                                          child: Image.network(
-                                            '${currentUserData.award[index]}',
-                                            fit: BoxFit.cover,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(2.0, 2.0),
+                                                blurRadius: 2,
+                                                // spreadRadius: 10,
+                                                color: Colors.black26,
+                                              ),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.network(
+                                              '${currentUserData.award[index]}',
+                                              fit: BoxFit.cover,
+                                            ),
                                           )),
                                     ),
                                     // Text(
@@ -412,9 +440,9 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: res_height * 0.03,
-                ),
+                // SizedBox(
+                //   height: res_height * 0.03,
+                // ),
                 Container(
                   width: res_width * 0.9,
                   child: Text(
@@ -491,6 +519,10 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                         ),
                       );
                     }),
+
+                SizedBox(
+                  height: res_height * 0.06,
+                ),
                 // SizedBox(
                 //   height: res_height * 0.015,
                 // ),
@@ -548,11 +580,21 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
         setState(() {});
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.only(left: 18.0),
         child: Container(
           width: res_width * 0.35,
           decoration: BoxDecoration(
-              color: musicCategorie == txt ? kPrimaryColor : Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(2.0, 2.0),
+                  blurRadius: 2,
+                  // spreadRadius: 10,
+                  color: Colors.black26,
+                ),
+              ],
+              color:
+                  //  musicCategorie == txt ? kPrimaryColor :
+                  Colors.white,
               borderRadius: BorderRadius.circular(15)),
           child: Center(
               child: Padding(
@@ -560,7 +602,9 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
             child: Text(
               '$txt',
               style: TextStyle(
-                  color: musicCategorie == txt ? Colors.white : Colors.black,
+                  color:
+                      //  musicCategorie == txt ? Colors.white :
+                      Colors.black,
                   fontWeight: FontWeight.normal,
                   fontSize: 17),
             ),

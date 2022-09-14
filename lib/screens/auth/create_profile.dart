@@ -99,6 +99,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     if (start.day > DateTime.now().day ||
         start.month > DateTime.now().month ||
         start.year > DateTime.now().year) {
+      print(1);
       Get.snackbar("Error", "Please select right Dob");
     } else if (Nationality.text == "" ||
         Dob.text == "" ||
@@ -108,11 +109,12 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         text.isEmpty ||
         musicCategorie == "" ||
         imageUrl == "") {
+      print(2);
       Get.snackbar("Incomplete Data", "Please fill all the fields");
     } else {
       try {
         EasyLoading.show();
-
+        print("talha");
         widget.userModel!.award = imagesUrls;
         widget.userModel!.userImage = imageUrl.toString();
         widget.userModel?.Nationality = Nationality.text.toString().trim();
@@ -120,8 +122,11 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         widget.userModel?.dob = Dob.text.trim();
         widget.userModel?.fullName = fullName.text.trim();
         widget.userModel?.singup_step = 2;
-        widget.userModel?.links = text;
+        if (text.isNotEmpty) widget.userModel?.links = text;
         widget.userModel?.musicCategorie = musicCategorie;
+        print("shakeel");
+
+        print(widget.userModel);
         await firestore_set(
                 "artist", widget.userModel!.uid, widget.userModel!.toMap())
             .then((value) {
@@ -178,30 +183,43 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   // setState(() {});
                 },
                 child: image == null
-                    ? Container(
-                        width: res_width * 0.35,
-                        height: res_width * 0.35,
-                        decoration: BoxDecoration(
-                          // color: const Color(0xff7c94b6),
-                          // image: DecorationImage(
-                          //     image: AssetImage(
-                          //         "assets/slicing/avatarsidemenu.png"),
-                          //     fit: BoxFit.contain,
-                          //     scale: 3),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(100.0)),
-                          border: Border.all(
-                            color: kPrimaryColor,
-                            width: 4.0,
+                    ? Stack(
+                        children: [
+                          Container(
+                            width: res_width * 0.35,
+                            height: res_width * 0.35,
+                            decoration: BoxDecoration(
+                              // color: const Color(0xff7c94b6),
+                              // image: DecorationImage(
+                              //     image: AssetImage(
+                              //         "assets/slicing/avatarsidemenu.png"),
+                              //     fit: BoxFit.contain,
+                              //     scale: 3),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100.0)),
+                              border: Border.all(
+                                color: kPrimaryColor,
+                                width: 4.0,
+                              ),
+                            ),
+                            child: FittedBox(
+                              child: Icon(
+                                Icons.person,
+                                color: kPrimaryColor,
+                                // size: Get.height ,
+                              ),
+                            ),
                           ),
-                        ),
-                        child: FittedBox(
-                          child: Icon(
-                            Icons.person,
-                            color: kPrimaryColor,
-                            // size: Get.height ,
+                          Positioned(
+                            right: 0,
+                            // bottom: 0,
+                            child: Icon(
+                              Icons.add_a_photo,
+                              color: kPrimaryColor,
+                              size: 25,
+                            ),
                           ),
-                        ),
+                        ],
                       )
                     : Container(
                         width: res_width * 0.35,
@@ -281,7 +299,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     start = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
+                      firstDate: DateTime(1947),
                       lastDate: DateTime(2025),
                     );
                     Dob.text = "${start!.toLocal()}".split(' ')[0];
@@ -352,15 +370,25 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      width: res_width * 0.2,
-                                      height: res_width * 0.2,
+                                      height: 100,
+                                      width: res_width * 0.325,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(13))),
-                                      child: Image.memory(
-                                        listimg[index],
-                                        fit: BoxFit.cover,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(2.0, 2.0),
+                                            blurRadius: 2,
+                                            // spreadRadius: 10,
+                                            color: Colors.black26,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.memory(
+                                          listimg[index],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -577,10 +605,19 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   child: Center(
                       child: Padding(
                     padding: const EdgeInsets.all(18.0),
-                    child: Icon(
-                      Icons.add_outlined,
-                      color: Colors.white,
-                      size: 17,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Add link",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.add_outlined,
+                          color: Colors.white,
+                          size: 17,
+                        ),
+                      ],
                     ),
                   )),
                 ),
@@ -591,15 +628,22 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
-                  if (listimg.isEmpty || imageUrl == null) {
-                    Get.snackbar("Error",
-                        "Please select award winnigs ${imageUrl!.isNotEmpty ? "" : "select user profile image"}");
-                  }
                   if (imagesUrls.isEmpty) {
+                    print(3);
                     await uploadimg(listimg);
                     print(imagesUrls.toString() + "asdas");
                   }
-                  if (image != null) {
+                  if (image == null) {
+                    print(4);
+
+                    Get.snackbar("Error", "select user profile image");
+                  } else if (listimg.isEmpty) {
+                    print(6);
+
+                    Get.snackbar("Error", "Please select award winnigs ");
+                  } else {
+                    print(5);
+
                     uploadTask = FirebaseStorage.instance
                         .ref("profilepictures")
                         .child(widget.userModel!.uid.toString())
@@ -607,8 +651,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     TaskSnapshot? snapshot = await uploadTask;
 
                     imageUrl = await snapshot!.ref.getDownloadURL();
+                    await uploadData();
                   }
-                  await uploadData();
+                  // await uploadData();
                   // Get.to(() => CreatePollingScreen());
                 },
                 child: Container(
