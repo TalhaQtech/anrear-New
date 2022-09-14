@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       // defaultTransition: Transition.fadeIn,
       // transitionDuration: Duration(seconds: 1),
       title: 'Flutter Demo',

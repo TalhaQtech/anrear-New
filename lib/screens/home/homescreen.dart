@@ -96,122 +96,58 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: res_height * 0.015,
                 ),
                 Container(
+                  height: res_height * 0.16,
                   width: res_width * 0.94,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: res_width * 0.7,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 23, bottom: 23, left: 10, right: 10),
-                            child: Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'John Doe',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16),
-                                    ),
-                                    Container(
-                                        width: res_width * 0.45,
-                                        child: Text(
-                                            'Lorem ipsum dolor sit amet, adipi scing elit.',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: Color(0xff929292),
-                                              height: 1.5,
-                                            )))
-                                  ],
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection("artist")
+                        .orderBy("time", descending: true)
+                        // .where("uid",
+                        //     isNotEqualTo: globalUserid,)
+                        // .where("uid",
+                        //     isNotEqualTo: globalUserid)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      print(snapshot.hasData);
+                      if (snapshot.hasError) {
+                        return Center(child: CircularProgressIndicator());
+                        // Handle errors
+                      } else if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                        // Handle no data
+                      }
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var data = snapshot.data!.docs[index];
+                            print(snapshot.data!.docs[index]["fullName"]);
+
+                            if (data["uid"] != globalUserid)
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: latestArtist(
+                                  res_width,
+                                  "${data["fullName"]}",
+                                  '${data["description"]}',
+                                  '${data["userImage"]}',
                                 ),
-                                Container(
-                                  width: res_width * 0.18,
-                                  height: res_width * 0.18,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff7c94b6),
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/slicing/girl.jpeg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50.0)),
-                                    border: Border.all(
-                                      color: Color(0xffc88225),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: res_width * 0.05,
-                        ),
-                        Container(
-                          width: res_width * 0.7,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 23, bottom: 23, left: 10, right: 10),
-                            child: Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'John Doe',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 16),
-                                    ),
-                                    Container(
-                                        width: res_width * 0.45,
-                                        child: Text(
-                                            'Lorem ipsum dolor sit amet, adipi scing elit.',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: Color(0xff929292),
-                                              height: 1.5,
-                                            )))
-                                  ],
-                                ),
-                                Container(
-                                  width: res_width * 0.18,
-                                  height: res_width * 0.18,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff7c94b6),
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/slicing/girl.jpeg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50.0)),
-                                    border: Border.all(
-                                      color: Color(0xffc88225),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                              );
+                            // ArtistBox(
+                            //     '${data["fullName"]}',
+                            //     '${data["userImage"]}',
+                            //     '${data["description"]}',
+                            //     data);
+                            return Container();
+                          },
+                        );
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
                   ),
                 ),
                 SizedBox(
@@ -608,12 +544,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     //     .length);
 
                                                     return Container();
-                                                    // ConfirmLocationBox(
-                                                    //         '${data["fullName"]}',
-                                                    //         '${data["userImage"]}',
-                                                    //         '${data["description"]}',
-                                                    //         'Confirm')
-
                                                     //  PollingBox(
                                                     //     '${data["fullName"]}',
                                                     //     '${data["userImage"]}',
@@ -654,6 +584,57 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Container latestArtist(double res_width, name, des, img) {
+    return Container(
+      width: res_width * 0.7,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 23, bottom: 23, left: 10, right: 10),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$name',
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                ),
+                Container(
+                    width: res_width * 0.45,
+                    child: Text('$des',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xff929292),
+                          height: 1.5,
+                        )))
+              ],
+            ),
+            Container(
+              width: res_width * 0.18,
+              height: res_width * 0.18,
+              decoration: BoxDecoration(
+                color: const Color(0xff7c94b6),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      '${img ?? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"}'),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                border: Border.all(
+                  color: Color(0xffc88225),
+                  width: 2.0,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

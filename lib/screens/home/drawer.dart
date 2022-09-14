@@ -559,7 +559,7 @@ class _NavDrawerState extends State<NavDrawer> {
                                         "assets/slicing/logout.png"),
                                   ),
                                   onPressed: () {
-                                    Get.to(() => LoginScreen());
+                                    // Get.to(() => LoginScreen());
                                   },
                                 ),
                                 Text(

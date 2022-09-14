@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:anrear/helper/colors.dart';
@@ -67,7 +68,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   // var locat4 = false;
 
   selectImage(ImageSource source, listofimg) async {
-    Uint8List? im = await pickImage(ImageSource.gallery);
+    Uint8List? im = await pickImage(ImageSource.gallery,);
     if (im != null) {
       // print(im);
       setState(() {
@@ -302,7 +303,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          EasyLoading.show();
                           await selectImage(ImageSource.gallery, listimg);
+                          EasyLoading.dismiss();
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -408,7 +411,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          EasyLoading.show();
                           await selectImage(ImageSource.gallery, listimg2);
+                          EasyLoading.dismiss();
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -533,7 +538,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
+                            EasyLoading.dismiss();
                             await selectImage(ImageSource.gallery, listimg3);
+                            EasyLoading.dismiss();
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -668,7 +675,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
+                            EasyLoading.show();
                             await selectImage(ImageSource.gallery, listimg4);
+                            EasyLoading.dismiss();
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -702,10 +711,12 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       urls2.isEmpty &&
                       urls3.isEmpty &&
                       urls4.isEmpty) {
+                    EasyLoading.show();
                     await uploadimg(listimg, urls1);
                     await uploadimg(listimg2, urls2);
                     await uploadimg(listimg3, urls3);
                     await uploadimg(listimg4, urls4);
+                    EasyLoading.dismiss();
                   }
                   setState(() {
                     // locat3 = true;
@@ -786,10 +797,12 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                   urls2.isEmpty &&
                                   urls3.isEmpty &&
                                   urls4.isEmpty) {
+                                EasyLoading.show();
                                 await uploadimg(listimg, urls1);
                                 await uploadimg(listimg2, urls2);
                                 await uploadimg(listimg3, urls3);
                                 await uploadimg(listimg4, urls4);
+                                EasyLoading.dismiss();
                               }
 
                               start = await showDatePicker(

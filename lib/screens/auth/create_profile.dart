@@ -171,9 +171,13 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
               GestureDetector(
                 onTap: () async {
+                  EasyLoading.show();
                   selectImage(ImageSource.gallery);
+                  EasyLoading.dismiss();
                   if (listimg.isEmpty) {
+                    EasyLoading.show();
                     await uploadimg(listimg);
+                    EasyLoading.dismiss();
                   }
                   // setState(() {});
                 },
@@ -277,41 +281,57 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               SizedBox(
                 height: res_height * 0.015,
               ),
-              Container(
-                width: res_width * 0.9,
-                child: TextFormField(
-                  onTap: () async {
-                    // if (urls1.isEmpty &&
-                    //     urls2.isEmpty &&
-                    //     urls3.isEmpty &&
-                    //     urls4.isEmpty) {
-                    //   await uploadimg(listimg, urls1);
-                    //   await uploadimg(listimg2, urls2);
-                    //   await uploadimg(listimg3, urls3);
-                    //   await uploadimg(listimg4, urls4);
-                    // }
+              GestureDetector(
+                onTap: () async {
+                  // selectImage(ImageSource.gallery);
+                  start = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1947),
+                    lastDate: DateTime.now(),
+                  );
+                  // print("object");
+                  // print(start > DateTime.now());
+                  // print(2);
+                  Dob.text = "${start!.toLocal()}".split(' ')[0];
+                },
+                child: Container(
+                  width: res_width * 0.9,
+                  child: TextFormField(
+                    enabled: false,
+                    onTap: () async {
+                      // if (urls1.isEmpty &&
+                      //     urls2.isEmpty &&
+                      //     urls3.isEmpty &&
+                      //     urls4.isEmpty) {
+                      //   await uploadimg(listimg, urls1);
+                      //   await uploadimg(listimg2, urls2);
+                      //   await uploadimg(listimg3, urls3);
+                      //   await uploadimg(listimg4, urls4);
+                      // }
 
-                    start = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1947),
-                      lastDate: DateTime.now(),
-                    );
-                    // print("object");
-                    // print(start > DateTime.now());
-                    // print(2);
-                    Dob.text = "${start!.toLocal()}".split(' ')[0];
-                  },
-                  controller: Dob,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.grey),
-                      hintText: "Dob",
-                      fillColor: Colors.white),
+                      // start = await showDatePicker(
+                      //   context: context,
+                      //   initialDate: DateTime.now(),
+                      //   firstDate: DateTime(1947),
+                      //   lastDate: DateTime.now(),
+                      // );
+                      // // print("object");
+                      // // print(start > DateTime.now());
+                      // // print(2);
+                      // Dob.text = "${start!.toLocal()}".split(' ')[0];
+                    },
+                    controller: Dob,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey),
+                        hintText: "Dob",
+                        fillColor: Colors.white),
+                  ),
                 ),
               ),
               SizedBox(
@@ -397,7 +417,9 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                       GestureDetector(
                         onTap: () async {
                           // selectImage(ImageSource.gallery);
+                          EasyLoading.show();
                           await selectImage2(ImageSource.gallery, listimg);
+                          EasyLoading.dismiss();
                           if (listimg.isEmpty) {
                             await uploadimg(listimg);
                           }

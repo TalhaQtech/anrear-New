@@ -42,7 +42,8 @@ firestore_get(collection, doc) async {
 
 pickImage(ImageSource source) async {
   final ImagePicker _imagePicker = ImagePicker();
-  XFile? _file = await _imagePicker.pickImage(source: source);
+  XFile? _file = await _imagePicker.pickImage(
+      source: source, imageQuality: 50, maxHeight: 600, maxWidth: 900);
   if (_file != null) {
     return await _file.readAsBytes();
   }
