@@ -419,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .collection(
                                                     "PerformancePolling")
                                                 .where("endDate",
-                                                    isLessThan: "2022-09-22")
+                                                    isLessThan: "$date")
                                                 // .orderBy("time",
                                                 //     descending: true)
                                                 .snapshots(),

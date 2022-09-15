@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:anrear/helper/colors.dart';
@@ -6,6 +5,7 @@ import 'package:anrear/helper/helper.dart';
 import 'package:anrear/main.dart';
 import 'package:anrear/models/performancePollingModels.dart';
 import 'package:anrear/models/usermodels.dart';
+import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/homemain.dart';
 import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -68,7 +68,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   // var locat4 = false;
 
   selectImage(ImageSource source, listofimg) async {
-    Uint8List? im = await pickImage(ImageSource.gallery,);
+    Uint8List? im = await pickImage(ImageSource.gallery);
     if (im != null) {
       // print(im);
       setState(() {
@@ -303,9 +303,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          EasyLoading.show();
                           await selectImage(ImageSource.gallery, listimg);
-                          EasyLoading.dismiss();
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -411,9 +409,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          EasyLoading.show();
                           await selectImage(ImageSource.gallery, listimg2);
-                          EasyLoading.dismiss();
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -538,9 +534,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            EasyLoading.dismiss();
                             await selectImage(ImageSource.gallery, listimg3);
-                            EasyLoading.dismiss();
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -675,9 +669,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            EasyLoading.show();
                             await selectImage(ImageSource.gallery, listimg4);
-                            EasyLoading.dismiss();
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -711,12 +703,10 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       urls2.isEmpty &&
                       urls3.isEmpty &&
                       urls4.isEmpty) {
-                    EasyLoading.show();
                     await uploadimg(listimg, urls1);
                     await uploadimg(listimg2, urls2);
                     await uploadimg(listimg3, urls3);
                     await uploadimg(listimg4, urls4);
-                    EasyLoading.dismiss();
                   }
                   setState(() {
                     // locat3 = true;
@@ -790,19 +780,16 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           //     );
                           //     },
                           //     child: Text("data")),
-                          TextFormField(
-                            controller: startDate,
+                          GestureDetector(
                             onTap: () async {
                               if (urls1.isEmpty &&
                                   urls2.isEmpty &&
                                   urls3.isEmpty &&
                                   urls4.isEmpty) {
-                                EasyLoading.show();
                                 await uploadimg(listimg, urls1);
                                 await uploadimg(listimg2, urls2);
                                 await uploadimg(listimg3, urls3);
                                 await uploadimg(listimg4, urls4);
-                                EasyLoading.dismiss();
                               }
 
                               start = await showDatePicker(
@@ -812,17 +799,21 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                 lastDate: DateTime(2025),
                               );
                               startDate.text =
-                                  "${start!.toLocal()}".split(' ')[0];
+                                  "${start?.toLocal()}".split(' ')[0];
                             },
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                hintStyle: TextStyle(color: Colors.black),
-                                hintText: "02/02/02",
-                                fillColor: Colors.white),
+                            child: TextFormField(
+                              enabled: false,
+                              controller: startDate,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  hintStyle: TextStyle(color: Colors.black),
+                                  hintText: "$date",
+                                  fillColor: Colors.white),
+                            ),
                           ),
                         ],
                       ),
@@ -842,8 +833,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           SizedBox(
                             height: 5,
                           ),
-                          TextFormField(
-                            controller: endDate,
+                          GestureDetector(
                             onTap: () async {
                               if (urls1 == null) {
                                 urls1 = await uploadimg(listimg, urls1);
@@ -865,16 +855,20 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                               );
                               endDate.text = "${end!.toLocal()}".split(' ')[0];
                             },
-                            decoration: InputDecoration(
-                                // enabled: false,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                hintStyle: TextStyle(color: Colors.black),
-                                hintText: "02/02/02",
-                                fillColor: Colors.white),
+                            child: TextFormField(
+                              enabled: false,
+                              controller: endDate,
+                              decoration: InputDecoration(
+                                  // enabled: false,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  hintStyle: TextStyle(color: Colors.black),
+                                  hintText: "02-02-02",
+                                  fillColor: Colors.white),
+                            ),
                           ),
                         ],
                       ),

@@ -5,6 +5,7 @@ import 'package:anrear/screens/home/my_performance_polling.dart';
 import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -198,6 +199,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                         if (!widget.performancePolling["location"]["like"]
                             .contains(globalUserid)) {
                           try {
+                            EasyLoading.show();
                             await firestore_update(
                                 'PerformancePolling',
                                 widget.performancePolling["uid"],
@@ -205,9 +207,11 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                                   "location.like":
                                       FieldValue.arrayUnion([globalUserid])
                                 }));
+                            EasyLoading.dismiss();
                             Get.back();
                             Get.snackbar("Successful Voted", "");
                           } catch (e) {
+                            EasyLoading.dismiss();
                             Get.snackbar("Error", e.toString());
                           }
                         }
@@ -229,6 +233,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                         if (!widget.performancePolling["location2"]["like"]
                             .contains(globalUserid)) {
                           try {
+                            EasyLoading.show();
                             await firestore_update(
                                 'PerformancePolling',
                                 widget.performancePolling["uid"],
@@ -236,9 +241,11 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                                   "location2.like":
                                       FieldValue.arrayUnion([globalUserid])
                                 }));
+                            EasyLoading.dismiss();
                             Get.back();
                             Get.snackbar("Successful Voted", "");
                           } catch (e) {
+                            EasyLoading.dismiss();
                             Get.snackbar("Error", e.toString());
                           }
                         }
@@ -260,6 +267,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                         if (!widget.performancePolling["location3"]["like"]
                             .contains(globalUserid)) {
                           try {
+                            EasyLoading.show();
                             await firestore_update(
                                 'PerformancePolling',
                                 widget.performancePolling["uid"],
@@ -267,10 +275,11 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                                   "location3.like":
                                       FieldValue.arrayUnion([globalUserid])
                                 }));
-
+                            EasyLoading.dismiss();
                             Get.back();
                             Get.snackbar("Successful Voted", "");
                           } catch (e) {
+                            EasyLoading.dismiss();
                             Get.snackbar("Error", e.toString());
                           }
                         }
@@ -292,6 +301,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                         if (!widget.performancePolling["location4"]["like"]
                             .contains(globalUserid)) {
                           try {
+                            EasyLoading.show();
                             await firestore_update(
                                 'PerformancePolling',
                                 widget.performancePolling["uid"],
@@ -299,9 +309,11 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                                   "location3.like":
                                       FieldValue.arrayUnion([globalUserid])
                                 }));
+                            EasyLoading.dismiss();
                             Get.back();
                             Get.snackbar("Successful Voted", "");
                           } catch (e) {
+                            EasyLoading.dismiss();
                             Get.snackbar("Error", e.toString());
                           }
                         }

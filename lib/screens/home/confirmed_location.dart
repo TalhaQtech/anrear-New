@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,7 +62,7 @@ class _ConfirmLocationScreen extends State<ConfirmLocationScreen> {
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("PerformancePolling")
-                      .where("endDate", isLessThan: "2022-09-22")
+                      .where("endDate", isLessThan: "$date")
                       // .orderBy("time",
                       //     descending: true)
                       .snapshots(),

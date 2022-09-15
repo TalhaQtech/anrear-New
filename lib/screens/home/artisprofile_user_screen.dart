@@ -1,8 +1,10 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/create_polling_screen.dart';
+import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -60,9 +62,23 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                   //     "${widget.artistdata["uid"]}");
 
                   if (UserType == "user") {
-                    Get.to(ArtistPollingScreen(
-                      data: widget.artistdata,
-                    ));
+                    try {
+                      var data = await FirebaseFirestore.instance
+                          .collection("PerformancePolling")
+                          .doc("${widget.artistdata["uid"]}")
+                          .get();
+                      var Perform = data.data();
+                      print("object ${Perform}");
+
+                      Get.to(() => ArtistVotingScreen(
+                          performancePolling: Perform,
+                          artistdata: widget.artistdata));
+                    } catch (e) {
+                      Get.snackbar("Error", e.toString());
+                    }
+                    // Get.to(ArtistPollingScreen(
+                    //   data: widget.artistdata,
+                    // ));
                   }
                   if (UserType == "artist") {
                     // EasyLoading.show();
