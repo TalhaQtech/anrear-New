@@ -1,13 +1,10 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/models/FirebaseHelper.dart';
-import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/screens/auth/signup.dart';
 import 'package:anrear/screens/home/homemain.dart';
-import 'package:anrear/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -212,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         EasyLoading.dismiss();
 
                         print(e.message);
-                        Get.snackbar("Error", e.message.toString());
+                        Get.snackbar("Warning", e.message.toString());
                       } catch (e) {
                         EasyLoading.dismiss();
 

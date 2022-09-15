@@ -50,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
               email: email.text.trim(), password: Password.text.trim());
       UserModel newUser = UserModel(
           time: Timestamp.now(),
-          musicCategorie: "",
+          musicCategorie: [],
           links: [],
           award: [],
           userType: UserType,
@@ -87,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
       EasyLoading.dismiss();
 
       print(e.message);
-      Get.snackbar("Error", e.message.toString());
+      Get.snackbar("Warning", e.message.toString());
     } catch (e) {
       EasyLoading.dismiss();
 
@@ -106,7 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
       globalUserid = credential.user!.uid;
       UserModel newUser = UserModel(
           time: Timestamp.now(),
-          musicCategorie: "",
+          musicCategorie: [],
           links: [],
           award: [],
           userType: UserType,
@@ -142,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
       EasyLoading.dismiss();
 
       print(e.message);
-      Get.snackbar("Error", e.message.toString());
+      Get.snackbar("Warning", e.message.toString());
     } catch (e) {
       EasyLoading.dismiss();
 

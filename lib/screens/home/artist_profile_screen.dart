@@ -281,9 +281,26 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                Align(
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 9.0),
+                  child: Align(
                     alignment: Alignment.topLeft,
-                    child: musicCat(res_width, currentUserData.musicCategorie)),
+                    child: Container(
+                      // height: Get.height * 0.25,
+                      height: 60,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: currentUserData.musicCategorie.length,
+                          itemBuilder: (context, index) {
+                            return musicCat(res_width,
+                                '${currentUserData.musicCategorie[index].toString()}');
+                          }),
+                    ),
+                  ),
+                ),
 
                 // Container(
                 //   width: res_width * 0.9,
@@ -570,7 +587,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
     );
   }
 
-  String musicCategorie = currentUserData.musicCategorie;
+  List musicCategorie = currentUserData.musicCategorie;
 
   GestureDetector musicCat(double res_width, txt) {
     return GestureDetector(
@@ -580,9 +597,9 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
         setState(() {});
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 18.0),
+        padding: const EdgeInsets.only(left: 8.0),
         child: Container(
-          width: res_width * 0.35,
+          width: res_width * 0.4,
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -595,7 +612,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
               color:
                   //  musicCategorie == txt ? kPrimaryColor :
                   Colors.white,
-              borderRadius: BorderRadius.circular(15)),
+              borderRadius: BorderRadius.circular(6)),
           child: Center(
               child: Padding(
             padding: const EdgeInsets.all(18.0),

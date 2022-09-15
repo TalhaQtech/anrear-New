@@ -11,7 +11,7 @@ class UserModel {
   String? userPhone;
   String? password;
   String? userType;
-  String? musicCategorie;
+  List? musicCategorie;
   List? links;
   var time;
 
