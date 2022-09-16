@@ -1,6 +1,7 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -160,11 +161,11 @@ class my_perfomance_polling extends StatelessWidget {
                                         await launchUrlString(
                                             url.toString().trim());
                                         EasyLoading.dismiss();
-                                      } catch (e) {
+                                      } on PlatformException catch (e) {
                                         EasyLoading.dismiss();
 
                                         Get.snackbar("Could not launch $url",
-                                            e.toString());
+                                            e.message.toString());
                                       }
                                     },
                                     child: Text(

@@ -2,6 +2,7 @@ import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/models/usermodels.dart';
+import 'package:anrear/screens/auth/create_polling_screen.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/auth/selecttype_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
@@ -15,6 +16,7 @@ import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class NavDrawer extends StatefulWidget {
@@ -305,10 +307,13 @@ class _NavDrawerState extends State<NavDrawer> {
                                     "PerformancePolling", "${globalUserid}");
                             var Perform = data.data();
                             print("object ${Perform}");
-
-                            Get.to(() => my_perfomance_polling(
-                                  performancePolling: Perform,
-                                ));
+                            Perform != null
+                                ? Get.to(() => my_perfomance_polling(
+                                      performancePolling: Perform,
+                                    ))
+                                : Get.to(CreatePollingScreen(
+                                    userModel: currentUserData,
+                                  ));
                           } catch (e) {
                             Get.snackbar("Error", e.toString());
                           }
@@ -354,11 +359,14 @@ class _NavDrawerState extends State<NavDrawer> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                          if (bottomctrl.navigationBarIndexValue != 3) {
-                            bottomctrl.navBarChange(3);
-                          } else {
-                            Get.back();
-                          }
+                          Get.to(CreatePollingScreen(
+                            userModel: currentUserData,
+                          ));
+                          // if (bottomctrl.navigationBarIndexValue != 3) {
+                          //   bottomctrl.navBarChange(3);
+                          // } else {
+                          //   Get.back();
+                          // }
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 13, right: 13),
@@ -373,12 +381,15 @@ class _NavDrawerState extends State<NavDrawer> {
                                           "assets/slicing/add performing.png"),
                                     ),
                                     onPressed: () {
-                                      if (bottomctrl.navigationBarIndexValue !=
-                                          3) {
-                                        bottomctrl.navBarChange(3);
-                                      } else {
-                                        Get.back();
-                                      }
+                                      // Get.to(CreatePollingScreen(
+                                      //   userModel: currentUserData,
+                                      // ));
+                                      // if (bottomctrl.navigationBarIndexValue !=
+                                      //     3) {
+                                      //   bottomctrl.navBarChange(3);
+                                      // } else {
+                                      //   Get.back();
+                                      // }
                                     },
                                   ),
                                   Text(
@@ -543,8 +554,21 @@ class _NavDrawerState extends State<NavDrawer> {
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () async {
-                        await FirebaseAuth.instance.signOut();
-                        Get.to(() => SelectUserTypeScreen());
+                        try {
+                          EasyLoading.show();
+                          await FirebaseAuth.instance.signOut();
+                          bottomctrl.navBarChange(0);
+
+                          Get.to(() => SelectUserTypeScreen());
+                          currentUserData = null;
+                          EasyLoading.dismiss();
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+                          Get.snackbar("Error", e.message.toString());
+                        } catch (e) {
+                          EasyLoading.dismiss();
+                          print(e.toString());
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 13, right: 13),

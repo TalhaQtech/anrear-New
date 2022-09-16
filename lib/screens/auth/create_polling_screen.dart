@@ -18,9 +18,11 @@ import 'package:image_picker/image_picker.dart';
 
 class CreatePollingScreen extends StatefulWidget {
   final UserModel? userModel;
-  var firebaseUser;
-  CreatePollingScreen({Key? key, this.userModel, this.firebaseUser})
-      : super(key: key);
+  // var firebaseUser;
+  CreatePollingScreen({
+    Key? key,
+    this.userModel,
+  }) : super(key: key);
 
   @override
   State<CreatePollingScreen> createState() => _CreatePollingScreenState();
@@ -109,7 +111,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
       try {
         performancePolingModel newUser = await performancePolingModel(
             time: Timestamp.now(),
-            youtubeurls: fbLinksControl,
+            youtubeurls: fbLinksControl.isNotEmpty
+                ? fbLinksControl
+                : [_controllers.text.trim()],
             location3: location3.text.trim(),
             location4: location4.text.trim(),
             polling_location_im3: urls3,
@@ -133,6 +137,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               userModel: widget.userModel,
             ));
         EasyLoading.dismiss();
+        Get.snackbar("successfully done ", "");
         //     .than((value) {
 
         //   EasyLoading.dismiss();

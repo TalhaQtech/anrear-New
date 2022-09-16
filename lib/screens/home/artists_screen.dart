@@ -196,7 +196,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                       Text(
                         name,
                         style: TextStyle(
-                            fontWeight: FontWeight.normal, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       SizedBox(
                         height: res_height * 0.00075,

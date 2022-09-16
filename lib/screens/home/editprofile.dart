@@ -67,7 +67,6 @@ class _ProfileScreen extends State<editprofile> {
 
   update() async {
     try {
-      EasyLoading.show();
       await uploadimg();
 
       currentUserData.userPhone = userPhone.text.trim();
@@ -84,17 +83,16 @@ class _ProfileScreen extends State<editprofile> {
         "userPhone": currentUserData.userPhone,
         "description": currentUserData.description
       });
-      EasyLoading.dismiss();
-      if (bottomctrl.navigationBarIndexValue != 2) {
-        bottomctrl.navBarChange(2);
-      } else {
-        Get.back();
-      }
+      // if (bottomctrl.navigationBarIndexValue != 2) {
+      bottomctrl.navBarChange(2);
+      // } else {
+      Get.back();
+      // }
     } catch (e) {
       EasyLoading.dismiss();
 
       print(e.toString());
-      Get.snackbar("Error", e.toString());
+      // Get.snackbar("Error", e.toString());
     }
   }
 
@@ -164,30 +162,44 @@ class _ProfileScreen extends State<editprofile> {
                     // setState(() {});
                   },
                   child: image == null
-                      ? Container(
-                          width: res_width * 0.35,
-                          height: res_width * 0.35,
-                          decoration: BoxDecoration(
-                            // color: const Color(0xff7c94b6),
-                            // image: DecorationImage(
-                            //     image: AssetImage(
-                            //         "assets/slicing/avatarsidemenu.png"),
-                            //     fit: BoxFit.contain,
-                            //     scale: 3),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100.0)),
-                            border: Border.all(
-                              color: kPrimaryColor,
-                              width: 4.0,
+                      ? Stack(
+                          children: [
+                            Container(
+                              width: res_width * 0.35,
+                              height: res_width * 0.35,
+                              decoration: BoxDecoration(
+                                // color: const Color(0xff7c94b6),
+                                // image: DecorationImage(
+                                //     image: AssetImage(
+                                //         "assets/slicing/avatarsidemenu.png"),
+                                //     fit: BoxFit.contain,
+                                //     scale: 3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100.0)),
+                                border: Border.all(
+                                  color: kPrimaryColor,
+                                  width: 4.0,
+                                ),
+                              ),
+                              child: FittedBox(
+                                child: Icon(
+                                  Icons.person,
+                                  color: kPrimaryColor,
+                                  // size: Get.height ,
+                                ),
+                              ),
                             ),
-                          ),
-                          child: FittedBox(
-                            child: Icon(
-                              Icons.person,
-                              color: kPrimaryColor,
-                              // size: Get.height ,
+                            Positioned(
+                              right: 0,
+                              // bottom: 0,
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: kPrimaryColor,
+                                size: 25,
+                              ),
                             ),
-                          ),
+                            // IconButton(onPressed: (){}, icon: icon)
+                          ],
                         )
                       :
                       // Container(
@@ -348,7 +360,14 @@ class _ProfileScreen extends State<editprofile> {
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () async {
-                    await update();
+                    try {
+                      EasyLoading.show();
+                      await update();
+                      EasyLoading.dismiss();
+                    } on FirebaseException catch (e) {
+                      Get.snackbar("Warrning", e.message.toString());
+                    }
+
                     // Get.to(() => LoginScreen());
                   },
                   child: Container(

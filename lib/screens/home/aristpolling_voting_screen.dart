@@ -141,39 +141,41 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                Container(
-                  width: res_width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.facebook_outlined,
-                          color: kPrimaryColor,
-                          size: 40,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: res_height * 0.04,
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'https://www.facebook.com',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+
+                // Container(
+                //   width: res_width * 0.9,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.all(Radius.circular(10))),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: Row(
+                //       children: [
+                //         Icon(
+                //           Icons.facebook_outlined,
+                //           color: kPrimaryColor,
+                //           size: 40,
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Container(
+                //           height: res_height * 0.04,
+                //           width: 1,
+                //           color: Colors.grey,
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Text(
+                //           'https://www.facebook.com',
+                //           style: TextStyle(color: Colors.black, fontSize: 16),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 SizedBox(
                   height: res_height * 0.03,
                 ),

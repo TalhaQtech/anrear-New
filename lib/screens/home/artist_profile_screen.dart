@@ -1,8 +1,10 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/edit_artist_profile.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -52,12 +54,13 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                Get.to(() => NotificationScreen());
+                Get.to(() => Edit_Artist_profile(
+                      userModel: currentUserData,
+                    ));
               },
               child: Padding(
                 padding: const EdgeInsets.all(13.0),
-                child: Container(
-                    child: Image.asset('assets/slicing/notfication.png')),
+                child: Container(child: Image.asset('assets/slicing/edit.png')),
               ),
             )
           ],
@@ -201,6 +204,27 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                                             child: Image.network(
                                               '${currentUserData.award[index]}',
                                               fit: BoxFit.cover,
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null)
+                                                  return child;
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!
+                                                        : null,
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           )),
                                     ),
@@ -283,7 +307,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 9.0),
+                  padding: const EdgeInsets.only(left: 16.0),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
@@ -423,6 +447,27 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                                             child: Image.network(
                                               '${currentUserData.award[index]}',
                                               fit: BoxFit.cover,
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null)
+                                                  return child;
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!
+                                                        : null,
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           )),
                                     ),
@@ -518,11 +563,16 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                                         await launchUrlString(
                                             url.toString().trim());
                                         EasyLoading.dismiss();
-                                      } catch (e) {
+                                      } on PlatformException catch (e) {
                                         EasyLoading.dismiss();
 
                                         Get.snackbar("Could not launch $url",
-                                            e.toString());
+                                            e.message.toString());
+                                      } catch (e) {
+                                        EasyLoading.dismiss();
+                                        print(e);
+                                        // Get.snackbar("Could not launch $url",
+                                        //     e.toString());
                                       }
                                     },
                                     child: Text(
@@ -593,8 +643,8 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
     return GestureDetector(
       onTap: () {
         print(txt);
-        musicCategorie = txt;
-        setState(() {});
+        // musicCategorie = txt;
+        // setState(() {});
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0),

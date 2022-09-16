@@ -1,11 +1,15 @@
+import 'package:anrear/helper/bottomcontrller.dart';
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/auth/login.dart';
+import 'package:anrear/screens/auth/selecttype_screen.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/editprofile.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:anrear/screens/home/setting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,6 +20,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreen extends State<ProfileScreen> {
+  final bottomctrl = Get.put(BottomController());
+
   @override
   Widget build(BuildContext context) {
     double res_width = MediaQuery.of(context).size.width;
@@ -170,6 +176,32 @@ class _ProfileScreen extends State<ProfileScreen> {
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
+                    Get.to(() => editprofile());
+                  },
+                  child: Container(
+                    width: res_width * 0.9,
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Text(
+                        'Edit Profile',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                    )),
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.01,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
                     Get.to(() => SettingScreen());
                   },
                   child: Container(
@@ -195,8 +227,24 @@ class _ProfileScreen extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    Get.to(() => LoginScreen());
+                  onTap: () async {
+                    try {
+                      EasyLoading.show();
+                      await FirebaseAuth.instance.signOut();
+                      bottomctrl.navBarChange(0);
+
+                      Get.to(() => SelectUserTypeScreen());
+                      currentUserData = null;
+                      EasyLoading.dismiss();
+                    } on FirebaseException catch (e) {
+                      EasyLoading.dismiss();
+                      Get.snackbar("Error", e.message.toString());
+                    } catch (e) {
+                      EasyLoading.dismiss();
+                      print(e.toString());
+                    }
+
+                    // Get.to(() => LoginScreen());
                   },
                   child: Container(
                     width: res_width * 0.9,
@@ -208,32 +256,6 @@ class _ProfileScreen extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(18.0),
                       child: Text(
                         'Logout',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17),
-                      ),
-                    )),
-                  ),
-                ),
-                SizedBox(
-                  height: res_height * 0.01,
-                ),
-                GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    Get.to(() => editprofile());
-                  },
-                  child: Container(
-                    width: res_width * 0.9,
-                    decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Center(
-                        child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Text(
-                        'Edit Profile',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

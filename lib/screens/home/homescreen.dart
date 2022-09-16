@@ -605,7 +605,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   '$name',
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Container(
                     width: res_width * 0.45,
@@ -697,7 +697,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         name,
                         style: TextStyle(
-                            fontWeight: FontWeight.normal, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       SizedBox(
                         height: res_height * 0.00075,
@@ -793,8 +793,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 16),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     SizedBox(
                       height: res_height * 0.00075,
@@ -883,7 +883,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xff7c94b6),
                       image: DecorationImage(
-                        image: NetworkImage(image),
+                        image: NetworkImage(
+                          image,
+                        ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -906,7 +908,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         name,
                         style: TextStyle(
-                            fontWeight: FontWeight.normal, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       SizedBox(
                         height: res_height * 0.00075,

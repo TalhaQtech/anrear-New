@@ -149,8 +149,9 @@ class _PollingsScreen extends State<PollingsScreen> {
               data: data,
             ));
       },
-      child: Container(
-        width: res_width * 0.94,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Get.height * 0.02),
+        // width: res_width * 0.94,
         // decoration: BoxDecoration(
         //     color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: Card(
@@ -191,8 +192,8 @@ class _PollingsScreen extends State<PollingsScreen> {
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 16),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     SizedBox(
                       height: res_height * 0.00075,

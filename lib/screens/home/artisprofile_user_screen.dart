@@ -6,6 +6,7 @@ import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -19,7 +20,7 @@ class ArtisProfileUserScreen extends StatefulWidget {
 }
 
 class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
-  late String musicCategorie = widget.artistdata["musicCategorie"];
+  late List musicCategorie = widget.artistdata["musicCategorie"];
 
   // late List like = widget.artistdata["fav"];
   @override
@@ -73,8 +74,8 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                       Get.to(() => ArtistVotingScreen(
                           performancePolling: Perform,
                           artistdata: widget.artistdata));
-                    } catch (e) {
-                      Get.snackbar("Error", e.toString());
+                    } on FirebaseException catch (e) {
+                      Get.snackbar("Error", e.message.toString());
                     }
                     // Get.to(ArtistPollingScreen(
                     //   data: widget.artistdata,
@@ -96,7 +97,6 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     //   ));
                     Get.to(CreatePollingScreen(
                       userModel: currentUserData,
-                      firebaseUser: globalUserid,
                     ));
                   }
                 },
@@ -307,6 +307,24 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                                       widget.artistdata["award"][index] == null
                                           ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                                           : "${widget.artistdata["award"][index]}",
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },
 
                                       // '${widget.artistdata["award"][index]}',
                                       fit: BoxFit.cover,
@@ -360,75 +378,95 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
-                Container(
-                  width: res_width * 0.9,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        musicCat(res_width,
-                            "${widget.artistdata["musicCategorie"]}"),
-                        // Container(
-                        //   width: res_width * 0.35,
-                        //   decoration: BoxDecoration(
-                        //       color: kPrimaryColor,
-                        //       borderRadius: BorderRadius.circular(15)),
-                        //   child: Center(
-                        //       child: Padding(
-                        //     padding: const EdgeInsets.all(15.0),
-                        //     child: Text(
-                        //       'Loremsum',
-                        //       style: TextStyle(
-                        //           color: Colors.white,
-                        //           fontWeight: FontWeight.normal,
-                        //           fontSize: 15),
-                        //     ),
-                        //   )),
-                        // ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
-                        // Container(
-                        //   width: res_width * 0.35,
-                        //   decoration: BoxDecoration(
-                        //       color: Colors.white,
-                        //       borderRadius: BorderRadius.circular(15)),
-                        //   child: Center(
-                        //       child: Padding(
-                        //     padding: const EdgeInsets.all(15.0),
-                        //     child: Text(
-                        //       'Loremsum',
-                        //       style: TextStyle(
-                        //           color: kPrimaryColor,
-                        //           fontWeight: FontWeight.normal,
-                        //           fontSize: 15),
-                        //     ),
-                        //   )),
-                        // ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
-                        // Container(
-                        //   width: res_width * 0.35,
-                        //   decoration: BoxDecoration(
-                        //       color: Colors.white,
-                        //       borderRadius: BorderRadius.circular(15)),
-                        //   child: Center(
-                        //       child: Padding(
-                        //     padding: const EdgeInsets.all(15.0),
-                        //     child: Text(
-                        //       'Loremsum',
-                        //       style: TextStyle(
-                        //           color: kPrimaryColor,
-                        //           fontWeight: FontWeight.normal,
-                        //           fontSize: 15),
-                        //     ),
-                        //   )),
-                        // ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 17.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      // height: Get.height * 0.25,
+                      height: 60,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.artistdata["musicCategorie"].length,
+                          itemBuilder: (context, index) {
+                            return musicCat(res_width,
+                                '${widget.artistdata["musicCategorie"][index].toString()}');
+                          }),
                     ),
                   ),
                 ),
+
+                // Container(
+                //   width: res_width * 0.9,
+                //   child: SingleChildScrollView(
+                //     scrollDirection: Axis.horizontal,
+                //     child: Row(
+                //       children: [
+                //         musicCat(res_width,
+                //             "${widget.artistdata["musicCategorie"]}"),
+                // Container(
+                //   width: res_width * 0.35,
+                //   decoration: BoxDecoration(
+                //       color: kPrimaryColor,
+                //       borderRadius: BorderRadius.circular(15)),
+                //   child: Center(
+                //       child: Padding(
+                //     padding: const EdgeInsets.all(15.0),
+                //     child: Text(
+                //       'Loremsum',
+                //       style: TextStyle(
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.normal,
+                //           fontSize: 15),
+                //     ),
+                //   )),
+                // ),
+                // SizedBox(
+                //   width: 10,
+                // ),
+                // Container(
+                //   width: res_width * 0.35,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(15)),
+                //   child: Center(
+                //       child: Padding(
+                //     padding: const EdgeInsets.all(15.0),
+                //     child: Text(
+                //       'Loremsum',
+                //       style: TextStyle(
+                //           color: kPrimaryColor,
+                //           fontWeight: FontWeight.normal,
+                //           fontSize: 15),
+                //     ),
+                //   )),
+                // ),
+                // SizedBox(
+                //   width: 10,
+                // ),
+                // Container(
+                //   width: res_width * 0.35,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(15)),
+                //   child: Center(
+                //       child: Padding(
+                //     padding: const EdgeInsets.all(15.0),
+                //     child: Text(
+                //       'Loremsum',
+                //       style: TextStyle(
+                //           color: kPrimaryColor,
+                //           fontWeight: FontWeight.normal,
+                //           fontSize: 15),
+                //     ),
+                //   )),
+                // ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: res_height * 0.03,
                 ),
@@ -458,6 +496,9 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                               scrollDirection: Axis.horizontal,
                               itemCount: widget.artistdata["award"].length ?? 1,
                               itemBuilder: (context, index) {
+                                // if (widget.artistdata["award"].isBlank) {
+                                //   return CircularProgressIndicator();
+                                // }
                                 return Column(
                                   children: [
                                     Padding(
@@ -484,6 +525,27 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                                                       null
                                                   ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                                                   : "${widget.artistdata["award"][index]}",
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null)
+                                                  return child;
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!
+                                                        : null,
+                                                  ),
+                                                );
+                                              },
 
                                               // '${widget.artistdata["award"][index]}',
                                               fit: BoxFit.cover,
@@ -578,11 +640,17 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                                     await launchUrlString(
                                         url.toString().trim());
                                     EasyLoading.dismiss();
+                                  } on PlatformException catch (e) {
+                                    EasyLoading.dismiss();
+                                    // throw Exception(e);
+                                    Get.snackbar("Could not launch $url",
+                                        e.message.toString());
                                   } catch (e) {
                                     EasyLoading.dismiss();
-
-                                    Get.snackbar(
-                                        "Could not launch $url", e.toString());
+                                    // throw Exception(e);
+                                    print(e);
+                                    // Get.snackbar(
+                                    //     "Could not launch $url", e.toString());
                                   }
                                 },
                                 child: Text(
@@ -632,9 +700,9 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                 //     ),
                 //   ),
                 // ),
-                // SizedBox(
-                //   height: res_height * 0.03,
-                // ),
+                SizedBox(
+                  height: res_height * 0.03,
+                ),
               ],
             ),
           ),
@@ -647,23 +715,22 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
     return GestureDetector(
       onTap: () {
         print(txt);
-        musicCategorie = txt;
+        // musicCategorie = txt;
         setState(() {});
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 4.0),
         child: Container(
-          width: res_width * 0.35,
+          width: res_width * 0.4,
           decoration: BoxDecoration(
-              color: musicCategorie == txt ? kPrimaryColor : Colors.white,
-              borderRadius: BorderRadius.circular(15)),
+              color: Colors.white, borderRadius: BorderRadius.circular(6)),
           child: Center(
               child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Text(
               '$txt',
               style: TextStyle(
-                  color: musicCategorie == txt ? Colors.white : Colors.black,
+                  color: Colors.black,
                   fontWeight: FontWeight.normal,
                   fontSize: 17),
             ),

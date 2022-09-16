@@ -1,3 +1,4 @@
+import 'package:anrear/helper/helper.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
@@ -118,6 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("artist")
+                      .where("uid", isNotEqualTo: globalUserid)
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -236,7 +238,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Text(
                         name,
                         style: TextStyle(
-                            fontWeight: FontWeight.normal, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       SizedBox(
                         height: res_height * 0.00075,
