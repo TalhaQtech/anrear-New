@@ -69,11 +69,19 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                           .doc("${widget.artistdata["uid"]}")
                           .get();
                       var Perform = data.data();
-                      print("object ${Perform}");
-
-                      Get.to(() => ArtistVotingScreen(
-                          performancePolling: Perform,
-                          artistdata: widget.artistdata));
+                      print(" ${Perform}");
+                      if (Perform != null) {
+                        if (DateTime.parse(data["endDate"]).day >
+                            DateTime.now().day) {
+                          Get.to(() => ArtistVotingScreen(
+                              performancePolling: Perform,
+                              artistdata: widget.artistdata));
+                        } else {
+                          Get.snackbar("This Artist is closed pollings ", "");
+                        }
+                      } else {
+                        Get.snackbar("This Artist is not create pollings ", "");
+                      }
                     } on FirebaseException catch (e) {
                       Get.snackbar("Error", e.message.toString());
                     }
@@ -82,22 +90,31 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                     // ));
                   }
                   if (UserType == "artist") {
-                    // EasyLoading.show();
-                    // var data =
-                    //     await firestore_get("PerformancePolling", globalUserid);
-                    // EasyLoading.dismiss();
+                    EasyLoading.show();
+                    var data =
+                        await firestore_get("PerformancePolling", globalUserid);
+                    var Perform = data.data();
+                    EasyLoading.dismiss();
+                    print(Perform);
                     // print(DateTime.parse(data["endDate"]).day);
-                    // if (DateTime.parse(data["endDate"]).day >
-                    //     DateTime.now().day) {
-                    //   Get.snackbar("You have Already created pollings", "");
-                    // } else
-                    //   Get.to(CreatePollingScreen(
-                    //     userModel: currentUserData,
-                    //     firebaseUser: globalUserid,
-                    //   ));
-                    Get.to(CreatePollingScreen(
-                      userModel: currentUserData,
-                    ));
+                    if (Perform != null) {
+                      if (DateTime.parse(data["endDate"]).day >
+                          DateTime.now().day) {
+                        Get.snackbar("You have Already created pollings", "");
+                      } else {
+                        Get.to(CreatePollingScreen(
+                          userModel: currentUserData,
+                          // firebaseUser: globalUserid,
+                        ));
+                      }
+                    } else {
+                      Get.to(CreatePollingScreen(
+                        userModel: currentUserData,
+                      ));
+                    }
+                    // Get.to(CreatePollingScreen(
+                    //   userModel: currentUserData,
+                    // ));
                   }
                 },
                 child: Container(
@@ -167,7 +184,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                             color: Colors.grey,
                             size: 18,
                           ),
-                          Text('California',
+                          Text('${widget.artistdata["nationality"]}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,

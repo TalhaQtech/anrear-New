@@ -196,6 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // print(currentUser!.uid);
                         // if (currentUser != null) {
                         // Logged In
+                        currentUserData = null;
                         currentUserData = await FirebaseHelper.getUserModelById(
                             user.user!.uid);
                         // currentUserData = thisUserModel;

@@ -259,14 +259,16 @@ class my_perfomance_polling extends StatelessWidget {
                       "${performancePolling["location2"]["location2"]}",
                       performancePolling["location2"]["like"].length,
                     ),
-                    votebox(
-                      "${performancePolling["location3"]["location3"]}",
-                      performancePolling["location3"]["like"].length,
-                    ),
-                    votebox(
-                      "${performancePolling["location4"]["location4"]}",
-                      performancePolling["location4"]["like"].length,
-                    )
+                    if (performancePolling["location3"]["location3"] != "false")
+                      votebox(
+                        "${performancePolling["location3"]["location3"]}",
+                        performancePolling["location3"]["like"].length,
+                      ),
+                    if (performancePolling["location4"]["location4"] != "false")
+                      votebox(
+                        "${performancePolling["location4"]["location4"]}",
+                        performancePolling["location4"]["like"].length,
+                      )
                     // votebox(
                     //     widget.performancePolling["location"]["location1"]
                     //         .toString(),

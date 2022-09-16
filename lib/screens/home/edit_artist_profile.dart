@@ -30,9 +30,11 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
   Uint8List? image;
   Uint8List? image2;
 
-  String? imageUrl = "";
+  String? artist_Profile_Image = "";
 
   var start;
+
+  List musicCategorie = [];
   void selectImage(ImageSource source) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
     setState(() {
@@ -48,25 +50,12 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
   ) async {
     print(0);
     Uint8List im = await pickImage(ImageSource.gallery);
-    // print(im);
-    // print(0);
+
     if (im.isNotEmpty) {
       print(im);
 
       image = im;
     }
-    //   print(1);
-
-    //   print(2);
-    // awardWinning = await uploadTask.snapshot.ref.getDownloadURL();
-    //   print(3);
-
-    //     // listofimg.add(im);
-    //     // listofimg = im;
-    //     // print(listofimg.toString() + "asad");
-    //   });
-    //   print(4);
-    // }
   }
 
   int r = 1;
@@ -79,10 +68,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
       // currentUserData.award.add(await uploadTask.snapshot.ref.getDownloadURL());
       print(await uploadTask.snapshot.ref.getDownloadURL());
       var awardlink = (await uploadTask.snapshot.ref.getDownloadURL());
-      // print(currentUserData.award);
       print(2);
-
-      // print(uploadTask.snapshot.ref.getDownloadURL());
 
       await firestore_update("artist", "$globalUserid", {
         "award": FieldValue.arrayUnion([awardlink])
@@ -93,18 +79,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
     }
   }
 
-  // List<String> imagesUrls = [];
-
-  // print(imagesUrls);
-  // return imagesUrls;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // print('run');
-  //   // Timer(Duration(seconds: 2), () => Get.to(() => HomeMainScreen()));
-  // }
-  List listimg = [];
+  // List listimg = [];
   late var Nationality =
       TextEditingController(text: widget.userModel!.Nationality);
   late var Dob = TextEditingController(text: widget.userModel!.dob);
@@ -114,22 +89,25 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
   late var fullName = TextEditingController(text: widget.userModel!.fullName);
   // var urls1 = [];
   List text = [];
+  List award = [];
   TextEditingController _controller = TextEditingController();
   uploadData() async {
     try {
       EasyLoading.show();
       print("talha");
-      // widget.userModel!.award = ;
-      widget.userModel!.userImage = imageUrl.toString();
+      widget.userModel?.userImage = image2 != null
+          ? artist_Profile_Image.toString()
+          : currentUserData.userImage;
       widget.userModel?.Nationality = Nationality.text.toString().trim();
       widget.userModel?.description = Description.text.trim().toString();
       widget.userModel?.dob = Dob.text.trim();
       widget.userModel?.fullName = fullName.text.trim();
       widget.userModel?.singup_step = 2;
+      widget.userModel?.award = award;
       widget.userModel?.links = _controller.text.length > 0 && text.isEmpty
           ? [_controller.text.toString().trim()]
           : text;
-      if (text.isNotEmpty) widget.userModel?.links = text;
+      // if (text.isNotEmpty) widget.userModel?.links = text;
       widget.userModel?.musicCategorie = musicCategorie;
       print("shakeel");
 
@@ -156,6 +134,9 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
 
   @override
   Widget build(BuildContext context) {
+    musicCategorie = currentUserData.musicCategorie;
+    text = currentUserData.links;
+
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
 
@@ -449,7 +430,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                                       // print(snapshot
                                       //     .data!.docs[index]["award"].length);
                                       {
-                                        List award =
+                                        award =
                                             snapshot.data!.docs[index]["award"];
                                         return ListView.builder(
                                             shrinkWrap: true,
@@ -801,18 +782,23 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                   try {
                     EasyLoading.show();
                     print(5);
-                    if (image2 != null)
+                    if (image2 != null) {
                       uploadTask = FirebaseStorage.instance
                           .ref("profilepictures")
                           .child(widget.userModel!.uid.toString())
                           .putData(image2!);
-                    TaskSnapshot? snapshot = await uploadTask;
+                      TaskSnapshot? snapshot = await uploadTask;
 
-                    imageUrl = await snapshot!.ref.getDownloadURL();
+                      artist_Profile_Image =
+                          await snapshot!.ref.getDownloadURL();
+                    }
                     await uploadData();
                     EasyLoading.dismiss();
-                  } catch (e) {
+                  } on FirebaseException catch (e) {
                     EasyLoading.dismiss();
+                    Get.snackbar("Error", "${e.message}");
+                    print(e);
+                  } catch (e) {
                     print(e);
                   }
 
@@ -847,13 +833,16 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
     );
   }
 
-  List musicCategorie = [];
   // String musicCategorie = "";
   GestureDetector musicCat(double res_width, txt) {
     return GestureDetector(
       onTap: () async {
         // print(txt);
         // musicCategorie = txt;
+        // musicCategorie.
+        // musicCategorie.contains(currentUserData.musicCategorie);
+        // print(currentUserData.musicCategorie);
+        // musicCategorie = currentUserData.musicCategorie;
         setState(() {});
         if (!musicCategorie.contains(txt))
           musicCategorie.add(txt);

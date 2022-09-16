@@ -298,13 +298,8 @@ class _NavDrawerState extends State<NavDrawer> {
                           //   Get.back();
                           // }
                           try {
-                            var data = await
-                                //  FirebaseFirestore.instance
-                                //     .collection("PerformancePolling")
-                                //     .doc("${globalUserid}")
-                                //     .get();
-                                firestore_get(
-                                    "PerformancePolling", "${globalUserid}");
+                            var data = await firestore_get(
+                                "PerformancePolling", "${globalUserid}");
                             var Perform = data.data();
                             print("object ${Perform}");
                             Perform != null
@@ -358,10 +353,40 @@ class _NavDrawerState extends State<NavDrawer> {
                     if (UserType == "artist")
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          Get.to(CreatePollingScreen(
-                            userModel: currentUserData,
-                          ));
+                        onTap: () async {
+                          try {
+                            EasyLoading.show();
+                            var data = await firestore_get(
+                                "PerformancePolling", "${globalUserid}");
+                            var Perform = data.data();
+                            print("object ${Perform}");
+                            if (Perform == null) {
+                              EasyLoading.dismiss();
+                              Get.to(CreatePollingScreen(
+                                userModel: currentUserData,
+                              ));
+                            } else if (Perform != null) {
+                              if (DateTime.parse(data["endDate"]).day >
+                                  DateTime.now().day) {
+                                EasyLoading.dismiss();
+                                Get.snackbar(
+                                    "You have Already created pollings", "");
+                              } else {
+                                EasyLoading.dismiss();
+                                Get.to(CreatePollingScreen(
+                                  userModel: currentUserData,
+                                  // firebaseUser: globalUserid,
+                                ));
+                              }
+                            }
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+                            Get.snackbar("Error", e.message.toString());
+                          } catch (e) {
+                            EasyLoading.dismiss();
+                            print(e);
+                          }
+
                           // if (bottomctrl.navigationBarIndexValue != 3) {
                           //   bottomctrl.navBarChange(3);
                           // } else {
