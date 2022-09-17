@@ -60,7 +60,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
 
   int r = 1;
   upload_award() async {
-    r++;
+    // r++;
     if (image != null) {
       print(1);
       UploadTask uploadTask =
@@ -364,6 +364,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
               SizedBox(
                 height: res_height * 0.015,
               ),
+
               Container(
                 width: res_width * 0.9,
                 child: SingleChildScrollView(
@@ -407,6 +408,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                       //                 });
                       //           }
                       //         })),
+
                       Container(
                         height: 100,
                         child: StreamBuilder(
@@ -470,10 +472,8 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                                                     ),
                                                   ),
                                                   Positioned(
-                                                    // bottom: 0,
                                                     right: 70,
                                                     top: -11,
-                                                    // left: ,
                                                     child: IconButton(
                                                         onPressed: () async {
                                                           try {
@@ -509,12 +509,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                                                 ],
                                               );
 
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                child: Image.network(
-                                                    "${award[index]}"),
-                                              );
+
                                             });
                                       }
                                     });
@@ -572,6 +567,8 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                   ),
                 ),
               ),
+             
+             
               SizedBox(
                 height: res_height * 0.015,
               ),

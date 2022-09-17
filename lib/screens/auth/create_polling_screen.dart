@@ -49,6 +49,8 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
 
   DateTime? end;
 
+  var isvisible2 = false;
+
   // var _controllers2 = TextEditingController();
   @override
   void initState() {
@@ -116,10 +118,10 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                 : [_controllers.text.trim()],
             location3: location3.text.trim(),
             location4: location4.text.trim(),
-            polling_location_im3: urls3,
-            polling_location_im4: urls4,
-            polling_location_im2: urls2,
-            polling_location_im: urls1,
+            polling_location_im3: locImgList3,
+            polling_location_im4: locImgList4,
+            polling_location_im2: locImgList2,
+            polling_location_im: locImgList1,
             description: widget.userModel!.description,
             userImage: widget.userModel!.userImage,
             uid: widget.userModel!.uid,
@@ -153,29 +155,99 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   // List<String> imagesUrls = [];
   List<String> imagesUrls2 = [];
 
-  uploadimg(listOfimg, imagesUrls) {
-    listOfimg.forEach((listOfimg) async {
-      print(listOfimg);
-      try {
-        EasyLoading.show();
-        UploadTask uploadTask = FirebaseStorage.instance
-            .ref("testimg")
-            .child(uuid.v1().toString())
-            .putData(listOfimg!);
-        TaskSnapshot? snapshot = await uploadTask;
-        // print(await uploadTask.snapshot.ref.getDownloadURL());
-        // imagesUrls.add(await (await uploadTask).ref.getDownloadURL());
-        imagesUrls.add(await uploadTask.snapshot.ref.getDownloadURL());
-        // print(snapshot.ref.getDownloadURL());
-        EasyLoading.dismiss();
-      } catch (e) {
-        EasyLoading.dismiss();
+  // uploadimg(listOfimg, imagesUrls) {
+  //   listOfimg.forEach((listOfimg) async {
+  //     print(listOfimg);
+  //     try {
+  //       EasyLoading.show();
+  //       UploadTask uploadTask = FirebaseStorage.instance
+  //           .ref("testimg")
+  //           .child(uuid.v1().toString())
+  //           .putData(listOfimg!);
+  //       TaskSnapshot? snapshot = await uploadTask;
+  //       // print(await uploadTask.snapshot.ref.getDownloadURL());
+  //       // imagesUrls.add(await (await uploadTask).ref.getDownloadURL());
+  //       imagesUrls.add(await uploadTask.snapshot.ref.getDownloadURL());
+  //       // print(snapshot.ref.getDownloadURL());
+  //       EasyLoading.dismiss();
+  //     } catch (e) {
+  //       EasyLoading.dismiss();
 
-        print(e);
-      }
-    });
-    print(imagesUrls);
-    return imagesUrls;
+  //       print(e);
+  //     }
+  //   });
+  //   print(imagesUrls);
+  //   return imagesUrls;
+  // }
+
+// ye sahi hai
+  Uint8List? locImg1;
+  Uint8List? locImg2;
+  Uint8List? locImg3;
+  Uint8List? locImg4;
+  List locImgList1 = [];
+  List locImgList2 = [];
+
+  List locImgList3 = [];
+  List locImgList4 = [];
+  selectImage1(
+    ImageSource source,
+  ) async {
+    print(0);
+    locImg1 = await pickImage(ImageSource.gallery);
+
+    if (locImg1!.isNotEmpty) {
+      print(locImg1);
+    }
+  }
+
+  selectImage2(
+    ImageSource source,
+  ) async {
+    print(0);
+    locImg2 = await pickImage(ImageSource.gallery);
+
+    if (locImg2!.isNotEmpty) {
+      print(locImg2);
+    }
+  }
+
+  selectImage3(
+    ImageSource source,
+  ) async {
+    print(0);
+    locImg3 = await pickImage(ImageSource.gallery);
+
+    if (locImg3!.isNotEmpty) {
+      print(locImg3);
+    }
+  }
+
+  selectImage4(
+    ImageSource source,
+  ) async {
+    print(0);
+    locImg4 = await pickImage(ImageSource.gallery);
+
+    if (locImg4!.isNotEmpty) {
+      print(locImg4);
+    }
+  }
+
+  upload_award(locimg) async {
+    print(1);
+
+    print("$locimg" + "im");
+
+    Reference reference = FirebaseStorage.instance.ref("antivirus");
+
+    UploadTask uploadTask = reference.putData(locimg!);
+
+    final storageSnapshot = uploadTask.snapshot;
+
+    final downloadUrl = await storageSnapshot.ref.getDownloadURL();
+    // print(downloadUrl);
+    return downloadUrl;
   }
 
   @override
@@ -267,40 +339,99 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Container(
+                      //     height: 100,
+                      //     child:
+                      // StreamBuilder<QuerySnapshot>(
+                      // stream: FirebaseFirestore.instance
+                      //     .collection("artist")
+                      //     .where(
+                      //       "uid",
+                      //       isEqualTo: globalUserid,
+                      //     )
+                      //     // .where("uid",
+                      //     //     isNotEqualTo: globalUserid)
+                      //     .snapshots(),
+                      // builder: (BuildContext context,
+                      //     AsyncSnapshot<QuerySnapshot> snapshot) {
+                      //   {
+                      //             return ListView.builder(
+                      //                 shrinkWrap: true,
+                      //                 scrollDirection: Axis.horizontal,
+                      //                 itemCount: snapshot.data?.docs.length,
+                      //                 itemBuilder: (context, index) {
+                      //                   return ListView.builder(
+                      //                     shrinkWrap: true,
+                      //                     scrollDirection: Axis.horizontal,
+                      //                     itemCount:
+                      //                         widget.userModel!.award!.length,
+                      //                     itemBuilder: (context, index) {
+                      //                       return widget.userModel?.award !=
+                      //                               null
+
+                      //                           : Container();
+                      //                     },
+                      //                   );
+                      //                 });
+                      //           }
+                      //         })),
                       Container(
                         // width: 400,
                         height: 100,
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: listimg.length,
+                          itemCount: locImgList1.length,
                           itemBuilder: (context, index) {
-                            print(listimg[index]);
-                            return listimg[index] != null
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: res_width * 0.25,
-                                      height: res_width * 0.9,
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: Offset(2.0, 2.0),
-                                            blurRadius: 2,
-                                            // spreadRadius: 10,
-                                            color: Colors.black26,
+                            return locImgList1[index] != null
+                                ? Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: res_width * 0.25,
+                                          height: res_width * 0.9,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(2.0, 2.0),
+                                                blurRadius: 2,
+                                                // spreadRadius: 10,
+                                                color: Colors.black26,
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.memory(
-                                          listimg[index],
-                                          fit: BoxFit.cover,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.network(
+                                              locImgList1[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Positioned(
+                                        right: 70,
+                                        top: -11,
+                                        child: IconButton(
+                                            onPressed: () async {
+                                              try {
+                                                locImgList1
+                                                    .remove(locImgList1[index]);
+                                                setState(() {});
+                                              } catch (e) {
+                                                print(e);
+                                              }
+
+                                              // setState(() {});
+                                            },
+                                            icon: Icon(
+                                              Icons.remove_circle,
+                                              color: Colors.black,
+                                            )),
+                                      ),
+                                    ],
                                   )
                                 : Container();
                           },
@@ -308,7 +439,29 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          await selectImage(ImageSource.gallery, listimg);
+                          // selectImage(ImageSource.gallery);
+                          try {
+                            EasyLoading.show();
+                            await selectImage2(
+                              ImageSource.gallery,
+                            );
+
+                            print("uploading award");
+
+                            locImgList1.add(await upload_award(locImg1));
+
+                            // Get.snackbar("Error", "${e.message}");
+
+                            setState(() {});
+                            EasyLoading.dismiss();
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+                            Get.snackbar("Error", e.message.toString());
+                            print(e.toString());
+                          } catch (e) {
+                            EasyLoading.dismiss();
+                            print(e.toString());
+                          }
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -380,33 +533,57 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: listimg2.length,
+                          itemCount: locImgList2.length,
                           itemBuilder: (context, index) {
-                            return listimg2[index] != null
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: res_width * 0.25,
-                                      height: res_width * 0.9,
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: Offset(2.0, 2.0),
-                                            blurRadius: 2,
-                                            // spreadRadius: 10,
-                                            color: Colors.black26,
+                            return locImgList2[index] != null
+                                ? Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: res_width * 0.25,
+                                          height: res_width * 0.9,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(2.0, 2.0),
+                                                blurRadius: 2,
+                                                // spreadRadius: 10,
+                                                color: Colors.black26,
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.memory(
-                                          listimg2[index],
-                                          fit: BoxFit.cover,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.network(
+                                              locImgList2[index],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Positioned(
+                                        right: 70,
+                                        top: -11,
+                                        child: IconButton(
+                                            onPressed: () async {
+                                              try {
+                                                locImgList2
+                                                    .remove(locImgList2[index]);
+                                                setState(() {});
+                                              } catch (e) {
+                                                print(e);
+                                              }
+
+                                              // setState(() {});
+                                            },
+                                            icon: Icon(
+                                              Icons.remove_circle,
+                                              color: Colors.black,
+                                            )),
+                                      ),
+                                    ],
                                   )
                                 : Container();
                           },
@@ -414,7 +591,24 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          await selectImage(ImageSource.gallery, listimg2);
+                          try {
+                            EasyLoading.show();
+                            await selectImage2(
+                              ImageSource.gallery,
+                            );
+                            // await upload_award(locImg2, locImgList2);
+                            locImgList2.add(await upload_award(locImg2));
+
+                            setState(() {});
+                            EasyLoading.dismiss();
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+                            Get.snackbar("Error", e.message.toString());
+                            print(e.toString());
+                          } catch (e) {
+                            EasyLoading.dismiss();
+                            print(e.toString());
+                          }
                         },
                         child: Container(
                           width: res_width * 0.2,
@@ -505,33 +699,57 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: listimg3.length,
+                            itemCount: locImgList3.length,
                             itemBuilder: (context, index) {
-                              return listimg3[index] != null
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        width: res_width * 0.25,
-                                        height: res_width * 0.9,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: Offset(2.0, 2.0),
-                                              blurRadius: 2,
-                                              // spreadRadius: 10,
-                                              color: Colors.black26,
+                              return locImgList3[index] != null
+                                  ? Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: res_width * 0.25,
+                                            height: res_width * 0.9,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset(2.0, 2.0),
+                                                  blurRadius: 2,
+                                                  // spreadRadius: 10,
+                                                  color: Colors.black26,
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: Image.memory(
-                                            listimg3[index],
-                                            fit: BoxFit.cover,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                locImgList3[index],
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        Positioned(
+                                          right: 70,
+                                          top: -11,
+                                          child: IconButton(
+                                              onPressed: () async {
+                                                try {
+                                                  locImgList3.remove(
+                                                      locImgList3[index]);
+                                                  setState(() {});
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+
+                                                // setState(() {});
+                                              },
+                                              icon: Icon(
+                                                Icons.remove_circle,
+                                                color: Colors.black,
+                                              )),
+                                        ),
+                                      ],
                                     )
                                   : Container();
                             },
@@ -539,7 +757,24 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await selectImage(ImageSource.gallery, listimg3);
+                            // await selectImage(ImageSource.gallery, listimg3);
+                            try {
+                              EasyLoading.show();
+                              await selectImage3(
+                                ImageSource.gallery,
+                              );
+                              // await upload_award(locImg2, locImgList2);
+                              locImgList3.add(await upload_award(locImg3));
+                              setState(() {});
+                              EasyLoading.dismiss();
+                            } on FirebaseException catch (e) {
+                              EasyLoading.dismiss();
+                              Get.snackbar("Error", e.message.toString());
+                              print(e.toString());
+                            } catch (e) {
+                              EasyLoading.dismiss();
+                              print(e.toString());
+                            }
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -568,7 +803,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               // locat4
               //     ?
               Visibility(
-                visible: isvisible,
+                visible: isvisible2,
                 child: Container(
                   width: res_width * 0.9,
                   child: TextFormField(
@@ -590,7 +825,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               //     ?
               ,
               Visibility(
-                visible: isvisible,
+                visible: isvisible2,
                 child: SizedBox(
                   height: res_height * 0.015,
                 ),
@@ -600,7 +835,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               // ?
               ,
               Visibility(
-                visible: isvisible,
+                visible: isvisible2,
                 child: Container(
                   width: res_width * 0.9,
                   child: Text(
@@ -617,7 +852,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               // ?
               ,
               Visibility(
-                visible: isvisible,
+                visible: isvisible2,
                 child: SizedBox(
                   height: res_height * 0.015,
                 ),
@@ -628,7 +863,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               //     ?
               ,
               Visibility(
-                visible: isvisible,
+                visible: isvisible2,
                 child: Container(
                   width: res_width * 0.9,
                   child: SingleChildScrollView(
@@ -642,39 +877,82 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: listimg4.length,
+                              itemCount: locImgList4.length,
                               itemBuilder: (context, index) {
-                                return listimg4[index] != null
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          width: res_width * 0.25,
-                                          height: res_width * 0.9,
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                offset: Offset(2.0, 2.0),
-                                                blurRadius: 2,
-                                                // spreadRadius: 10,
-                                                color: Colors.black26,
-                                              ),
-                                            ],
+                                return locImgList4[index] != null
+                                    ? Stack(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                width: res_width * 0.25,
+                                                height: res_width * 0.9,
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      offset: Offset(2.0, 2.0),
+                                                      blurRadius: 2,
+                                                      // spreadRadius: 10,
+                                                      color: Colors.black26,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  child: Image.network(
+                                                    locImgList4[index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )),
+                                          Positioned(
+                                            right: 70,
+                                            top: -11,
+                                            child: IconButton(
+                                                onPressed: () async {
+                                                  try {
+                                                    locImgList4.remove(
+                                                        locImgList4[index]);
+                                                    setState(() {});
+                                                  } catch (e) {
+                                                    print(e);
+                                                  }
+
+                                                  // setState(() {});
+                                                },
+                                                icon: Icon(
+                                                  Icons.remove_circle,
+                                                  color: Colors.black,
+                                                )),
                                           ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.memory(
-                                              listimg4[index],
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ))
+                                        ],
+                                      )
                                     : Container();
                               }),
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await selectImage(ImageSource.gallery, listimg4);
+                            // await selectImage(ImageSource.gallery, listimg4);
+                            try {
+                              EasyLoading.show();
+                              await selectImage4(
+                                ImageSource.gallery,
+                              );
+                              // await upload_award(locImg2, locImgList2);
+                              locImgList4.add(await upload_award(locImg4));
+                              setState(() {});
+                              EasyLoading.dismiss();
+                            } on FirebaseException catch (e) {
+                              EasyLoading.dismiss();
+                              Get.snackbar("Error", e.message.toString());
+                              print(e.toString());
+                            } catch (e) {
+                              EasyLoading.dismiss();
+                              print(e.toString());
+                            }
                           },
                           child: Container(
                             width: res_width * 0.2,
@@ -704,20 +982,31 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               GestureDetector(
                 onTap: () async {
                   // await uploadimg(listimg);
-                  if (urls1.isEmpty &&
-                      urls2.isEmpty &&
-                      urls3.isEmpty &&
-                      urls4.isEmpty) {
-                    await uploadimg(listimg, urls1);
-                    await uploadimg(listimg2, urls2);
-                    await uploadimg(listimg3, urls3);
-                    await uploadimg(listimg4, urls4);
-                  }
+
                   setState(() {
                     // locat3 = true;
                     // locat4 = true;
-                    isvisible = !isvisible;
+                    // isvisible = !isvisible;
                   });
+                  // isvisible == true ? isvisible2 = !isvisible2 : isvisible;
+
+                  if (isvisible == false) {
+                    isvisible = true;
+                  } else if (isvisible2 == false) {
+                    // isvisible = true;
+
+                    isvisible2 = true;
+                  }
+                  //  else if (isvisible == true && isvisible2 == false) {
+                  //   isvisible == false;
+                  // }
+                  else if (isvisible2 == true && isvisible == true) {
+                    isvisible = false;
+                    isvisible2 = false;
+                  }
+
+                  print("is visible 1 $isvisible");
+                  print("is visible 2 $isvisible2");
                 },
                 child: Container(
                   width: res_width * 0.9,
@@ -728,7 +1017,9 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       child: Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Text(
-                      'Add Another Location',
+                      isvisible2 == true && isvisible == true
+                          ? "Remove Location"
+                          : 'Add Another Location',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -787,16 +1078,6 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           //     child: Text("data")),
                           GestureDetector(
                             onTap: () async {
-                              if (urls1.isEmpty &&
-                                  urls2.isEmpty &&
-                                  urls3.isEmpty &&
-                                  urls4.isEmpty) {
-                                await uploadimg(listimg, urls1);
-                                await uploadimg(listimg2, urls2);
-                                await uploadimg(listimg3, urls3);
-                                await uploadimg(listimg4, urls4);
-                              }
-
                               start = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
@@ -840,25 +1121,13 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              if (urls1 == null) {
-                                urls1 = await uploadimg(listimg, urls1);
-                                print(urls1.toString() + "sadasdasda");
-                                // }
-                                // if (listimg2.isNotEmpty) {
-                                urls2 = await uploadimg(listimg2, urls2);
-                                urls3 = await uploadimg(listimg3, urls3);
-                                // // }
-                                // // if (listimg2.isNotEmpty) {
-                                urls4 = await uploadimg(listimg4, urls4);
-                              }
-
                               end = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(2000),
                                 lastDate: DateTime(2025),
                               );
-                              endDate.text = "${end!.toLocal()}".split(' ')[0];
+                              endDate.text = "${end?.toLocal()}".split(' ')[0];
                             },
                             child: TextFormField(
                               enabled: false,
@@ -1057,15 +1326,14 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               GestureDetector(
                 onTap: () async {
                   try {
-                    if (urls1.isEmpty &&
-                        urls2.isEmpty &&
-                        urls3.isEmpty &&
-                        urls4.isEmpty) {
-                      await uploadimg(listimg, urls1);
-                      await uploadimg(listimg2, urls2);
-                      await uploadimg(listimg3, urls3);
-                      await uploadimg(listimg4, urls4);
-                    }
+                    // if (urls1.isEmpty &&
+                    //     urls2.isEmpty &&
+                    //     urls3.isEmpty &&
+                    //     urls4.isEmpty) {
+                    //   await uploadimg(listimg2, urls2);
+                    //   await uploadimg(listimg3, urls3);
+                    //   await uploadimg(listimg4, urls4);
+                    // }
 
                     print(urls1.toString() + "sadasdasda");
                     // }
@@ -1073,17 +1341,16 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
 
                     // // }
                     // // if (listimg2.isNotEmpty) {
-                    if (listimg.isEmpty ||
-                        listimg2.isEmpty ||
-                        listimg3.isEmpty ||
-                        listimg4.isEmpty) {
-                      Get.snackbar("Error", "Please add All 4 locations");
-                    } else {
-                      await uploadData();
-                    }
-                  } catch (e) {
+                    // if (listimg.isEmpty || listimg2.isEmpty) {
+                    //   Get.snackbar("Error", "Please add 2 locations ");
+                    // }
+                    //  else if (listimg3.isEmpty && isvisible == true) {
+                    //   Get.snackbar("Error", "Please add All 3 locations");
+
+                    await uploadData();
+                  } on FirebaseException catch (e) {
                     print(e);
-                    Get.snackbar("Error", e.toString());
+                    Get.snackbar("Error", e.message.toString());
                   }
 
                   // Get.to(() => HomeMainScreen());
