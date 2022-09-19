@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
@@ -195,13 +196,20 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                                 width: 4.0,
                               ),
                             ),
-                            child: FittedBox(
-                              child: Icon(
-                                Icons.person,
-                                color: kPrimaryColor,
-                                // size: Get.height ,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: Image.network(
+                                currentUserData.userImage,
+                                fit: BoxFit.cover,
                               ),
                             ),
+                            //  FittedBox(
+                            //   child: Icon(
+                            //     Icons.person,
+                            //     color: kPrimaryColor,
+                            //     // size: Get.height ,
+                            //   ),
+                            // ),
                           ),
                           Positioned(
                             right: 0,
@@ -508,8 +516,6 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                                                   ),
                                                 ],
                                               );
-
-
                                             });
                                       }
                                     });
@@ -567,8 +573,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                   ),
                 ),
               ),
-             
-             
+
               SizedBox(
                 height: res_height * 0.015,
               ),

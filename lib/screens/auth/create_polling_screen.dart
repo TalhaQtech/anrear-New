@@ -116,8 +116,10 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
             youtubeurls: fbLinksControl.isNotEmpty
                 ? fbLinksControl
                 : [_controllers.text.trim()],
-            location3: location3.text.trim(),
-            location4: location4.text.trim(),
+            location3:
+                location3.text.trim() == "" ? "false" : location3.text.trim(),
+            location4:
+                location4.text.trim() == "" ? "false" : location4.text.trim(),
             polling_location_im3: locImgList3,
             polling_location_im4: locImgList4,
             polling_location_im2: locImgList2,
@@ -368,7 +370,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                         child: IconButton(
                                             onPressed: () async {
                                               try {
-                                                locImgList2
+                                                locImgList1
                                                     .remove(locImgList1[index]);
                                                 setState(() {});
                                               } catch (e) {

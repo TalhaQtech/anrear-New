@@ -121,7 +121,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                             color: Colors.white,
                             size: 18,
                           ),
-                          Text('California',
+                          Text(currentUserData.Nationality ?? 'California',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,

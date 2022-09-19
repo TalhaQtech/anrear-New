@@ -158,6 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
+        height: res_height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/slicing/Bg.jpg"),
