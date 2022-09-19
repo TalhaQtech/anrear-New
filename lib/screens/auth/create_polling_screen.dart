@@ -318,19 +318,6 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
               SizedBox(
                 height: res_height * 0.015,
               ),
-              Container(
-                width: res_width * 0.9,
-                child: Text(
-                  'Upload image of polling location',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-              ),
-              SizedBox(
-                height: res_height * 0.015,
-              ),
 
               Container(
                 width: res_width * 0.9,
@@ -339,42 +326,6 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Container(
-                      //     height: 100,
-                      //     child:
-                      // StreamBuilder<QuerySnapshot>(
-                      // stream: FirebaseFirestore.instance
-                      //     .collection("artist")
-                      //     .where(
-                      //       "uid",
-                      //       isEqualTo: globalUserid,
-                      //     )
-                      //     // .where("uid",
-                      //     //     isNotEqualTo: globalUserid)
-                      //     .snapshots(),
-                      // builder: (BuildContext context,
-                      //     AsyncSnapshot<QuerySnapshot> snapshot) {
-                      //   {
-                      //             return ListView.builder(
-                      //                 shrinkWrap: true,
-                      //                 scrollDirection: Axis.horizontal,
-                      //                 itemCount: snapshot.data?.docs.length,
-                      //                 itemBuilder: (context, index) {
-                      //                   return ListView.builder(
-                      //                     shrinkWrap: true,
-                      //                     scrollDirection: Axis.horizontal,
-                      //                     itemCount:
-                      //                         widget.userModel!.award!.length,
-                      //                     itemBuilder: (context, index) {
-                      //                       return widget.userModel?.award !=
-                      //                               null
-
-                      //                           : Container();
-                      //                     },
-                      //                   );
-                      //                 });
-                      //           }
-                      //         })),
                       Container(
                         // width: 400,
                         height: 100,
@@ -417,7 +368,7 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                                         child: IconButton(
                                             onPressed: () async {
                                               try {
-                                                locImgList1
+                                                locImgList2
                                                     .remove(locImgList1[index]);
                                                 setState(() {});
                                               } catch (e) {
@@ -439,18 +390,13 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          // selectImage(ImageSource.gallery);
                           try {
                             EasyLoading.show();
-                            await selectImage2(
+                            await selectImage1(
                               ImageSource.gallery,
                             );
-
-                            print("uploading award");
-
+                            // await upload_award(locImg2, locImgList2);
                             locImgList1.add(await upload_award(locImg1));
-
-                            // Get.snackbar("Error", "${e.message}");
 
                             setState(() {});
                             EasyLoading.dismiss();
@@ -484,6 +430,163 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
                   ),
                 ),
               ),
+
+              SizedBox(
+                height: res_height * 0.015,
+              ),
+
+              // Container(
+              //   width: res_width * 0.9,
+              //   child: SingleChildScrollView(
+              //     scrollDirection: Axis.horizontal,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         // Container(
+              //         //     height: 100,
+              //         //     child:
+              //         // StreamBuilder<QuerySnapshot>(
+              //         // stream: FirebaseFirestore.instance
+              //         //     .collection("artist")
+              //         //     .where(
+              //         //       "uid",
+              //         //       isEqualTo: globalUserid,
+              //         //     )
+              //         //     // .where("uid",
+              //         //     //     isNotEqualTo: globalUserid)
+              //         //     .snapshots(),
+              //         // builder: (BuildContext context,
+              //         //     AsyncSnapshot<QuerySnapshot> snapshot) {
+              //         //   {
+              //         //             return ListView.builder(
+              //         //                 shrinkWrap: true,
+              //         //                 scrollDirection: Axis.horizontal,
+              //         //                 itemCount: snapshot.data?.docs.length,
+              //         //                 itemBuilder: (context, index) {
+              //         //                   return ListView.builder(
+              //         //                     shrinkWrap: true,
+              //         //                     scrollDirection: Axis.horizontal,
+              //         //                     itemCount:
+              //         //                         widget.userModel!.award!.length,
+              //         //                     itemBuilder: (context, index) {
+              //         //                       return widget.userModel?.award !=
+              //         //                               null
+
+              //         //                           : Container();
+              //         //                     },
+              //         //                   );
+              //         //                 });
+              //         //           }
+              //         //         })),
+              //         Container(
+              //           // width: 400,
+              //           height: 100,
+              //           child: ListView.builder(
+              //             shrinkWrap: true,
+              //             scrollDirection: Axis.horizontal,
+              //             itemCount: locImgList1.length,
+              //             itemBuilder: (context, index) {
+              //               return locImgList1[index] != null
+              //                   ? Stack(
+              //                       children: [
+              //                         Padding(
+              //                           padding: const EdgeInsets.all(8.0),
+              //                           child: Container(
+              //                             width: res_width * 0.25,
+              //                             height: res_width * 0.9,
+              //                             decoration: BoxDecoration(
+              //                               boxShadow: [
+              //                                 BoxShadow(
+              //                                   offset: Offset(2.0, 2.0),
+              //                                   blurRadius: 2,
+              //                                   // spreadRadius: 10,
+              //                                   color: Colors.black26,
+              //                                 ),
+              //                               ],
+              //                             ),
+              //                             child: ClipRRect(
+              //                               borderRadius:
+              //                                   BorderRadius.circular(8.0),
+              //                               child: Image.network(
+              //                                 locImgList1[index],
+              //                                 fit: BoxFit.cover,
+              //                               ),
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         Positioned(
+              //                           right: 70,
+              //                           top: -11,
+              //                           child: IconButton(
+              //                               onPressed: () async {
+              //                                 try {
+              //                                   locImgList1
+              //                                       .remove(locImgList1[index]);
+              //                                   setState(() {});
+              //                                 } catch (e) {
+              //                                   print(e);
+              //                                 }
+
+              //                                 // setState(() {});
+              //                               },
+              //                               icon: Icon(
+              //                                 Icons.remove_circle,
+              //                                 color: Colors.black,
+              //                               )),
+              //                         ),
+              //                       ],
+              //                     )
+              //                   : Container();
+              //             },
+              //           ),
+              //         ),
+              //         GestureDetector(
+              //           onTap: () async {
+              //             // selectImage(ImageSource.gallery);
+              //             try {
+              //               EasyLoading.show();
+              //               await selectImage2(
+              //                 ImageSource.gallery,
+              //               );
+
+              //               print("uploading award");
+
+              //               locImgList1.add(await upload_award(locImg1));
+
+              //               // Get.snackbar("Error", "${e.message}");
+
+              //               setState(() {});
+              //               EasyLoading.dismiss();
+              //             } on FirebaseException catch (e) {
+              //               EasyLoading.dismiss();
+              //               Get.snackbar("Error", e.message.toString());
+              //               print(e.toString());
+              //             } catch (e) {
+              //               EasyLoading.dismiss();
+              //               print(e.toString());
+              //             }
+              //           },
+              //           child: Container(
+              //             width: res_width * 0.2,
+              //             height: res_width * 0.2,
+              //             decoration: BoxDecoration(
+              //                 color: kPrimaryColor,
+              //                 borderRadius:
+              //                     BorderRadius.all(Radius.circular(13))),
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(8.0),
+              //               child: Icon(
+              //                 Icons.add_outlined,
+              //                 color: Colors.white,
+              //                 size: 33,
+              //               ),
+              //             ),
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
               SizedBox(
                 height: res_height * 0.015,
