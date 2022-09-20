@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ArtistVotingScreen extends StatefulWidget {
   var performancePolling;
@@ -391,6 +392,19 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                   progressColor: Color(0xffaa6b80),
                 ),
               ),
+              10.heightBox,
+              GestureDetector(
+                onTap: () {},
+                child: Text(
+                  "View Images",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Vx.black,
+                    textBaseline: TextBaseline.alphabetic,
+                  ),
+                ),
+              ),
+              5.heightBox,
             ],
           ),
         ),
