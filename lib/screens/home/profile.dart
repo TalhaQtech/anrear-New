@@ -176,7 +176,9 @@ class _ProfileScreen extends State<ProfileScreen> {
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
-                    Get.to(() => editprofile());
+                    Get.to(() => editprofile(
+                      
+                    ));
                   },
                   child: Container(
                     width: res_width * 0.9,

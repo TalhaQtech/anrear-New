@@ -308,7 +308,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                     // print("object");
                     // print(start > DateTime.now());
                     // print(2);
-                    Dob.text = "${start!.toLocal()}".split(' ')[0];
+                    Dob.text = "${start?.toLocal()}".split(' ')[0];
                   },
                   child: Container(
                     width: res_width * 0.9,

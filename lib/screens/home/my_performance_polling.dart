@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class my_perfomance_polling extends StatelessWidget {
   var performancePolling;
@@ -252,23 +253,27 @@ class my_perfomance_polling extends StatelessWidget {
                   runSpacing: 10,
                   children: [
                     votebox(
-                      "${performancePolling["location"]["location1"]}",
-                      performancePolling["location"]["like"].length,
-                    ),
+                        "${performancePolling["location"]["location1"]}",
+                        performancePolling["location"]["like"].length,
+                        context,
+                        "${performancePolling["polling_location_im"]}"),
                     votebox(
-                      "${performancePolling["location2"]["location2"]}",
-                      performancePolling["location2"]["like"].length,
-                    ),
+                        "${performancePolling["location2"]["location2"]}",
+                        performancePolling["location2"]["like"].length,
+                        context,
+                        "${performancePolling["polling_location_im2"]}"),
                     if (performancePolling["location3"]["location3"] != "false")
                       votebox(
-                        "${performancePolling["location3"]["location3"]}",
-                        performancePolling["location3"]["like"].length,
-                      ),
+                          "${performancePolling["location3"]["location3"]}",
+                          performancePolling["location3"]["like"].length,
+                          context,
+                          "${performancePolling["polling_location_im3"]}"),
                     if (performancePolling["location4"]["location4"] != "false")
                       votebox(
-                        "${performancePolling["location4"]["location4"]}",
-                        performancePolling["location4"]["like"].length,
-                      )
+                          "${performancePolling["location4"]["location4"]}",
+                          performancePolling["location4"]["like"].length,
+                          context,
+                          "${performancePolling["polling_location_im4"]}")
                     // votebox(
                     //     widget.performancePolling["location"]["location1"]
                     //         .toString(),
@@ -385,10 +390,7 @@ class my_perfomance_polling extends StatelessWidget {
     );
   }
 
-  votebox(
-    location1,
-    votes,
-  ) {
+  votebox(location1, votes, context, imageURL) {
     double res_width = Get.width;
     double res_height = Get.height;
     return Container(
@@ -440,7 +442,7 @@ class my_perfomance_polling extends StatelessWidget {
                   radius: 45,
                   lineWidth: 5.0,
                   animation: true,
-                  percent: 0.2,
+                  percent: double.parse("$votes") / 1000,
                   center: new Text(
                     "${votes} Votes",
                     style: new TextStyle(
@@ -452,10 +454,53 @@ class my_perfomance_polling extends StatelessWidget {
                   progressColor: Color(0xffaa6b80),
                 ),
               ),
+              10.heightBox,
+              GestureDetector(
+                onTap: () async {
+                  await showDialog(
+                      context: context,
+                      builder: (_) =>
+                          imageDialog('My Image', imageURL, context));
+                },
+                child: Text(
+                  "View Images",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Vx.black,
+                    textBaseline: TextBaseline.alphabetic,
+                  ),
+                ),
+              ),
+              5.heightBox,
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget imageDialog(text, path, context) {
+  return Dialog(
+    // backgroundColor: Colors.transparent,
+    // elevation: 0,
+    child: SizedBox(
+      width: Get.width * 0.7,
+      height: 200,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: path.length,
+          itemBuilder: (context, index) {
+            return Container(
+              width: Get.width * 0.7,
+              height: 200,
+              child: Image.network(
+                '${path[index]}',
+                fit: BoxFit.cover,
+              ),
+            );
+          }),
+    ),
+  );
 }

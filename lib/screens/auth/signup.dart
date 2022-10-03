@@ -62,7 +62,7 @@ class _SignupScreenState extends State<SignupScreen> {
           fullName: fullName.text.trim(),
           userEmail: email.text.trim(),
           userImage: "",
-          singup_step: 1,
+          singup_step: 0,
           userPhone: phone.text.trim());
       await firestore_set("user", credential.user!.uid, newUser.toMap())
           .then((value) async {

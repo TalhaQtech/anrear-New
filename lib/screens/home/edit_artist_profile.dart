@@ -816,7 +816,7 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
                       child: Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Text(
-                      'Continue',
+                      'Save',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

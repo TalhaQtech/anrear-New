@@ -1,14 +1,20 @@
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
 import 'package:anrear/models/FirebaseHelper.dart';
+import 'package:anrear/models/usermodels.dart';
+import 'package:anrear/screens/auth/create_profile.dart';
 import 'package:anrear/screens/auth/forgot.dart';
 import 'package:anrear/screens/auth/signup.dart';
 import 'package:anrear/screens/home/homemain.dart';
+import 'package:anrear/service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,6 +36,36 @@ class _LoginScreenState extends State<LoginScreen> {
   var Password = TextEditingController();
   var email = TextEditingController();
   var formkey = GlobalKey<FormState>();
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,10 +236,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         currentUserData = null;
                         currentUserData = await FirebaseHelper.getUserModelById(
                             user.user!.uid);
+                        print(1);
+                        print(currentUserData.singup_step);
                         // currentUserData = thisUserModel;
-                        Get.to(() => HomeMainScreen(
-                              userModel: currentUserData,
-                            ));
+                        if (currentUserData.singup_step == 2) {
+                          Get.to(() => HomeMainScreen(
+                                userModel: currentUserData,
+                              ));
+                        } else if (currentUserData.singup_step == 1) {
+                          Get.to(() => CreateProfileScreen(
+                                firebaseUser: user.user!,
+                                userModel: currentUserData,
+                              ));
+                        } else {
+                          Get.to(() => HomeMainScreen(
+                                userModel: currentUserData,
+                              ));
+                        }
                         print(currentUserData!.fullName);
                         EasyLoading.dismiss();
                         // }
@@ -269,12 +318,100 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                           width: res_width * 0.15,
                           child: Image.asset('assets/slicing/fb.png')),
+                      GestureDetector(
+                        onTap: () async {
+                          try {
+                            EasyLoading.show();
+                            print(1);
+                            await signInWithGoogle().then((value) async {
+                              // print(value.toString());
+                              print(2);
+                              if (value.additionalUserInfo!.isNewUser) {
+                                UserModel newUser = UserModel(
+                                    time: Timestamp.now(),
+                                    musicCategorie: [],
+                                    links: [],
+                                    award: [],
+                                    userType: UserType,
+                                    Nationality: "",
+                                    description: "",
+                                    dob: "",
+                                    password: Password.text.trim(),
+                                    uid: value.user!.uid,
+                                    fullName: value.additionalUserInfo!
+                                        .profile!["family_name"]
+                                        .toString()
+                                        .trim(),
+                                    userEmail:
+                                        value.user!.email.toString().trim(),
+                                    userImage: "${value.user!.photoURL}",
+                                    singup_step: UserType == "user" ? 0 : 1,
+                                    userPhone: value.user!.phoneNumber
+                                        .toString()
+                                        .trim());
+                                await firestore_set("$UserType",
+                                    value.user!.uid, newUser.toMap());
+                                currentUserData = newUser;
+                                // print(currentUserData.singup_step + "asdas");
+                                print(3);
+                              } else {
+                                print(4);
+                                var data = await firestore_get(
+                                    "${UserType}", "${value.user!.uid}");
+                                print(5);
+                                currentUserData =
+                                    await FirebaseHelper.getUserModelById(
+                                        value.user!.uid);
+                              }
+
+                              if (currentUserData.singup_step == 2) {
+                                print(6);
+                                Get.to(() => HomeMainScreen(
+                                      userModel: currentUserData,
+                                    ));
+                              } else if (currentUserData.singup_step == 1) {
+                                print(7);
+                                Get.to(() => CreateProfileScreen(
+                                      firebaseUser: value.user!,
+                                      userModel: currentUserData,
+                                    ));
+                              } else if (currentUserData.singup_step == 0) {
+                                print(8);
+                                Get.to(() => HomeMainScreen(
+                                      userModel: currentUserData,
+                                    ));
+                              }
+
+                              // if (UserType == "user") {
+                              //   Get.to(() => HomeMainScreen(
+                              //         userModel: currentUserData,
+                              //       ));
+                              // }
+                              // Get.to(CreateProfileScreen(
+                              //   userModel: newUser,
+                              //   firebaseUser: value.user!,
+                              // ));
+                              // print(value
+                              //     .additionalUserInfo!.profile!["family_name"]);
+                            });
+                            EasyLoading.dismiss();
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+                            Get.snackbar("Warning", e.message.toString());
+                          } catch (e) {
+                            EasyLoading.dismiss();
+                            print(e);
+                          }
+
+                          print("object");
+                        },
+                        child: Container(
+                            width: res_width * 0.15,
+                            child: Image.asset('assets/slicing/googlr.png')),
+                      ),
                       Container(
                           width: res_width * 0.15,
-                          child: Image.asset('assets/slicing/googlr.png')),
-                      Container(
-                          width: res_width * 0.15,
-                          child: Image.asset('assets/slicing/insta.png'))
+                          child: Image.asset('assets/slicing/apple.png'))
                     ],
                   ),
                 ),

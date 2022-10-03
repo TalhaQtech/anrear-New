@@ -582,7 +582,7 @@ class _NavDrawerState extends State<NavDrawer> {
                         try {
                           EasyLoading.show();
                           await FirebaseAuth.instance.signOut();
-                          bottomctrl.navBarChange(0);
+                          // bottomctrl.navBarChange(0);
 
                           Get.to(() => SelectUserTypeScreen());
                           currentUserData = null;

@@ -7,6 +7,8 @@ import 'package:anrear/main.dart';
 import 'package:anrear/models/usermodels.dart';
 import 'package:anrear/screens/auth/login.dart';
 import 'package:anrear/screens/home/drawer.dart';
+import 'package:anrear/screens/home/homemain.dart';
+import 'package:anrear/screens/home/homescreen.dart';
 import 'package:anrear/screens/home/notification.dart';
 import 'package:anrear/screens/home/setting.dart';
 import 'package:anrear/service.dart';
@@ -76,17 +78,21 @@ class _ProfileScreen extends State<editprofile> {
         currentUserData.userImage = link;
       });
       print(currentUserData.userImage);
+      print(21);
 
-      await firestore_update("user", globalUserid, {
+      await firestore_update("user", currentUserData.uid, {
         "fullName": currentUserData.fullName,
         "userImage": link,
         "userPhone": currentUserData.userPhone,
         "description": currentUserData.description
       });
-      // if (bottomctrl.navigationBarIndexValue != 2) {
-      bottomctrl.navBarChange(2);
-      // } else {
       Get.back();
+      // Get.to(HomeMainScreen());
+      print(11);
+      // if (bottomctrl.navigationBarIndexValue != 2) {
+      // bottomctrl.navBarChange(2);
+      // } else {
+
       // }
     } catch (e) {
       EasyLoading.dismiss();
@@ -363,6 +369,7 @@ class _ProfileScreen extends State<editprofile> {
                     try {
                       EasyLoading.show();
                       await update();
+
                       EasyLoading.dismiss();
                     } on FirebaseException catch (e) {
                       Get.snackbar("Warrning", e.message.toString());

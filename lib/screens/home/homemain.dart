@@ -32,6 +32,7 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
     // print(widget.userModel!.userEmail);
     return Scaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SizedBox(
         width: 80.0,

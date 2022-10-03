@@ -380,7 +380,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                   radius: 45,
                   lineWidth: 5.0,
                   animation: true,
-                  percent: 0.2,
+                  percent: double.parse("$votes") / 1000,
                   center: new Text(
                     "${votes} Votes",
                     style: new TextStyle(

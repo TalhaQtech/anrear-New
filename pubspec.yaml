@@ -48,12 +48,15 @@ dependencies:
   uuid: ^3.0.6
   url_launcher: ^6.1.5
   velocity_x: ^3.5.1
+  google_sign_in: ^5.4.2
+  flutter_facebook_auth: ^4.4.1+1
 
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
