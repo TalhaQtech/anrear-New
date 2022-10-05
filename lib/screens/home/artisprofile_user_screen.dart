@@ -299,7 +299,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                   child: ListView.builder(
                       // shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: widget.artistdata["award"].length ?? 1,
+                      itemCount: widget.artistdata["album"].length ?? 1,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
@@ -323,7 +323,7 @@ class _ArtisProfileUserScreen extends State<ArtisProfileUserScreen> {
                                     child: Image.network(
                                       widget.artistdata["award"][index] == null
                                           ? "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                          : "${widget.artistdata["award"][index]}",
+                                          : "${widget.artistdata["album"][index]}",
                                       loadingBuilder: (BuildContext context,
                                           Widget child,
                                           ImageChunkEvent? loadingProgress) {

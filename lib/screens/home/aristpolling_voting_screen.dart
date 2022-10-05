@@ -119,10 +119,23 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                         height: res_height * 0.01,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Get.to(ArtisProfileUserScreen(
-                            artistdata: widget.artistdata,
-                          ));
+                        onTap: () async {
+                          try {
+                            EasyLoading.show();
+                            final dat = await firestore_get(
+                                "artist", widget.artistdata["uid"]);
+                            Get.to(
+                                () => ArtisProfileUserScreen(artistdata: dat));
+                            EasyLoading.dismiss();
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Error", e.message.toString());
+                          }
+
+                          // Get.to(ArtisProfileUserScreen(
+                          //   artistdata: widget.artistdata,
+                          // ));
                         },
                         child: Text(
                           'View Profile',
@@ -189,70 +202,274 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                             .toString(),
                         "${widget.performancePolling["location"]["like"].length.toString()}",
                         () async {
-                      // print(
-                      // widget.performancePolling["location"]["like"].length);
+//check
                       if (widget.performancePolling["location2"]["like"]
-                              .contains(globalUserid) ||
-                          widget.performancePolling["location3"]["like"]
-                              .contains(globalUserid) ||
-                          widget.performancePolling["location4"]["like"]
-                              .contains(globalUserid)) {
-                        Get.snackbar("Already voted", "");
-                      } else {
-                        if (!widget.performancePolling["location"]["like"]
-                            .contains(globalUserid)) {
-                          try {
-                            EasyLoading.show();
-                            await firestore_update(
-                                'PerformancePolling',
-                                widget.performancePolling["uid"],
-                                ({
-                                  "location.like":
-                                      FieldValue.arrayUnion([globalUserid])
-                                }));
-                            EasyLoading.dismiss();
-                            Get.back();
-                            Get.snackbar("Successful Voted", "");
-                          } catch (e) {
-                            EasyLoading.dismiss();
-                            Get.snackbar("Error", e.toString());
-                          }
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location2.like":
+                                    FieldValue.arrayRemove([globalUserid])
+                              }));
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+
+                          Get.snackbar("Warrnings", e.message.toString());
                         }
+                      } else if (widget.performancePolling["location3"]["like"]
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location3.like":
+                                    FieldValue.arrayRemove([globalUserid])
+                              }));
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+
+                          Get.snackbar("Warrnings", e.message.toString());
+                        }
+                      } else if (widget.performancePolling["location4"]["like"]
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location4.like":
+                                    FieldValue.arrayRemove([globalUserid])
+                              }));
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+
+                          Get.snackbar("Warrnings", e.message.toString());
+                        }
+                      } else if (!widget.performancePolling["location"]["like"]
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+                          Get.snackbar("Error", e.message.toString());
+                        }
+                      } else {
+                        Get.snackbar("Already voted", "");
                       }
+
+//close
+
+                      // if (widget.performancePolling["location2"]["like"]
+                      //         .contains(globalUserid) ||
+                      //     widget.performancePolling["location3"]["like"]
+                      //         .contains(globalUserid) ||
+                      // widget.performancePolling["location4"]["like"]
+                      //     .contains(globalUserid)) {
+                      //   Get.snackbar("Already voted", "");
+                      // } else {
+                      // if (!widget.performancePolling["location"]["like"]
+                      //     .contains(globalUserid)) {
+                      //     try {
+                      //       EasyLoading.show();
+                      // await firestore_update(
+                      //     'PerformancePolling',
+                      //     widget.performancePolling["uid"],
+                      //     ({
+                      //       "location.like":
+                      //           FieldValue.arrayUnion([globalUserid])
+                      //     }));
+                      //       EasyLoading.dismiss();
+                      // Get.back();
+                      // Get.snackbar("Successful Voted", "");
+                      //     } catch (e) {
+                      //       EasyLoading.dismiss();
+                      //       Get.snackbar("Error", e.toString());
+                      //     }
+                      //   }
+                      // }
                     }, widget.performancePolling["polling_location_im"]),
                     votebox(
                         widget.performancePolling["location2"]["location2"]
                             .toString(),
                         "${widget.performancePolling["location2"]["like"].length.toString()}",
                         () async {
+//check
                       if (widget.performancePolling["location"]["like"]
-                              .contains(globalUserid) ||
-                          widget.performancePolling["location3"]["like"]
-                              .contains(globalUserid) ||
-                          widget.performancePolling["location4"]["like"]
-                              .contains(globalUserid)) {
-                        Get.snackbar("Already voted", "");
-                      } else {
-                        if (!widget.performancePolling["location2"]["like"]
-                            .contains(globalUserid)) {
-                          try {
-                            EasyLoading.show();
-                            await firestore_update(
-                                'PerformancePolling',
-                                widget.performancePolling["uid"],
-                                ({
-                                  "location2.like":
-                                      FieldValue.arrayUnion([globalUserid])
-                                }));
-                            EasyLoading.dismiss();
-                            Get.back();
-                            Get.snackbar("Successful Voted", "");
-                          } catch (e) {
-                            EasyLoading.dismiss();
-                            Get.snackbar("Error", e.toString());
-                          }
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location.like":
+                                    FieldValue.arrayRemove([globalUserid])
+                              }));
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location2.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+
+                          Get.snackbar("Warrnings", e.message.toString());
                         }
+                      } else if (widget.performancePolling["location3"]["like"]
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location3.like":
+                                    FieldValue.arrayRemove([globalUserid])
+                              }));
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location2.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+
+                          Get.snackbar("Warrnings", e.message.toString());
+                        }
+                      } else if (widget.performancePolling["location4"]["like"]
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location4.like":
+                                    FieldValue.arrayRemove([globalUserid])
+                              }));
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location2.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+
+                          Get.snackbar("Warrnings", e.message.toString());
+                        }
+                      } else if (!widget.performancePolling["location2"]["like"]
+                          .contains(globalUserid)) {
+                        try {
+                          EasyLoading.show();
+                          await firestore_update(
+                              'PerformancePolling',
+                              widget.performancePolling["uid"],
+                              ({
+                                "location2.like":
+                                    FieldValue.arrayUnion([globalUserid])
+                              }));
+                          EasyLoading.dismiss();
+                          Get.back();
+                          Get.snackbar("Successful Voted", "");
+                        } on FirebaseException catch (e) {
+                          EasyLoading.dismiss();
+                          Get.snackbar("Error", e.message.toString());
+                        }
+                      } else {
+                        Get.snackbar("Already voted", "");
                       }
+
+//close
+
+                      // if (widget.performancePolling["location"]["like"]
+                      //         .contains(globalUserid) ||
+                      //     widget.performancePolling["location3"]["like"]
+                      //         .contains(globalUserid) ||
+                      //     widget.performancePolling["location4"]["like"]
+                      //         .contains(globalUserid)) {
+                      //   Get.snackbar("Already voted", "");
+                      // } else {
+                      //   if (!widget.performancePolling["location2"]["like"]
+                      //       .contains(globalUserid)) {
+                      //     try {
+                      //       EasyLoading.show();
+                      //       await firestore_update(
+                      //           'PerformancePolling',
+                      //           widget.performancePolling["uid"],
+                      //           ({
+                      //             "location2.like":
+                      //                 FieldValue.arrayUnion([globalUserid])
+                      //           }));
+                      //       EasyLoading.dismiss();
+                      //       Get.back();
+                      //       Get.snackbar("Successful Voted", "");
+                      //     } catch (e) {
+                      //       EasyLoading.dismiss();
+                      //       Get.snackbar("Error", e.toString());
+                      //     }
+                      //   }
+                      // }
                     }, widget.performancePolling["polling_location_im2"]),
                     if (widget.performancePolling["location3"]["location3"] !=
                         "false")
@@ -261,34 +478,139 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                               .toString(),
                           "${widget.performancePolling["location3"]["like"].length.toString()}",
                           () async {
+//check
                         if (widget.performancePolling["location2"]["like"]
-                                .contains(globalUserid) ||
-                            widget.performancePolling["location"]["like"]
-                                .contains(globalUserid) ||
-                            widget.performancePolling["location4"]["like"]
-                                .contains(globalUserid)) {
-                          Get.snackbar("Already voted", "");
-                        } else {
-                          if (!widget.performancePolling["location3"]["like"]
-                              .contains(globalUserid)) {
-                            try {
-                              EasyLoading.show();
-                              await firestore_update(
-                                  'PerformancePolling',
-                                  widget.performancePolling["uid"],
-                                  ({
-                                    "location3.like":
-                                        FieldValue.arrayUnion([globalUserid])
-                                  }));
-                              EasyLoading.dismiss();
-                              Get.back();
-                              Get.snackbar("Successful Voted", "");
-                            } catch (e) {
-                              EasyLoading.dismiss();
-                              Get.snackbar("Error", e.toString());
-                            }
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location2.like":
+                                      FieldValue.arrayRemove([globalUserid])
+                                }));
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Warrnings", e.message.toString());
                           }
+                        } else if (widget.performancePolling["location"]["like"]
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location.like":
+                                      FieldValue.arrayRemove([globalUserid])
+                                }));
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Warrnings", e.message.toString());
+                          }
+                        } else if (widget.performancePolling["location4"]
+                                ["like"]
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location4.like":
+                                      FieldValue.arrayRemove([globalUserid])
+                                }));
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Warrnings", e.message.toString());
+                          }
+                        } else if (!widget.performancePolling["location3"]
+                                ["like"]
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+                            Get.snackbar("Error", e.message.toString());
+                          }
+                        } else {
+                          Get.snackbar("Already voted", "");
                         }
+
+//close
+
+                        // if (widget.performancePolling["location2"]["like"]
+                        //         .contains(globalUserid) ||
+                        //     widget.performancePolling["location"]["like"]
+                        //         .contains(globalUserid) ||
+                        //     widget.performancePolling["location4"]["like"]
+                        //         .contains(globalUserid)) {
+                        //   Get.snackbar("Already voted", "");
+                        // } else {
+                        //   if (!widget.performancePolling["location3"]["like"]
+                        //       .contains(globalUserid)) {
+                        //     try {
+                        //       EasyLoading.show();
+                        //       await firestore_update(
+                        //           'PerformancePolling',
+                        //           widget.performancePolling["uid"],
+                        //           ({
+                        //             "location3.like":
+                        //                 FieldValue.arrayUnion([globalUserid])
+                        //           }));
+                        //       EasyLoading.dismiss();
+                        //       Get.back();
+                        //       Get.snackbar("Successful Voted", "");
+                        //     } catch (e) {
+                        //       EasyLoading.dismiss();
+                        //       Get.snackbar("Error", e.toString());
+                        //     }
+                        //   }
+                        // }
                       }, widget.performancePolling["polling_location_im3"]),
                     if (widget.performancePolling["location4"]["location4"] !=
                         "false")
@@ -297,34 +619,139 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                               .toString(),
                           "${widget.performancePolling["location4"]["like"].length.toString()}",
                           () async {
+//check
                         if (widget.performancePolling["location2"]["like"]
-                                .contains(globalUserid) ||
-                            widget.performancePolling["location"]["like"]
-                                .contains(globalUserid) ||
-                            widget.performancePolling["location3"]["like"]
-                                .contains(globalUserid)) {
-                          Get.snackbar("Already voted", "");
-                        } else {
-                          if (!widget.performancePolling["location4"]["like"]
-                              .contains(globalUserid)) {
-                            try {
-                              EasyLoading.show();
-                              await firestore_update(
-                                  'PerformancePolling',
-                                  widget.performancePolling["uid"],
-                                  ({
-                                    "location3.like":
-                                        FieldValue.arrayUnion([globalUserid])
-                                  }));
-                              EasyLoading.dismiss();
-                              Get.back();
-                              Get.snackbar("Successful Voted", "");
-                            } catch (e) {
-                              EasyLoading.dismiss();
-                              Get.snackbar("Error", e.toString());
-                            }
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location2.like":
+                                      FieldValue.arrayRemove([globalUserid])
+                                }));
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location4.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Warrnings", e.message.toString());
                           }
+                        } else if (widget.performancePolling["location"]["like"]
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location.like":
+                                      FieldValue.arrayRemove([globalUserid])
+                                }));
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location4.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Warrnings", e.message.toString());
+                          }
+                        } else if (widget.performancePolling["location3"]
+                                ["like"]
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location3.like":
+                                      FieldValue.arrayRemove([globalUserid])
+                                }));
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location4.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+
+                            Get.snackbar("Warrnings", e.message.toString());
+                          }
+                        } else if (!widget.performancePolling["location4"]
+                                ["like"]
+                            .contains(globalUserid)) {
+                          try {
+                            EasyLoading.show();
+                            await firestore_update(
+                                'PerformancePolling',
+                                widget.performancePolling["uid"],
+                                ({
+                                  "location4.like":
+                                      FieldValue.arrayUnion([globalUserid])
+                                }));
+                            EasyLoading.dismiss();
+                            Get.back();
+                            Get.snackbar("Successful Voted", "");
+                          } on FirebaseException catch (e) {
+                            EasyLoading.dismiss();
+                            Get.snackbar("Error", e.message.toString());
+                          }
+                        } else {
+                          Get.snackbar("Already voted", "");
                         }
+
+//close
+
+                        // if (widget.performancePolling["location2"]["like"]
+                        //         .contains(globalUserid) ||
+                        //     widget.performancePolling["location"]["like"]
+                        //         .contains(globalUserid) ||
+                        //     widget.performancePolling["location3"]["like"]
+                        //         .contains(globalUserid)) {
+                        //   Get.snackbar("Already voted", "");
+                        // } else {
+                        //   if (!widget.performancePolling["location4"]["like"]
+                        //       .contains(globalUserid)) {
+                        //     try {
+                        //       EasyLoading.show();
+                        //       await firestore_update(
+                        //           'PerformancePolling',
+                        //           widget.performancePolling["uid"],
+                        //           ({
+                        //             "location3.like":
+                        //                 FieldValue.arrayUnion([globalUserid])
+                        //           }));
+                        //       EasyLoading.dismiss();
+                        //       Get.back();
+                        //       Get.snackbar("Successful Voted", "");
+                        //     } catch (e) {
+                        //       EasyLoading.dismiss();
+                        //       Get.snackbar("Error", e.toString());
+                        //     }
+                        //   }
+                        // }
                       }, widget.performancePolling["polling_location_im4"]),
                   ],
                 )

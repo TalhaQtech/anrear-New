@@ -27,10 +27,26 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   UploadTask? uploadTask;
   Uint8List? image;
   List listimg = [];
+  List listimg2 = [];
+  List locImgList1 = [];
 
   String? imageUrl = "";
 
   var start;
+
+  var locImg1 = [];
+
+  selectImage1(
+    ImageSource source,
+  ) async {
+    print(0);
+    locImg1 = await pickImage(ImageSource.gallery);
+
+    if (locImg1.isNotEmpty) {
+      print(locImg1);
+    }
+  }
+
   void selectImage(ImageSource source) async {
     Uint8List? im = await pickImage(ImageSource.gallery);
     setState(() {
@@ -38,6 +54,17 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
       // listimg.add(im);
       // print(listimg.length);
     });
+  }
+
+  album_img_slect(
+    ImageSource source,
+  ) async {
+    print(0);
+    listimg2 = await pickImage(ImageSource.gallery);
+
+    if (listimg2!.isNotEmpty) {
+      print(listimg2);
+    }
   }
 
   selectImage2(ImageSource source, listofimg) async {
@@ -54,6 +81,29 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   }
 
   List<String> imagesUrls = [];
+
+  upload_award(locimg) async {
+    print(0);
+
+    print("$locimg" + "im");
+    print(1);
+    final Reference reference = FirebaseStorage.instance
+        .ref()
+        .child("products")
+        .child("product_${locimg.length}.png");
+    ;
+    print(2);
+    String downloadURL;
+
+    UploadTask uploadTask = reference.putData(locimg!);
+    print(3);
+    // var storageSnapshot = uploadTask.snapshot;
+    print(4);
+    downloadURL = await (await uploadTask).ref.getDownloadURL();
+    //  downloadURL = await storageSnapshot.ref.getDownloadURL();
+    // print(downloadUrl);
+    return downloadURL;
+  }
 
   uploadimg(listOfimg) {
     listOfimg.forEach((listOfimg) async {
@@ -111,6 +161,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         EasyLoading.show();
         print("talha");
         widget.userModel!.award = imagesUrls;
+        widget.userModel!.album = locImgList1;
         widget.userModel!.userImage = imageUrl.toString();
         widget.userModel?.Nationality = Nationality.text.toString().trim();
         widget.userModel?.description = Description.text.trim().toString();
@@ -483,6 +534,140 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 SizedBox(
                   height: res_height * 0.015,
                 ),
+
+                //new
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                Container(
+                  width: res_width * 0.9,
+                  child: Text(
+                    'Albums',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 19),
+                  ),
+                ),
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                Container(
+                  width: res_width * 0.9,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          // width: 400,
+                          height: 100,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: locImgList1.length,
+                            itemBuilder: (context, index) {
+                              return locImgList1[index] != null
+                                  ? Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: res_width * 0.25,
+                                            height: res_width * 0.9,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset(2.0, 2.0),
+                                                  blurRadius: 2,
+                                                  // spreadRadius: 10,
+                                                  color: Colors.black26,
+                                                ),
+                                              ],
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                locImgList1[index],
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 70,
+                                          top: -11,
+                                          child: IconButton(
+                                              onPressed: () async {
+                                                try {
+                                                  locImgList1.remove(
+                                                      locImgList1[index]);
+                                                  setState(() {});
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+
+                                                // setState(() {});
+                                              },
+                                              icon: Icon(
+                                                Icons.remove_circle,
+                                                color: Colors.black,
+                                              )),
+                                        ),
+                                      ],
+                                    )
+                                  : Container();
+                            },
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            try {
+                              EasyLoading.show();
+                              await selectImage1(
+                                ImageSource.gallery,
+                              );
+                              // await upload_award(locImg2, locImgList2);
+                              locImgList1.add(await upload_award(locImg1));
+
+                              setState(() {});
+                              EasyLoading.dismiss();
+                            } on FirebaseException catch (e) {
+                              EasyLoading.dismiss();
+                              Get.snackbar("Error", e.message.toString());
+                              print(e.toString());
+                            } catch (e) {
+                              EasyLoading.dismiss();
+                              print(e.toString());
+                            }
+                          },
+                          child: Container(
+                            width: res_width * 0.2,
+                            height: res_width * 0.2,
+                            decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.add_outlined,
+                                color: Colors.white,
+                                size: 33,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  height: res_height * 0.015,
+                ),
+                //new
                 Container(
                   width: res_width * 0.9,
                   child: Text(

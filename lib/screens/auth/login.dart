@@ -332,6 +332,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     musicCategorie: [],
                                     links: [],
                                     award: [],
+                                    album: [],
                                     userType: UserType,
                                     Nationality: "",
                                     description: "",

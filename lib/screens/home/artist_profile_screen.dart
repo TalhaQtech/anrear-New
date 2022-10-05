@@ -179,7 +179,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: currentUserData.award.length,
+                              itemCount: currentUserData.album.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
@@ -202,7 +202,7 @@ class _ArtistProfileScreen extends State<ArtistProfileScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                             child: Image.network(
-                                              '${currentUserData.award[index]}',
+                                              '${currentUserData.album[index]}',
                                               fit: BoxFit.cover,
                                               loadingBuilder:
                                                   (BuildContext context,
