@@ -2,13 +2,17 @@ import 'dart:math';
 
 import 'package:anrear/helper/colors.dart';
 import 'package:anrear/helper/helper.dart';
+import 'package:anrear/screens/auth/create_polling_screen.dart';
+import 'package:anrear/screens/home/aristpolling_voting_screen.dart';
 import 'package:anrear/screens/home/artisprofile_user_screen.dart';
 import 'package:anrear/screens/home/artistpolling_screen.dart';
 import 'package:anrear/screens/home/confirmed_location.dart';
 import 'package:anrear/screens/home/drawer.dart';
 import 'package:anrear/screens/home/notification.dart';
+import 'package:anrear/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -649,10 +653,67 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {
-          // Get.to(() => ArtistPollingScreen(
-          //       data: artist,
-          //     ));
+        // onTap: () {
+        //   // Get.to(() => ArtistPollingScreen(
+        //   //       data: artist,
+        //   //     ));
+
+        // },
+
+        onTap: () async {
+          // addfav(like, auth.currentUser!.uid, "users",
+          //     "${widget.artistdata["uid"]}");
+
+          if (UserType == "user") {
+            try {
+              var data = await FirebaseFirestore.instance
+                  .collection("PerformancePolling")
+                  .doc("${artist["uid"]}")
+                  .get();
+              var Perform = data.data();
+              print(" ${Perform}");
+              if (Perform != null) {
+                if (DateTime.parse(data["endDate"]).day > DateTime.now().day) {
+                  Get.to(() => ArtistVotingScreen(
+                      performancePolling: Perform, artistdata: artist));
+                } else {
+                  Get.snackbar("This Artist is closed pollings ", "");
+                }
+              } else {
+                Get.snackbar("This Artist is not create pollings ", "");
+              }
+            } on FirebaseException catch (e) {
+              Get.snackbar("Error", e.message.toString());
+            }
+            // Get.to(ArtistPollingScreen(
+            //   data: widget.artistdata,
+            // ));
+          }
+          if (UserType == "artist") {
+            EasyLoading.show();
+            var data = await firestore_get("PerformancePolling", globalUserid);
+            var Perform = data.data();
+            EasyLoading.dismiss();
+            print(Perform);
+            // print(DateTime.parse(data["endDate"]).day);
+            if (Perform != null) {
+              if (DateTime.parse(data["endDate"]).day > DateTime.now().day) {
+                Get.snackbar("You have Already created pollings", "");
+              } else {
+                Get.to(CreatePollingScreen(
+                  userModel: currentUserData,
+                  // firebaseUser: globalUserid,
+                ));
+              }
+            } else {
+              Get.to(CreatePollingScreen(
+                userModel: currentUserData,
+              ));
+            }
+            // Get.to(CreatePollingScreen(
+            //   userModel: currentUserData,
+            // ));
+          }
         },
         child: Container(
           width: res_width * 0.94,

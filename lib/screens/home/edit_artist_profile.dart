@@ -37,7 +37,9 @@ class _Edit_Artist_profileState extends State<Edit_Artist_profile> {
 
   List musicCategorie = [];
   void selectImage(ImageSource source) async {
-    Uint8List? im = await pickImage(ImageSource.gallery);
+    Uint8List? im = await pickImage(
+      ImageSource.gallery,
+    );
     setState(() {
       image2 = im;
       // listimg.add(im);

@@ -256,24 +256,24 @@ class my_perfomance_polling extends StatelessWidget {
                         "${performancePolling["location"]["location1"]}",
                         performancePolling["location"]["like"].length,
                         context,
-                        "${performancePolling["polling_location_im"]}"),
+                        performancePolling["polling_location_im"]),
                     votebox(
                         "${performancePolling["location2"]["location2"]}",
                         performancePolling["location2"]["like"].length,
                         context,
-                        "${performancePolling["polling_location_im2"]}"),
+                        performancePolling["polling_location_im2"]),
                     if (performancePolling["location3"]["location3"] != "false")
                       votebox(
                           "${performancePolling["location3"]["location3"]}",
                           performancePolling["location3"]["like"].length,
                           context,
-                          "${performancePolling["polling_location_im3"]}"),
+                          performancePolling["polling_location_im3"]),
                     if (performancePolling["location4"]["location4"] != "false")
                       votebox(
                           "${performancePolling["location4"]["location4"]}",
                           performancePolling["location4"]["like"].length,
                           context,
-                          "${performancePolling["polling_location_im4"]}")
+                          performancePolling["polling_location_im4"])
                     // votebox(
                     //     widget.performancePolling["location"]["location1"]
                     //         .toString(),
@@ -390,7 +390,7 @@ class my_perfomance_polling extends StatelessWidget {
     );
   }
 
-  votebox(location1, votes, context, imageURL) {
+  votebox(location1, votes, context, List imageURL) {
     double res_width = Get.width;
     double res_height = Get.height;
     return Container(
@@ -459,8 +459,9 @@ class my_perfomance_polling extends StatelessWidget {
                 onTap: () async {
                   await showDialog(
                       context: context,
-                      builder: (_) =>
-                          imageDialog('My Image', imageURL, context));
+                      builder: (_) {
+                        return imageDialog('My Image', imageURL, context);
+                      });
                 },
                 child: Text(
                   "View Images",
@@ -480,27 +481,48 @@ class my_perfomance_polling extends StatelessWidget {
   }
 }
 
-Widget imageDialog(text, path, context) {
-  return Dialog(
-    // backgroundColor: Colors.transparent,
-    // elevation: 0,
-    child: SizedBox(
-      width: Get.width * 0.7,
-      height: 200,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: path.length,
-          itemBuilder: (context, index) {
-            return Container(
-              width: Get.width * 0.7,
-              height: 200,
-              child: Image.network(
-                '${path[index]}',
-                fit: BoxFit.cover,
-              ),
-            );
-          }),
+Widget imageDialog(text, List path, context) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+    ),
+    child: Dialog(
+      // backgroundColor: Colors.transparent,
+      // elevation: 0,
+      insetPadding: EdgeInsets.all(10),
+
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        width: Get.width * 0.9,
+        height: 300,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: path.length,
+            itemBuilder: (context, index) {
+              // pat.length
+              // print(l);
+              // List l = path;
+              // print(l);
+              print(path[index]);
+
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                width: Get.width * 0.9,
+                height: 300,
+                child: Image.network(
+                  // '${path[index]}',
+                  path[index] ??
+                      "https://firebasestorage.googleapis.com/v0/b/anrear-8e2f6.appspot.com/o/products%2Fproduct_39601.png?alt=media&token=0d8b7db4-8e00-487f-893a-96a17b8157bb",
+                  fit: BoxFit.cover,
+                ),
+              );
+            }),
+      ),
     ),
   );
 }

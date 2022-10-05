@@ -40,11 +40,14 @@ firestore_get(collection, doc) async {
   return userData;
 }
 
-pickImage(ImageSource source) async {
+pickImage(
+  ImageSource source,
+) async {
   final ImagePicker _imagePicker = ImagePicker();
   XFile? _file = await _imagePicker.pickImage(
       source: source, imageQuality: 50, maxHeight: 600, maxWidth: 900);
   if (_file != null) {
+    // name =   _file.name;
     return await _file.readAsBytes();
   }
   print('No Image Selected');

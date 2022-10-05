@@ -194,7 +194,7 @@ class _NavDrawerState extends State<NavDrawer> {
                         ),
                       ),
                     ),
-                    if (UserType == "")
+                    if (UserType == "user")
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
@@ -245,7 +245,7 @@ class _NavDrawerState extends State<NavDrawer> {
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           if (bottomctrl.navigationBarIndexValue != 3) {
-                            bottomctrl.navBarChange(3);
+                            bottomctrl.navBarChange(1);
                           } else {
                             Get.back();
                           }

@@ -39,7 +39,7 @@ class _ProfileScreen extends State<editprofile> {
 
   Uint8List? image;
   void selectImage(ImageSource source) async {
-    Uint8List? im = await pickImage(ImageSource.gallery);
+    Uint8List? im = await pickImage(ImageSource.gallery,);
     setState(() {
       image = im;
 

@@ -219,7 +219,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                           }
                         }
                       }
-                    }),
+                    }, widget.performancePolling["polling_location_im"]),
                     votebox(
                         widget.performancePolling["location2"]["location2"]
                             .toString(),
@@ -253,7 +253,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                           }
                         }
                       }
-                    }),
+                    }, widget.performancePolling["polling_location_im2"]),
                     if (widget.performancePolling["location3"]["location3"] !=
                         "false")
                       votebox(
@@ -289,7 +289,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                             }
                           }
                         }
-                      }),
+                      }, widget.performancePolling["polling_location_im3"]),
                     if (widget.performancePolling["location4"]["location4"] !=
                         "false")
                       votebox(
@@ -325,7 +325,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
                             }
                           }
                         }
-                      }),
+                      }, widget.performancePolling["polling_location_im4"]),
                   ],
                 )
               ],
@@ -336,7 +336,7 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
     );
   }
 
-  votebox(location1, votes, likeOnTap) {
+  votebox(location1, votes, likeOnTap, List imageURL) {
     double res_width = MediaQuery.of(context).size.width;
     double res_height = MediaQuery.of(context).size.height;
     return Container(
@@ -394,7 +394,13 @@ class _ArtistVotingScreen extends State<ArtistVotingScreen> {
               ),
               10.heightBox,
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  await showDialog(
+                      context: context,
+                      builder: (_) {
+                        return imageDialog('My Image', imageURL, context);
+                      });
+                },
                 child: Text(
                   "View Images",
                   style: TextStyle(

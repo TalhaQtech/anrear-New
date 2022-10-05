@@ -237,19 +237,26 @@ class _CreatePollingScreenState extends State<CreatePollingScreen> {
   }
 
   upload_award(locimg) async {
-    print(1);
+    print(0);
 
     print("$locimg" + "im");
-
-    Reference reference = FirebaseStorage.instance.ref("antivirus");
+    print(1);
+    final Reference reference = FirebaseStorage.instance
+        .ref()
+        .child("products")
+        .child("product_${locimg.length}.png");
+    ;
+    print(2);
+    String downloadURL;
 
     UploadTask uploadTask = reference.putData(locimg!);
-
-    final storageSnapshot = uploadTask.snapshot;
-
-    final downloadUrl = await storageSnapshot.ref.getDownloadURL();
+    print(3);
+    // var storageSnapshot = uploadTask.snapshot;
+    print(4);
+    downloadURL = await (await uploadTask).ref.getDownloadURL();
+    //  downloadURL = await storageSnapshot.ref.getDownloadURL();
     // print(downloadUrl);
-    return downloadUrl;
+    return downloadURL;
   }
 
   @override
